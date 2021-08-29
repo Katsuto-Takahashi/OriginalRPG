@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public partial class PlayerControllerRB : MonoBehaviour
+public partial class PlayerControllerCC : MonoBehaviour
 {
-    public class LandStateRB : ActionStateBaseRB
+    public class LandStateCC : ActionStateBaseCC
     {
         float landTime = 0.2f;
         float time = 0.2f;
         bool isLand = false;
-        public override void OnEnter(PlayerControllerRB owner)
+        public override void OnEnter(PlayerControllerCC owner)
         {
             Debug.Log("Land");
             owner.m_currentVelocity.x = 0f;
@@ -15,13 +15,13 @@ public partial class PlayerControllerRB : MonoBehaviour
             owner.PlayAnimation("Land");
         }
 
-        public override void OnExit(PlayerControllerRB owner)
+        public override void OnExit(PlayerControllerCC owner)
         {
             time = landTime;
             isLand = false;
         }
 
-        public override void OnUpdate(PlayerControllerRB owner)
+        public override void OnUpdate(PlayerControllerCC owner)
         {
             time -= Time.deltaTime;
             if (time < 0.1f)

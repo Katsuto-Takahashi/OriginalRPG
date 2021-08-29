@@ -18,8 +18,8 @@ public partial class PlayerControllerRB : MonoBehaviour
     /// <summary>地面のレイヤー</summary>
     public LayerMask m_groundLayer;
 
-    Rigidbody m_rb;
-    Animator m_a;
+    Rigidbody m_rigidbody;
+    Animator m_animator;
 
     ActionStateBaseRB currentState;
     IdleStateRB idleState = new IdleStateRB();
@@ -43,8 +43,8 @@ public partial class PlayerControllerRB : MonoBehaviour
     {
         m_nowTransform = this.transform;
 
-        m_rb = GetComponent<Rigidbody>();
-        m_a = GetComponent<Animator>();
+        m_rigidbody = GetComponent<Rigidbody>();
+        m_animator = GetComponent<Animator>();
 
         ChangeState(idleState);
     }
@@ -73,7 +73,7 @@ public partial class PlayerControllerRB : MonoBehaviour
     {
         //プレイヤーの移動
         Vector3 velocity = Vector3.Scale(m_currentVelocity, new Vector3(m_walkingSpeed, 1f, m_walkingSpeed));
-        m_rb.velocity = velocity;
+        m_rigidbody.velocity = velocity;
     }
 
     void ApplyRotation()
@@ -101,7 +101,7 @@ public partial class PlayerControllerRB : MonoBehaviour
     }
     void PlayAnimation(string stateName, float transitionDuration = 0.1f)
     {
-        m_a.CrossFadeInFixedTime(stateName, transitionDuration);
+        m_animator.CrossFadeInFixedTime(stateName, transitionDuration);
     }
     void ChangeState(ActionStateBaseRB nextState)
     {

@@ -35,28 +35,11 @@ public partial class PlayerControllerCC : MonoBehaviour
             {
                 if (owner.m_characterController.isGrounded)
                 {
-                    if (owner.m_direction.sqrMagnitude > 0.1f)
-                    {
-                        owner.PlayAnimation("Land");
-                        Debug.Log("Jump -> Walk");
-                        owner.ChangeState(owner.walkState);
-                    }
-                    else
-                    {
-                        owner.PlayAnimation("Land");
-                        Debug.Log("Jump -> Idle");
-                        owner.ChangeState(owner.idleState);
-                    }
+                    Debug.Log("Jump -> Land");
+                    owner.ChangeState(owner.landState);
                 }
                 if (time < 0f)
                 {
-                    //if (owner.m_direction.sqrMagnitude > 0.1f)
-                    //{
-                    //    var dir = owner.m_moveForward;
-                    //    dir.y = 0f;
-                    //    owner.m_targetRotation = Quaternion.LookRotation(dir);
-                    //    owner.m_currentVelocity = new Vector3(owner.m_nowTransform.forward.x, owner.m_currentVelocity.y, owner.m_nowTransform.forward.z);
-                    //}
                     Debug.Log("Jump -> Fall");
                     owner.ChangeState(owner.fallState);
                 }

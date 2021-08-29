@@ -22,6 +22,7 @@ public partial class PlayerControllerCC : MonoBehaviour
     WalkStateCC walkState = new WalkStateCC();
     JumpStateCC jumpState = new JumpStateCC();
     FallStateCC fallState = new FallStateCC();
+    LandStateCC landState = new LandStateCC();
 
     /// <summary>現在のベクトル</summary>
     Vector3 m_currentVelocity = Vector3.zero;
@@ -84,10 +85,6 @@ public partial class PlayerControllerCC : MonoBehaviour
         {
             m_currentVelocity.y += m_gravityScale * Physics.gravity.y * Time.deltaTime;
         }
-        //else
-        //{
-        //    m_currentVelocity.y = 0f;
-        //}
     }
 
     void PlayAnimation(string stateName, float transitionDuration = 0.1f)

@@ -12,7 +12,7 @@ public partial class PlayerControllerRB : MonoBehaviour
             Debug.Log("Jump");
             //owner.m_currentVelocity.x = 0f;
             //owner.m_currentVelocity.z = 0f;
-            owner.m_rb.AddForce(Vector3.up * owner.m_jumpingPower, ForceMode.Impulse);
+            owner.m_rigidbody.AddForce(Vector3.up * owner.m_jumpingPower, ForceMode.Impulse);
             owner.PlayAnimation("Jump");
         }
 
@@ -43,13 +43,6 @@ public partial class PlayerControllerRB : MonoBehaviour
                 }
                 if (time < 0f)
                 {
-                    //if (owner.direction.sqrMagnitude > 0.1f)
-                    //{
-                    //    var dir = owner.moveForward;
-                    //    dir.y = 0f;
-                    //    owner.targetRotation = Quaternion.LookRotation(dir);
-                    //    owner.m_currentVelocity = new Vector3(owner.nowTransform.forward.x, owner.m_currentVelocity.y, owner.nowTransform.forward.z);
-                    //}
                     Debug.Log("Jump -> Fall");
                     owner.ChangeState(owner.fallState);
                 }

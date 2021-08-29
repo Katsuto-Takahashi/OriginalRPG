@@ -7,8 +7,6 @@ public partial class PlayerControllerRB : MonoBehaviour
         public override void OnEnter(PlayerControllerRB owner)
         {
             Debug.Log("Fall");
-            //owner.m_currentVelocity.x = 0.1f;
-            //owner.m_currentVelocity.z = 0.1f;
             owner.PlayAnimation("Fall");
         }
 
