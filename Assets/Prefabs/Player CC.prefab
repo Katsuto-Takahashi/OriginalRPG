@@ -615,6 +615,7 @@ GameObject:
   - component: {fileID: 2042998374}
   - component: {fileID: -8698473369699481503}
   - component: {fileID: 3558055783207864879}
+  - component: {fileID: 1394153791}
   m_Layer: 0
   m_Name: Player CC
   m_TagString: Player
@@ -704,7 +705,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39476fd70e62fb41a392bd2b22d99f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneLoader: {fileID: 0}
+  m_battleFeildPrefab: {fileID: 1209401978525203268, guid: 32307c74b822f1d4daf2eac8e138af95,
+    type: 3}
+  m_isContact: 0
+  m_enemyParty: 0
+--- !u!114 &1394153791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125937426796454412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3544f889b4482ef479a2b39dfb22b049, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: "\u30E6\u30CB\u30C6\u30A3C"
+  maxHP: 10
+  nowHP: 8
+  maxAP: 3
+  nowAP: 1
+  strength: 5
+  defense: 3
+  magicPower: 1
+  magicResist: 1
+  luck: 0
+  speed: 3
+  level: 1
+  exp: 0
+  characterTotalExp: 0
+  characterNextExp: 10
+  characterSP: 0
+  characterSG: 0
+  normalskill:
+  - {fileID: 11400000, guid: 408cb59764b74164ea227dc67d4a20ae, type: 2}
+  - {fileID: 11400000, guid: 1a2597fbf442d354ab3c6a9a48b6db6b, type: 2}
+  hasSkills: []
+  equipWeapon: {fileID: 0}
+  equipArmor: {fileID: 0}
+  isPoisonState: 0
+  isNumbnessState: 0
 --- !u!1 &125937426796454414
 GameObject:
   m_ObjectHideFlags: 0
