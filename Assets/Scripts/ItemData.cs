@@ -67,8 +67,8 @@ public class ItemData : ScriptableObject
         ActionPointRecovery,
         weapon,
         armor,
-        masicalWeapon,
-        masicalArmor
+        magicalWeapon,
+        magicalArmor
     }
     /// <summary>アイテムの属性</summary>
     public ItemAttributes itemAttributes;

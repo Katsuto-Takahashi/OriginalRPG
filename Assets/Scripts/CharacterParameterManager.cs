@@ -6,7 +6,7 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
 {
     private int nextExp = 0;
     private float levelCorrection = 4.8f;
-    int baseParameter = 0;
+    //int baseParameter = 0;
     //　装備している武器
     [SerializeField]
     private ItemData equipWeapon = null;
@@ -21,9 +21,10 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
     [SerializeField]
     private bool isNumbnessState = false;
     public bool IsNumbnessState { get => isNumbnessState; set => isNumbnessState = value; }
+
     void Start()
     {
-        
+       
     }
 
     void Update()
@@ -85,40 +86,40 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
             CharacterNextExp = (int)((level * level * 0.07 * (level - 10) + level * 2) * levelCorrection);
         }
     }
-    private int BuffChange(int parameter)
-    {
-        int correction = parameter / 4;
-        switch (buffState)
-        {
-            case BuffState.twoQuarters:
-                baseParameter = parameter - correction * 2;
-                break;
-            case BuffState.threeQuarters:
-                baseParameter = parameter - correction;
-                break;
-            case BuffState.fourQuarters:
-                baseParameter = parameter;
-                break;
-            case BuffState.fiveQuarters:
-                baseParameter = parameter + correction;
-                break;
-            case BuffState.sixQuarters:
-                baseParameter = parameter + correction * 2;
-                break;
-        }
-        return baseParameter;
-    }
+    //private int BuffChange(int parameter)
+    //{
+    //    int correction = parameter / 4;
+    //    switch (buffState)
+    //    {
+    //        case BuffState.twoQuarters:
+    //            baseParameter = parameter - correction * 2;
+    //            break;
+    //        case BuffState.threeQuarters:
+    //            baseParameter = parameter - correction;
+    //            break;
+    //        case BuffState.fourQuarters:
+    //            baseParameter = parameter;
+    //            break;
+    //        case BuffState.fiveQuarters:
+    //            baseParameter = parameter + correction;
+    //            break;
+    //        case BuffState.sixQuarters:
+    //            baseParameter = parameter + correction * 2;
+    //            break;
+    //    }
+    //    return baseParameter;
+    //}
 
-    public enum BuffState
-    {
-        twoQuarters,
-        threeQuarters,
-        fourQuarters,
-        fiveQuarters,
-        sixQuarters
-    }
+    //public enum BuffState
+    //{
+    //    twoQuarters,
+    //    threeQuarters,
+    //    fourQuarters,
+    //    fiveQuarters,
+    //    sixQuarters
+    //}
 
-    readonly BuffState buffState = BuffState.fourQuarters;
+    //readonly BuffState buffState = BuffState.fourQuarters;
 
     public void UseItem(ItemData itemData)
     {
@@ -130,21 +131,51 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
             case ItemData.ItemAttributes.ActionPointRecovery:
                 NowAP += itemData.ItemEffectValue;
                 break;
+        }
+    }
+    
+    public void EquipEquipment(ItemData equipment)
+    {
+        switch (equipment.itemAttributes)
+        {
             case ItemData.ItemAttributes.weapon:
-                Strength += itemData.ItemEffectValue;
-                MasicPower += itemData.ItemSubEffectValue;
+                Strength += equipment.ItemEffectValue;
+                MagicPower += equipment.ItemSubEffectValue;
                 break;
             case ItemData.ItemAttributes.armor:
-                Defense += itemData.ItemEffectValue;
-                MasicResist += itemData.ItemSubEffectValue;
+                Defense += equipment.ItemEffectValue;
+                MagicResist += equipment.ItemSubEffectValue;
                 break;
-            case ItemData.ItemAttributes.masicalWeapon:
-                Strength += itemData.ItemSubEffectValue;
-                MasicPower += itemData.ItemEffectValue;
+            case ItemData.ItemAttributes.magicalWeapon:
+                MagicPower += equipment.ItemEffectValue;
+                Strength += equipment.ItemSubEffectValue;
                 break;
-            case ItemData.ItemAttributes.masicalArmor:
-                Defense += itemData.ItemSubEffectValue;
-                MasicResist += itemData.ItemEffectValue;
+            case ItemData.ItemAttributes.magicalArmor:
+                MagicResist += equipment.ItemEffectValue;
+                Defense += equipment.ItemSubEffectValue;
+                break;
+        }
+    }
+
+    public void RemoveEquipment(ItemData equipment)
+    {
+        switch (equipment.itemAttributes)
+        {
+            case ItemData.ItemAttributes.weapon:
+                Strength -= equipment.ItemEffectValue;
+                MagicPower -= equipment.ItemSubEffectValue;
+                break;
+            case ItemData.ItemAttributes.armor:
+                Defense -= equipment.ItemEffectValue;
+                MagicResist -= equipment.ItemSubEffectValue;
+                break;
+            case ItemData.ItemAttributes.magicalWeapon:
+                MagicPower -= equipment.ItemEffectValue;
+                Strength -= equipment.ItemSubEffectValue;
+                break;
+            case ItemData.ItemAttributes.magicalArmor:
+                MagicResist -= equipment.ItemEffectValue;
+                Defense -= equipment.ItemSubEffectValue;
                 break;
         }
     }

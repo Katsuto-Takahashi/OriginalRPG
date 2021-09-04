@@ -69,20 +69,20 @@ public class CharacterParameters : MonoBehaviour
     /// <summary>キャラクターの魔法攻撃力</summary>
     [SerializeField]
     [Range(1, 10000)]
-    private int masicPower;
-    public int MasicPower
+    private int magicPower;
+    public int MagicPower
     {
-        get { return masicPower; }
-        set { masicPower = value; }
+        get { return magicPower; }
+        set { magicPower = value; }
     }
     /// <summary>キャラクターの魔法防御力</summary>
     [SerializeField]
     [Range(1, 10000)]
-    private int masicResist;
-    public int MasicResist
+    private int magicResist;
+    public int MagicResist
     {
-        get { return masicResist; }
-        set { masicResist = value; }
+        get { return magicResist; }
+        set { magicResist = value; }
     }
     /// <summary>キャラクターの運</summary>
     [SerializeField]
@@ -156,6 +156,13 @@ public class CharacterParameters : MonoBehaviour
         get { return characterSG; }
         set { characterSG = value; }
     }
+    
+    public enum NomalAttackType
+    {
+        physicalAttack,
+        magicAttack
+    }
+    [EnumIndex(typeof(NomalAttackType))]
     /// <summary>通常攻撃のSkillData</summary>
     public SkillData[] normalskill = new SkillData[2];
     /// <summary>所持スキル</summary>

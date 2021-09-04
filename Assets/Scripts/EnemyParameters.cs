@@ -61,20 +61,20 @@ public class EnemyParameters : ScriptableObject
     /// <summary>敵キャラクターの魔法攻撃力</summary>
     [SerializeField]
     [Range(1, 10000)]
-    private int masicPower = 1;
-    public int MasicPower
+    private int magicPower = 1;
+    public int MagicPower
     {
-        get { return masicPower; }
-        set { masicPower = value; }
+        get { return magicPower; }
+        set { magicPower = value; }
     }
     /// <summary>敵キャラクターの魔法防御力</summary>
     [SerializeField]
     [Range(1, 10000)]
-    private int masicResist = 1;
-    public int MasicResist
+    private int magicResist = 1;
+    public int MagicResist
     {
-        get { return masicResist; }
-        set { masicResist = value; }
+        get { return magicResist; }
+        set { magicResist = value; }
     }
     /// <summary>敵キャラクターの運</summary>
     [SerializeField]
@@ -115,6 +115,15 @@ public class EnemyParameters : ScriptableObject
     {
         get { return experiencePoint; }
         set { experiencePoint = value; }
+    }
+    /// <summary>敵キャラクターのパーティー構成</summary>
+    [SerializeField]
+    [Range(0, 6)]
+    private int enemyPartyNumber = 0;
+    public int EnemyPartyNumber
+    {
+        get { return enemyPartyNumber; }
+        set { enemyPartyNumber = value; }
     }
     /// <summary>攻撃される技の属性耐性</summary>
     public enum AttackAttributesResistance
