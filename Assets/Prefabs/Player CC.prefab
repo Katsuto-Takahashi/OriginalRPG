@@ -616,13 +616,14 @@ GameObject:
   - component: {fileID: -8698473369699481503}
   - component: {fileID: 3558055783207864879}
   - component: {fileID: 1394153791}
+  - component: {fileID: 1330677598}
   m_Layer: 0
   m_Name: Player CC
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &125937426796822060
 Transform:
   m_ObjectHideFlags: 0
@@ -709,6 +710,8 @@ MonoBehaviour:
     type: 3}
   m_isContact: 0
   m_enemyParty: 0
+  m_enemyID: 0
+  m_contactPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1394153791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -746,6 +749,19 @@ MonoBehaviour:
   equipArmor: {fileID: 0}
   isPoisonState: 0
   isNumbnessState: 0
+--- !u!114 &1330677598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125937426796454412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a0cbbe1620602944871f3a75c783830, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_actionTimer: 0
 --- !u!1 &125937426796454414
 GameObject:
   m_ObjectHideFlags: 0

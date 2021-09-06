@@ -617,6 +617,7 @@ GameObject:
   - component: {fileID: 3521722060218837030}
   - component: {fileID: 3558055783207864879}
   - component: {fileID: 1292316701}
+  - component: {fileID: 4427875281528703633}
   m_Layer: 0
   m_Name: Player RB
   m_TagString: Player
@@ -726,6 +727,8 @@ MonoBehaviour:
     type: 3}
   m_isContact: 0
   m_enemyParty: 0
+  m_enemyID: 0
+  m_contactPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1292316701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -763,6 +766,19 @@ MonoBehaviour:
   equipArmor: {fileID: 0}
   isPoisonState: 0
   isNumbnessState: 0
+--- !u!114 &4427875281528703633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125937426796454412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a0cbbe1620602944871f3a75c783830, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_actionTimer: 0
 --- !u!1 &125937426796454414
 GameObject:
   m_ObjectHideFlags: 0

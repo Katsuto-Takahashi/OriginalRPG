@@ -287,8 +287,9 @@ GameObject:
   - component: {fileID: 6638014570590288594}
   - component: {fileID: 6722998763772854090}
   - component: {fileID: 528473566}
+  - component: {fileID: 912346318}
   m_Layer: 0
-  m_Name: SlimePBR
+  m_Name: Slime
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -352,10 +353,23 @@ SphereCollider:
   m_GameObject: {fileID: 6722241011771852990}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!114 &912346318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6722241011771852990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a0cbbe1620602944871f3a75c783830, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_actionTimer: 0
 --- !u!1 &6722446595711228746
 GameObject:
   m_ObjectHideFlags: 0
