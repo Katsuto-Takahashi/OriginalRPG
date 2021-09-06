@@ -4,7 +4,19 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour, ITakableDamage
 {
-    [SerializeField] EnemyParameters enemyParameters = null;
+    public EnemyParameters enemyParameters = null;
+    //　毒状態かどうか
+    [SerializeField]
+    private bool isPoisonState = false;
+    public bool IsPoisonState { get => isPoisonState; set => isPoisonState = value; }
+    //　痺れ状態かどうか
+    [SerializeField]
+    private bool isNumbnessState = false;
+    public bool IsNumbnessState { get => isNumbnessState; set => isNumbnessState = value; }
+    //　HPがあるかどうか
+    [SerializeField]
+    private bool isDeadState = false;
+    public bool IsDeadState { get => isDeadState; set => isDeadState = value; }
     private int nowHP = 0;
     public int HP
     {
@@ -17,6 +29,15 @@ public class EnemyManager : MonoBehaviour, ITakableDamage
         get { return nowAP; }
         set { nowAP = value; }
     }
+    public enum EnemyState
+    {
+        Idle,
+        Move,
+        Search,
+        Attack,
+        Death
+    }
+    public EnemyState enemyState = EnemyState.Idle;
     void Start()
     {
         HP = enemyParameters.MaxHP;
@@ -49,9 +70,28 @@ public class EnemyManager : MonoBehaviour, ITakableDamage
 
     void Update()
     {
-        
+        if (HP >= enemyParameters.MaxHP)
+        {
+            HP = enemyParameters.MaxHP;
+        }
+        else if (HP < 1)
+        {
+            HP = 0;
+            IsDeadState = true;
+        }
+        else
+        {
+            IsDeadState = false;
+        }
+        if (AP >= enemyParameters.MaxAP)
+        {
+            AP = enemyParameters.MaxAP;
+        }
+        else if (AP < 1)
+        {
+            AP = 0;
+        }
     }
-
     public virtual void TakeDamage(int damage)
     {
         Debug.Log(HP);

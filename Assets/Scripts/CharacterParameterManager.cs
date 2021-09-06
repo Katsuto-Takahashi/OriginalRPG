@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CharacterParameterManager : CharacterParameters, ITakableDamage
 {
@@ -21,6 +22,10 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
     [SerializeField]
     private bool isNumbnessState = false;
     public bool IsNumbnessState { get => isNumbnessState; set => isNumbnessState = value; }
+    //　HPがあるかどうか
+    [SerializeField]
+    private bool isDeadState = false;
+    public bool IsDeadState { get => isDeadState; set => isDeadState = value; }
 
     void Start()
     {
@@ -33,15 +38,20 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
         {
             NowHP = MaxHP;
         }
-        else if (NowHP <= 0)
+        else if (NowHP < 1)
         {
             NowHP = 0;
+            IsDeadState = true;
+        }
+        else
+        {
+            IsDeadState = false;
         }
         if (NowAP >= MaxAP)
         {
             NowAP = MaxAP;
         }
-        else if (NowAP <= 0)
+        else if (NowAP < 1)
         {
             NowAP = 0;
         }
