@@ -5,15 +5,16 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    [SerializeField] DamageCalculator damageCalculator;
-    [SerializeField] ContactEnemy contactEnemy;
-    [SerializeField] EnemyList m_enemyPrefabs;
-    [SerializeField] PartyManager m_partyManager;
+    //[SerializeField] DamageCalculator damageCalculator = null;
+    [SerializeField] ContactEnemy contactEnemy = null;
+    [SerializeField] EnemyList m_enemyPrefabs = null;
+    [SerializeField] PartyManager m_partyManager = null;
     private GameObject m_gameObject;
     private List<GameObject> m_enemyParty = new List<GameObject>();
-    public List<bool> m_enemyDeadList = new List<bool>();
-    public List<bool> m_characterDeadList = new List<bool>();
+    private List<bool> m_enemyDeadList = new List<bool>();
+    private List<bool> m_characterDeadList = new List<bool>();
     private bool m_isCreated = false;
+    private bool m_isChangeState = false;
     private int characterDeadCount = 0;
     private int enemyDeadCount = 0;
 
@@ -25,30 +26,37 @@ public class BattleManager : MonoBehaviour
             {
                 BattleStanby();
             }
-            if (m_isCreated)
+            if (!m_isChangeState)
             {
                 for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
                 {
-                    m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_actionTimer = Timer(m_partyManager.m_charaParty[i].GetComponent<CharacterParameterManager>().Speed);
+                    m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_battle = true;
                 }
                 for (int i = 0; i < m_enemyParty.Count; i++)
                 {
-                    m_enemyParty[i].GetComponent<BattleStateMachine>().m_actionTimer = Timer(m_enemyParty[i].GetComponent<EnemyManager>().enemyParameters.Speed);
+                    m_enemyParty[i].GetComponent<BattleStateMachine>().m_battle = true;
                 }
+                m_isChangeState = true;
             }
-            if (WinnerChack() == 1)
-            {
-                //lose
-            }
-            else if (WinnerChack() == 2)
+            if (WinnerChack() > 1)
             {
                 //win
+                //contactEnemy.m_isBattle = false;
+            }
+            else if (WinnerChack() > 0)
+            {
+                //lose
+                //contactEnemy.m_isBattle = false;
             }
             else
             {
                 return;
             }
-            //各キャラにあるstatemachineを切り替える
+        }
+        else
+        {
+            m_isChangeState = false;
+            contactEnemy.DeleteField();
         }
     }
     void CreateEnemy(int num)
@@ -59,6 +67,7 @@ public class BattleManager : MonoBehaviour
             m_enemyParty.Add(m_gameObject);
             m_enemyParty[i].name = m_enemyParty[i].GetComponent<EnemyManager>().enemyParameters.EnemyCharacterName + $"{i}";
             m_enemyDeadList.Add(m_enemyParty[i].GetComponent<EnemyManager>().IsDeadState);
+            m_enemyParty[i].GetComponent<BattleStateMachine>().m_actionTimer = Timer(m_enemyParty[i].GetComponent<EnemyManager>().enemyParameters.Speed);
         }
         m_isCreated = true;
     }
@@ -71,6 +80,7 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
         {
             m_characterDeadList.Add(m_partyManager.m_charaParty[i].GetComponent<CharacterParameterManager>().IsDeadState);
+            m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_actionTimer = Timer(m_partyManager.m_charaParty[i].GetComponent<CharacterParameterManager>().Speed);
         }
         //敵がボスの時はにげれないようにする
         //if (true)

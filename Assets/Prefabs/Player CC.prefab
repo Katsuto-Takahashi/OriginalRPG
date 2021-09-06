@@ -623,7 +623,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &125937426796822060
 Transform:
   m_ObjectHideFlags: 0
@@ -709,6 +709,7 @@ MonoBehaviour:
   m_battleFeildPrefab: {fileID: 1209401978525203268, guid: 32307c74b822f1d4daf2eac8e138af95,
     type: 3}
   m_isContact: 0
+  m_isBattle: 0
   m_enemyParty: 0
   m_enemyID: 0
   m_contactPosition: {x: 0, y: 0, z: 0}
@@ -745,10 +746,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 408cb59764b74164ea227dc67d4a20ae, type: 2}
   - {fileID: 11400000, guid: 1a2597fbf442d354ab3c6a9a48b6db6b, type: 2}
   hasSkills: []
-  equipWeapon: {fileID: 0}
-  equipArmor: {fileID: 0}
   isPoisonState: 0
   isNumbnessState: 0
+  isDeadState: 0
 --- !u!114 &1330677598
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class CharacterParameterUI : MonoBehaviour
 {
-    [SerializeField] Text m_name;
-    [SerializeField] Text m_HP;
-    [SerializeField] Text m_AP;
-    [SerializeField] Slider m_HPGage;
-    [SerializeField] Slider m_APGage;
+    [SerializeField] Text m_name = null;
+    [SerializeField] Text m_HP = null;
+    [SerializeField] Text m_AP = null;
+    [SerializeField] Slider m_HPGage = null;
+    [SerializeField] Slider m_APGage = null;
 
     public void CreateName(string name)
     {

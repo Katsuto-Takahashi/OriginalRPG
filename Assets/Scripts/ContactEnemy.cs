@@ -5,7 +5,7 @@ using System.Linq;
 
 public class ContactEnemy : MonoBehaviour
 {
-    [SerializeField] GameObject m_battleFeildPrefab;
+    [SerializeField] GameObject m_battleFeildPrefab = null;
     private GameObject m_battleFeild;
     public bool m_isContact = false;
     public bool m_isBattle = false;
@@ -21,6 +21,7 @@ public class ContactEnemy : MonoBehaviour
             distsnce = Vector3.Distance(m_contactPosition, transform.position);
             if (distsnce > 15)
             {
+                m_isBattle = false;
                 DeleteField();
             }
         }

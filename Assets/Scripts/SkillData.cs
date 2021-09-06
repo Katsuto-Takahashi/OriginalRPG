@@ -33,7 +33,10 @@ public class SkillData : ScriptableObject
     [SerializeField]
     [Range(1,1000)] private int requiredAP = default;
     public int RequiredAP { get => requiredAP; }
-
+    /// <summary>攻撃の範囲</summary>
+    [SerializeField]
+    [Range(1, 15)] private int attackRange = default;
+    public int AttackRange { get => attackRange; }
     public enum AttackAttributes
     {
         non,

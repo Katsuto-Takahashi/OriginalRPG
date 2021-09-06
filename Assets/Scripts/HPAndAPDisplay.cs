@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class HPAndAPDisplay : MonoBehaviour
 {
-    [SerializeField] PartyManager m_partyManager = default;
+    [SerializeField] PartyManager m_partyManager = null;
     [SerializeField] private bool m_isDisplay = false;
-    [SerializeField] GameObject m_gameObject;
+    [SerializeField] GameObject m_gameObject = null;
     private GameObject m_ui;
     private List<GameObject> m_gameObjects = new List<GameObject>();
     private int m_memberNumber = 1;

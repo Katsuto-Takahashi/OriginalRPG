@@ -8,12 +8,12 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
     private int nextExp = 0;
     private float levelCorrection = 4.8f;
     //int baseParameter = 0;
-    //　装備している武器
-    [SerializeField]
-    private ItemData equipWeapon = null;
-    //　装備している鎧
-    [SerializeField]
-    private ItemData equipArmor = null;
+    ////　装備している武器
+    //[SerializeField]
+    //private ItemData equipWeapon = null;
+    ////　装備している鎧
+    //[SerializeField]
+    //private ItemData equipArmor = null;
     //　毒状態かどうか
     [SerializeField]
     private bool isPoisonState = false;
