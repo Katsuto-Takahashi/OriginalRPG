@@ -6,6 +6,9 @@ public partial class BattleStateMachine : MonoBehaviour
 {
     public float m_actionTimer;
     float m_countTimer;
+    public bool m_battle = false;
+
+    public Vector3 m_currentPosition;
 
     BattleStateMachineBase currentState;
     BattleIdleState battleIdleState = new BattleIdleState();
@@ -21,6 +24,7 @@ public partial class BattleStateMachine : MonoBehaviour
 
     void Update()
     {
+        m_currentPosition = this.transform.position;
         currentState.OnUpdate(this);
     }
     void ChangeState(BattleStateMachineBase nextState)
@@ -28,5 +32,10 @@ public partial class BattleStateMachine : MonoBehaviour
         currentState?.OnExit(this);
         nextState.OnEnter(this);
         currentState = nextState;
+    }
+    //後日訂正予定
+    public void IdleChange()
+    {
+        ChangeState(battleIdleState);
     }
 }
