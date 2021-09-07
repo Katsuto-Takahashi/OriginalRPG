@@ -40,13 +40,13 @@ public class BattleManager : MonoBehaviour
             }
             if (WinnerChack() > 1)
             {
-                //win
-                //contactEnemy.m_isBattle = false;
+                Debug.Log("win");
+                contactEnemy.m_isBattle = false;
             }
             else if (WinnerChack() > 0)
             {
-                //lose
-                //contactEnemy.m_isBattle = false;
+                Debug.Log("lose");
+                contactEnemy.m_isBattle = false;
             }
             else
             {

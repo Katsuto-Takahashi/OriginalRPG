@@ -7,6 +7,7 @@ public partial class BattleStateMachine : MonoBehaviour
         public override void OnEnter(BattleStateMachine owner)
         {
             //攻撃アニメーション
+            //owner.PlayAnimation("");
         }
 
         public override void OnExit(BattleStateMachine owner)

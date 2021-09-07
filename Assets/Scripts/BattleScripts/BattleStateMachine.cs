@@ -33,9 +33,8 @@ public partial class BattleStateMachine : MonoBehaviour
         nextState.OnEnter(this);
         currentState = nextState;
     }
-    //後日訂正予定
-    public void IdleChange()
+    void PlayAnimation(string stateName, float transitionDuration = 0.1f)
     {
-        ChangeState(battleIdleState);
+        animator.CrossFadeInFixedTime(stateName, transitionDuration);
     }
 }

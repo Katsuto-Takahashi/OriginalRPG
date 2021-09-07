@@ -6,6 +6,10 @@ public partial class BattleStateMachine : MonoBehaviour
     {
         public override void OnEnter(BattleStateMachine owner)
         {
+            if (owner.m_battle)
+            {
+                //owner.PlayAnimation("");
+            }
             //待機
             //タイマーセット
             owner.m_countTimer = owner.m_actionTimer;
