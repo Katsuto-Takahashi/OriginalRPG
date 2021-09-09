@@ -10,7 +10,7 @@ public class UIChanger : MonoBehaviour
     [SerializeField] GameObject m_nextCommandPanel = null;
     /// <summary>前のコマンドパネル</summary>
     [SerializeField] GameObject m_beforeCommandPanel = null;
-    [SerializeField] SceneLoader m_sceneLoader = null;
+    //[SerializeField] SceneLoader m_sceneLoader = null;
     private GameObject m_myCommandPanel;
     [SerializeField] float m_ColorAlpha = 120;
     [SerializeField] Image m_myImage = null;
@@ -36,14 +36,14 @@ public class UIChanger : MonoBehaviour
         }
         else
         {
-            if (m_sceneLoader == null)
-            {
+            //if (m_sceneLoader == null)
+            //{
                 CommandSelectedAction();
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 
-            }
+            //}
         }
     }
     public void CommandPanelChanged()

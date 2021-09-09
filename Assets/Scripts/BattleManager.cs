@@ -9,6 +9,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] ContactEnemy contactEnemy = null;
     [SerializeField] EnemyList m_enemyPrefabs = null;
     [SerializeField] PartyManager m_partyManager = null;
+    [SerializeField] BattleEnemyList m_battleEnemyList = null;
     private GameObject m_gameObject;
     private List<GameObject> m_enemyParty = new List<GameObject>();
     private List<bool> m_enemyDeadList = new List<bool>();
@@ -25,16 +26,19 @@ public class BattleManager : MonoBehaviour
             if (contactEnemy.m_isContact && !m_isCreated)
             {
                 BattleStanby();
+                TargetPosition();
             }
             if (!m_isChangeState)
             {
                 for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
                 {
                     m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_battle = true;
+                    m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_firstAction = true;
                 }
                 for (int i = 0; i < m_enemyParty.Count; i++)
                 {
                     m_enemyParty[i].GetComponent<BattleStateMachine>().m_battle = true;
+                    m_enemyParty[i].GetComponent<BattleStateMachine>().m_firstAction = true;
                 }
                 m_isChangeState = true;
             }
@@ -68,6 +72,7 @@ public class BattleManager : MonoBehaviour
             m_enemyParty[i].name = m_enemyParty[i].GetComponent<EnemyManager>().enemyParameters.EnemyCharacterName + $"{i}";
             m_enemyDeadList.Add(m_enemyParty[i].GetComponent<EnemyManager>().IsDeadState);
             m_enemyParty[i].GetComponent<BattleStateMachine>().m_actionTimer = Timer(m_enemyParty[i].GetComponent<EnemyManager>().enemyParameters.Speed);
+            m_battleEnemyList.m_battleEnemys.Add(m_enemyParty[i]);
         }
         m_isCreated = true;
     }
@@ -121,6 +126,23 @@ public class BattleManager : MonoBehaviour
         else
         {
             return 0;
+        }
+    }
+    void TargetPosition()
+    {
+        for (int n = 0; n < m_enemyParty.Count; n++)
+        {
+            for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
+            {
+                m_enemyParty[n].GetComponent<BattleStateMachine>().m_targetCharacters.Add(m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_currentPosition);
+            }
+        }
+        for (int n = 0; n < m_partyManager.m_charaParty.Count; n++)
+        {
+            for (int i = 0; i < m_enemyParty.Count; i++)
+            {
+                m_partyManager.m_charaParty[n].GetComponent<BattleStateMachine>().m_targetCharacters.Add(m_enemyParty[i].GetComponent<BattleStateMachine>().m_currentPosition);
+            }
         }
     }
 }
