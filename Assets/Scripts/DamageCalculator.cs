@@ -52,14 +52,14 @@ public class DamageCalculator : MonoBehaviour
         }
         if (decideDamege != 0)
         {
-            if (enemy.attackTypeResistance[(int)attackType] != 0)
+            if ((int)(decideDamege * enemy.attackTypeResistance[(int)attackType]) != 0)
             {
                 decideDamege = (int)(decideDamege * enemy.attackTypeResistance[(int)attackType]);
             }
         }
         if (decideDamege != 0)
         {
-            if (enemy.attackAttributeResistance[(int)attributes] != 0)
+            if ((int)(decideDamege * enemy.attackAttributeResistance[(int)attributes]) != 0)
             {
                 decideDamege = (int)(decideDamege * enemy.attackAttributeResistance[(int)attributes]);
             }

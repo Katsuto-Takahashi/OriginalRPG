@@ -8,6 +8,10 @@ public partial class BattleStateMachine : MonoBehaviour
         {
             //攻撃アニメーション
             //owner.PlayAnimation("");
+            //if (Vector3.Distance(owner.m_currentPosition, owner.m_targetCharacters[owner.m_targetNumber]) > 1)
+            //{
+            //    //近づく
+            //}
         }
 
         public override void OnExit(BattleStateMachine owner)

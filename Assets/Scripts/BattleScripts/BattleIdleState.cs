@@ -12,12 +12,27 @@ public partial class BattleStateMachine : MonoBehaviour
             }
             //待機
             //タイマーセット
-            owner.m_countTimer = owner.m_actionTimer;
+            if (owner.m_firstAction)
+            {
+                if (owner.CompareTag("Enemy"))
+                {
+                    owner.m_countTimer = owner.m_actionTimer;
+                }
+                else if (owner.CompareTag("Player"))
+                {
+                    owner.m_countTimer = -0.9f;
+                }
+                owner.m_firstAction = false;
+            }
+            else
+            {
+                owner.m_countTimer = owner.m_actionTimer;
+            }
         }
 
         public override void OnExit(BattleStateMachine owner)
         {
-            
+            owner.m_countTimer = owner.m_actionTimer;
         }
 
         public override void OnUpdate(BattleStateMachine owner)
@@ -34,13 +49,11 @@ public partial class BattleStateMachine : MonoBehaviour
                 {
                     if (owner.CompareTag("Enemy"))
                     {
-                        Debug.Log("敵の攻撃");
-                        owner.ChangeState(owner.battleAtatckState);
+                        owner.ChangeState(owner.battleWaitActionState);
                     }
                     else if (owner.CompareTag("Player"))
                     {
-                        Debug.Log("攻撃");
-                        owner.ChangeState(owner.battleAtatckState);
+                        owner.ChangeState(owner.battleWaitActionState);
                     }
                 }
             }

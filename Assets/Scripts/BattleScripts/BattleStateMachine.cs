@@ -9,9 +9,13 @@ public partial class BattleStateMachine : MonoBehaviour
     public bool m_battle = false;
 
     public Vector3 m_currentPosition;
+    public List<Vector3> m_targetCharacters = new List<Vector3>();
+    int m_targetNumber = 0;
+    public bool m_firstAction = false;
 
     BattleStateMachineBase currentState;
     BattleIdleState battleIdleState = new BattleIdleState();
+    BattleWaitActionState battleWaitActionState = new BattleWaitActionState();
     BattleAtatckState battleAtatckState = new BattleAtatckState();
 
     Animator animator;
@@ -36,5 +40,9 @@ public partial class BattleStateMachine : MonoBehaviour
     void PlayAnimation(string stateName, float transitionDuration = 0.1f)
     {
         animator.CrossFadeInFixedTime(stateName, transitionDuration);
+    }
+    internal static T GetRandom<T>(params T[] Params)
+    {
+        return Params[Random.Range(0, Params.Length)];
     }
 }
