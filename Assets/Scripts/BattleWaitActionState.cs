@@ -10,10 +10,14 @@ public partial class BattleStateMachine : MonoBehaviour
             {
                 owner.m_targetNumber = Random.Range(0, owner.m_targetCharacters.Count);
             }
-            //else if (owner.CompareTag("Player"))
-            //{
-
-            //}
+            else if (owner.CompareTag("Player"))
+            {
+                if (!owner.m_open)
+                {
+                    owner.m_battlePanel.SetActive(true);
+                    owner.m_open = true;
+                }
+            }
         }
 
         public override void OnExit(BattleStateMachine owner)
@@ -22,19 +26,24 @@ public partial class BattleStateMachine : MonoBehaviour
 
         public override void OnUpdate(BattleStateMachine owner)
         {
-            if (true)
+            if (owner.CompareTag("Enemy"))
             {
-                if (owner.CompareTag("Enemy"))
-                {
-                    Debug.Log("敵の攻撃");
-                    owner.ChangeState(owner.battleAtatckState);
-                }
-                else if (owner.CompareTag("Player"))
+                Debug.Log("敵の攻撃");
+                owner.ChangeState(owner.battleAtatckState);
+            }
+            else if (owner.CompareTag("Player"))
+            {
+                if (!owner.m_open)
                 {
                     Debug.Log("攻撃");
+                    owner.m_battlePanel.SetActive(false);
                     owner.ChangeState(owner.battleAtatckState);
                 }
-                
+                else
+                {
+                    Debug.Log("待機");
+                    owner.ChangeState(owner.battleIdleState);
+                }
             }
         }
     }

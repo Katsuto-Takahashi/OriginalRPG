@@ -71,6 +71,7 @@ public class BattleManager : MonoBehaviour
             m_enemyParty.Add(m_gameObject);
             m_enemyParty[i].name = m_enemyParty[i].GetComponent<EnemyManager>().enemyParameters.EnemyCharacterName + $"{i}";
             m_enemyDeadList.Add(m_enemyParty[i].GetComponent<EnemyManager>().IsDeadState);
+            m_enemyParty[i].GetComponent<BattleStateMachine>().enabled = true;
             m_enemyParty[i].GetComponent<BattleStateMachine>().m_actionTimer = Timer(m_enemyParty[i].GetComponent<EnemyManager>().enemyParameters.Speed);
             m_battleEnemyList.m_battleEnemys.Add(m_enemyParty[i]);
         }
@@ -85,6 +86,7 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
         {
             m_characterDeadList.Add(m_partyManager.m_charaParty[i].GetComponent<CharacterParameterManager>().IsDeadState);
+            m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().enabled = true;
             m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_actionTimer = Timer(m_partyManager.m_charaParty[i].GetComponent<CharacterParameterManager>().Speed);
         }
         //敵がボスの時はにげれないようにする
@@ -134,14 +136,14 @@ public class BattleManager : MonoBehaviour
         {
             for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
             {
-                m_enemyParty[n].GetComponent<BattleStateMachine>().m_targetCharacters.Add(m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_currentPosition);
+                m_enemyParty[n].GetComponent<BattleStateMachine>().m_targetCharacters.Add(m_partyManager.m_charaParty[i]);
             }
         }
         for (int n = 0; n < m_partyManager.m_charaParty.Count; n++)
         {
             for (int i = 0; i < m_enemyParty.Count; i++)
             {
-                m_partyManager.m_charaParty[n].GetComponent<BattleStateMachine>().m_targetCharacters.Add(m_enemyParty[i].GetComponent<BattleStateMachine>().m_currentPosition);
+                m_partyManager.m_charaParty[n].GetComponent<BattleStateMachine>().m_targetCharacters.Add(m_enemyParty[i]);
             }
         }
     }

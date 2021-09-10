@@ -20,13 +20,9 @@ public partial class BattleStateMachine : MonoBehaviour
                 }
                 else if (owner.CompareTag("Player"))
                 {
-                    owner.m_countTimer = -0.9f;
+                    owner.m_countTimer = 0f;
                 }
                 owner.m_firstAction = false;
-            }
-            else
-            {
-                owner.m_countTimer = owner.m_actionTimer;
             }
         }
 
@@ -37,13 +33,10 @@ public partial class BattleStateMachine : MonoBehaviour
 
         public override void OnUpdate(BattleStateMachine owner)
         {
-            if (owner.m_battle)
+            if (owner.m_battle && owner.m_characterActionCount < 3)
             {
-                if (owner.m_countTimer > -1f)
-                {
-                    owner.m_countTimer -= Time.deltaTime;
-                    Debug.Log(owner.m_countTimer);
-                }
+                owner.m_countTimer -= Time.deltaTime;
+                Debug.Log(owner.name + "/" + owner.m_countTimer);
                 //タイマースタート
                 if (owner.m_countTimer < 0f)
                 {
@@ -53,6 +46,7 @@ public partial class BattleStateMachine : MonoBehaviour
                     }
                     else if (owner.CompareTag("Player"))
                     {
+                        owner.m_characterActionCount++;
                         owner.ChangeState(owner.battleWaitActionState);
                     }
                 }

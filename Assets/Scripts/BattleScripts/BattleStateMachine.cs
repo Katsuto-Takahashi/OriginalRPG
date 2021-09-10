@@ -4,13 +4,18 @@ using UnityEngine;
 
 public partial class BattleStateMachine : MonoBehaviour
 {
+    [SerializeField] GameObject m_battlePanel = null;
+    private bool m_open = false;
+    private int m_characterActionCount = 0;
+
     public float m_actionTimer;
     float m_countTimer;
     public bool m_battle = false;
 
+    private Vector3 m_targetPosition;
     public Vector3 m_currentPosition;
-    public List<Vector3> m_targetCharacters = new List<Vector3>();
-    int m_targetNumber = 0;
+    public List<GameObject> m_targetCharacters = new List<GameObject>();
+    public int m_targetNumber = 0;
     public bool m_firstAction = false;
 
     BattleStateMachineBase currentState;

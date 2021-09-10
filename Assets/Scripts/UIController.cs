@@ -19,7 +19,7 @@ public class UIController : MonoBehaviour
     /// <summary>D-padが押されている時間</summary>
     float m_getTime = 0f;
     /// <summary>select状態にあるコマンドのインデックス</summary>
-    int m__selectedCommandNumber = 0;
+    public int m_selectedCommandNumber = 0;
 
     GridLayoutGroup m_gg;
     /// <summary>Dpadの横方向の入力の値</summary>
@@ -41,11 +41,11 @@ public class UIController : MonoBehaviour
         CommandMove(v, h);
         if (Input.GetButtonDown("Circlebutton"))
         {
-            m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().OnUI();
+            m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().OnUI();
         }
         else if (Input.GetButtonDown("×button"))
         {
-            m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().OnUIPanelReturnChanged();
+            m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().OnUIPanelReturnChanged();
         }
     }
     /// <summary>Dpadでのコマンド操作</summary>
@@ -218,29 +218,29 @@ public class UIController : MonoBehaviour
     {
         if (v < 0)
         {
-            m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
-            if (m__selectedCommandNumber == m_commandList.Count - 1)
+            m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
+            if (m_selectedCommandNumber == m_commandList.Count - 1)
             {
-                m__selectedCommandNumber = 0;
+                m_selectedCommandNumber = 0;
             }
             else
             {
-                m__selectedCommandNumber++;
+                m_selectedCommandNumber++;
             }
         }
         else if (v > 0)
         {
-            m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
-            if (m__selectedCommandNumber == 0)
+            m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
+            if (m_selectedCommandNumber == 0)
             {
-                m__selectedCommandNumber = m_commandList.Count - 1;
+                m_selectedCommandNumber = m_commandList.Count - 1;
             }
             else
             {
-                m__selectedCommandNumber--;
+                m_selectedCommandNumber--;
             }
         }
-        m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().SelectedCommandColorChange();
+        m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().SelectedCommandColorChange();
     }
     /// <summary>選択しているコマンドの継続的な縦方向の変更</summary>
     /// <param name="v">Dpadの縦方向の入力</param>
@@ -248,21 +248,21 @@ public class UIController : MonoBehaviour
     {
         if (v < 0)
         {
-            if (m__selectedCommandNumber != m_commandList.Count - 1)
+            if (m_selectedCommandNumber != m_commandList.Count - 1)
             {
-                m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
-                m__selectedCommandNumber++;
+                m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
+                m_selectedCommandNumber++;
             }
         }
         else if (v > 0)
         {
-            if (m__selectedCommandNumber != 0)
+            if (m_selectedCommandNumber != 0)
             {
-                m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
-                m__selectedCommandNumber--;
+                m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
+                m_selectedCommandNumber--;
             }
         }
-        m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().SelectedCommandColorChange();
+        m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().SelectedCommandColorChange();
     }
     /// <summary>選択しているコマンドの縦横方向の変更</summary>
     /// <param name="v">Dpadの縦方向の入力</param>
@@ -272,80 +272,80 @@ public class UIController : MonoBehaviour
         int amari = m_commandList.Count % m_gg.constraintCount;
         if (v < 0)
         {
-            m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
-            if (m__selectedCommandNumber + m_gg.constraintCount > m_commandList.Count - 1)
+            m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
+            if (m_selectedCommandNumber + m_gg.constraintCount > m_commandList.Count - 1)
             {
                 if (amari != 0)
                 {
-                    m__selectedCommandNumber = m__selectedCommandNumber + m_gg.constraintCount - (m_commandList.Count + m_gg.constraintCount - amari);
-                    if (m__selectedCommandNumber < 0)
+                    m_selectedCommandNumber = m_selectedCommandNumber + m_gg.constraintCount - (m_commandList.Count + m_gg.constraintCount - amari);
+                    if (m_selectedCommandNumber < 0)
                     {
-                        m__selectedCommandNumber = m_commandList.Count - 1;
+                        m_selectedCommandNumber = m_commandList.Count - 1;
                         m_horiCount = amari - 1;
                     }
                 }
                 else
                 {
-                    m__selectedCommandNumber = m__selectedCommandNumber + m_gg.constraintCount - m_commandList.Count;
+                    m_selectedCommandNumber = m_selectedCommandNumber + m_gg.constraintCount - m_commandList.Count;
                 }
             }
             else
             {
-                m__selectedCommandNumber += m_gg.constraintCount;
+                m_selectedCommandNumber += m_gg.constraintCount;
             }
         }
         else if (v > 0)
         {
-            m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
-            if (m__selectedCommandNumber - m_gg.constraintCount < 0)
+            m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
+            if (m_selectedCommandNumber - m_gg.constraintCount < 0)
             {
                 if (amari != 0)
                 {
-                    m__selectedCommandNumber = m__selectedCommandNumber - m_gg.constraintCount + (m_commandList.Count + m_gg.constraintCount - amari);
-                    if (m__selectedCommandNumber > m_commandList.Count - 1)
+                    m_selectedCommandNumber = m_selectedCommandNumber - m_gg.constraintCount + (m_commandList.Count + m_gg.constraintCount - amari);
+                    if (m_selectedCommandNumber > m_commandList.Count - 1)
                     {
-                        m__selectedCommandNumber -= m_gg.constraintCount;
+                        m_selectedCommandNumber -= m_gg.constraintCount;
                     }
                 }
                 else
                 {
-                    m__selectedCommandNumber = m__selectedCommandNumber - m_gg.constraintCount + m_commandList.Count;
+                    m_selectedCommandNumber = m_selectedCommandNumber - m_gg.constraintCount + m_commandList.Count;
                 }
             }
             else
             {
-                m__selectedCommandNumber -= m_gg.constraintCount;
+                m_selectedCommandNumber -= m_gg.constraintCount;
             }
         }
         else if (h > 0)
         {
-            m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
+            m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
             if (m_horiCount == m_gg.constraintCount - 1)
             {
-                m__selectedCommandNumber -= (m_gg.constraintCount - 1);
+                m_selectedCommandNumber -= (m_gg.constraintCount - 1);
                 m_horiCount = 0;
             }
             else
             {
-                m__selectedCommandNumber++;
+                m_selectedCommandNumber++;
                 m_horiCount++;
             }
         }
         else if (h < 0)
         {
-            m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
+            m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
             if (m_horiCount == 0)
             {
-                m__selectedCommandNumber += (m_gg.constraintCount - 1);
+                m_selectedCommandNumber += (m_gg.constraintCount - 1);
                 m_horiCount = m_gg.constraintCount - 1;
             }
             else
             {
-                m__selectedCommandNumber--;
+                m_selectedCommandNumber--;
                 m_horiCount--;
             }
         }
-        m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().SelectedCommandColorChange();
+        m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().SelectedCommandColorChange();
     }
     /// <summary>選択しているコマンドの継続的な縦横方向の変更</summary>
     /// <param name="v">Dpadの縦方向の入力</param>
@@ -354,28 +354,28 @@ public class UIController : MonoBehaviour
     {
         if (v < 0)
         {
-            if (m__selectedCommandNumber + m_gg.constraintCount <= m_commandList.Count - 1)
+            if (m_selectedCommandNumber + m_gg.constraintCount <= m_commandList.Count - 1)
             {
-                m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
-                m__selectedCommandNumber += m_gg.constraintCount;
+                m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
+                m_selectedCommandNumber += m_gg.constraintCount;
             }
         }
         else if (v > 0)
         {
-            if (m__selectedCommandNumber - m_gg.constraintCount >= 0)
+            if (m_selectedCommandNumber - m_gg.constraintCount >= 0)
             {
-                m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
-                m__selectedCommandNumber -= m_gg.constraintCount;
+                m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
+                m_selectedCommandNumber -= m_gg.constraintCount;
             }
         }
         else if (h > 0)
         {
             if (m_horiCount < m_gg.constraintCount - 1)
             {
-                if (m__selectedCommandNumber < m_commandList.Count - 1)
+                if (m_selectedCommandNumber < m_commandList.Count - 1)
                 {
-                    m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
-                    m__selectedCommandNumber++;
+                    m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
+                    m_selectedCommandNumber++;
                     m_horiCount++;
                 }
             }
@@ -384,20 +384,20 @@ public class UIController : MonoBehaviour
         {
             if (m_horiCount > 0)
             {
-                m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
-                m__selectedCommandNumber--;
+                m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
+                m_selectedCommandNumber--;
                 m_horiCount--;
             }
         }
-        m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().SelectedCommandColorChange();
+        m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().SelectedCommandColorChange();
     }
 
     private void GoToZero()
     {
-        m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
-        m__selectedCommandNumber = 0;
-        m_commandList[m__selectedCommandNumber].GetComponent<UIChanger>().SelectedCommandColorChange();
+        m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().NonCommandColorChange();
+        m_selectedCommandNumber = 0;
+        m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().SelectedCommandColorChange();
         m_horiCount = 0;
-        Debug.Log(m_commandList[m__selectedCommandNumber].gameObject.activeInHierarchy);
+        Debug.Log(m_commandList[m_selectedCommandNumber].gameObject.activeInHierarchy);
     }
 }

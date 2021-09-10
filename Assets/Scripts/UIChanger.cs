@@ -36,14 +36,7 @@ public class UIChanger : MonoBehaviour
         }
         else
         {
-            //if (m_sceneLoader == null)
-            //{
-                CommandSelectedAction();
-            //}
-            //else
-            //{
-                
-            //}
+            CommandSelectedAction();
         }
     }
     public void CommandPanelChanged()
@@ -61,7 +54,9 @@ public class UIChanger : MonoBehaviour
     }
     public void CommandSelectedAction()
     {
-        
+        int num = this.GetComponentInParent<UIController>().m_selectedCommandNumber;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<BattleStateMachine>().m_targetNumber = num;
+        m_myCommandPanel.SetActive(false);
     }
     public void SelectedCommandColorChange()
     {
