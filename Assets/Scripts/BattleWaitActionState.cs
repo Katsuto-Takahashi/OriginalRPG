@@ -22,6 +22,7 @@ public partial class BattleStateMachine : MonoBehaviour
 
         public override void OnExit(BattleStateMachine owner)
         {
+            owner.m_action = false;
         }
 
         public override void OnUpdate(BattleStateMachine owner)
@@ -33,16 +34,10 @@ public partial class BattleStateMachine : MonoBehaviour
             }
             else if (owner.CompareTag("Player"))
             {
-                if (!owner.m_open)
+                if (owner.m_action)
                 {
                     Debug.Log("攻撃");
-                    owner.m_battlePanel.SetActive(false);
                     owner.ChangeState(owner.battleAtatckState);
-                }
-                else
-                {
-                    Debug.Log("待機");
-                    owner.ChangeState(owner.battleIdleState);
                 }
             }
         }

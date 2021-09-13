@@ -6,7 +6,7 @@ public partial class PlayerControllerCC : MonoBehaviour
     {
         public override void OnEnter(PlayerControllerCC owner)
         {
-            Debug.Log("Walk");
+            //Debug.Log("Walk");
             owner.PlayAnimation("Walk");
         }
 
@@ -25,20 +25,20 @@ public partial class PlayerControllerCC : MonoBehaviour
             }
             else
             {
-                Debug.Log("Walk -> Idle");
+                //Debug.Log("Walk -> Idle");
                 owner.ChangeState(owner.idleState);
             }
             if (owner.m_characterController.isGrounded)
             {
                 if (Input.GetButtonDown("×button"))
                 {
-                    Debug.Log("Walk -> Jump");
+                    //Debug.Log("Walk -> Jump");
                     owner.ChangeState(owner.jumpState);
                 }
             }
             else
             {
-                Debug.Log("Walk -> Fall");
+                //Debug.Log("Walk -> Fall");
                 owner.ChangeState(owner.fallState);
             }
         }

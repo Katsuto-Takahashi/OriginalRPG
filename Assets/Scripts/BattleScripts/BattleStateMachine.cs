@@ -5,13 +5,16 @@ using UnityEngine;
 public partial class BattleStateMachine : MonoBehaviour
 {
     [SerializeField] GameObject m_battlePanel = null;
+    [SerializeField] PlayerControllerCC playerControllerCC = null;
+    [SerializeField] PlayerControllerRB playerControllerRB = null;
     private bool m_open = false;
     private int m_characterActionCount = 0;
 
     public float m_actionTimer;
     float m_countTimer;
-    public bool m_battle = false;
 
+    public bool m_battle = false;
+    public bool m_action = false;
     private Vector3 m_targetPosition;
     public Vector3 m_currentPosition;
     public List<GameObject> m_targetCharacters = new List<GameObject>();
@@ -24,9 +27,11 @@ public partial class BattleStateMachine : MonoBehaviour
     BattleAtatckState battleAtatckState = new BattleAtatckState();
 
     Animator animator;
+    AutoMove autoMove;
     void Start()
     {
         animator = GetComponent<Animator>();
+        autoMove = GetComponent<AutoMove>();
 
         ChangeState(battleIdleState);
     }
@@ -35,6 +40,8 @@ public partial class BattleStateMachine : MonoBehaviour
     {
         m_currentPosition = this.transform.position;
         currentState.OnUpdate(this);
+
+        Timer();
     }
     void ChangeState(BattleStateMachineBase nextState)
     {
@@ -49,5 +56,12 @@ public partial class BattleStateMachine : MonoBehaviour
     internal static T GetRandom<T>(params T[] Params)
     {
         return Params[Random.Range(0, Params.Length)];
+    }
+    void Timer()
+    {
+        if (m_characterActionCount < 2 && currentState != battleAtatckState)
+        {
+            m_countTimer -= Time.deltaTime;
+        }
     }
 }

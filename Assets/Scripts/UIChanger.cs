@@ -56,7 +56,9 @@ public class UIChanger : MonoBehaviour
     {
         int num = this.GetComponentInParent<UIController>().m_selectedCommandNumber;
         GameObject.FindGameObjectWithTag("Player").GetComponent<BattleStateMachine>().m_targetNumber = num;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<BattleStateMachine>().m_action = true;
         m_myCommandPanel.SetActive(false);
+        Debug.Log("コマンドけし");
     }
     public void SelectedCommandColorChange()
     {

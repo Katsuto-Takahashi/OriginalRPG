@@ -28,20 +28,18 @@ public partial class BattleStateMachine : MonoBehaviour
 
         public override void OnExit(BattleStateMachine owner)
         {
-            owner.m_countTimer = owner.m_actionTimer;
+            owner.m_countTimer += owner.m_actionTimer;
         }
 
         public override void OnUpdate(BattleStateMachine owner)
         {
             if (owner.m_battle && owner.m_characterActionCount < 3)
             {
-                owner.m_countTimer -= Time.deltaTime;
-                Debug.Log(owner.name + "/" + owner.m_countTimer);
-                //タイマースタート
-                if (owner.m_countTimer < 0f)
+                if (owner.m_countTimer <= 0f)
                 {
                     if (owner.CompareTag("Enemy"))
                     {
+                        owner.m_characterActionCount++;
                         owner.ChangeState(owner.battleWaitActionState);
                     }
                     else if (owner.CompareTag("Player"))
