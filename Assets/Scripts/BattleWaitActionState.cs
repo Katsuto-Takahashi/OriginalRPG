@@ -30,14 +30,14 @@ public partial class BattleStateMachine : MonoBehaviour
             if (owner.CompareTag("Enemy"))
             {
                 Debug.Log("敵の攻撃");
-                owner.ChangeState(owner.battleAtatckState);
+                owner.ChangeState(owner.battleMoveState);
             }
             else if (owner.CompareTag("Player"))
             {
                 if (owner.m_action)
                 {
                     Debug.Log("攻撃");
-                    owner.ChangeState(owner.battleAtatckState);
+                    owner.ChangeState(owner.battleMoveState);
                 }
             }
         }

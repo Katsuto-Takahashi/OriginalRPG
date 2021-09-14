@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    //[SerializeField] DamageCalculator damageCalculator = null;
+    public DamageCalculator damageCalculator = null;
     [SerializeField] ContactEnemy contactEnemy = null;
     [SerializeField] EnemyList m_enemyPrefabs = null;
     [SerializeField] PartyManager m_partyManager = null;
@@ -26,36 +26,13 @@ public class BattleManager : MonoBehaviour
             if (contactEnemy.m_isContact && !m_isCreated)
             {
                 BattleStanby();
-                TargetPosition();
+                TargetCharacters();
             }
             if (!m_isChangeState)
             {
-                for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
-                {
-                    m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_battle = true;
-                    m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_firstAction = true;
-                }
-                for (int i = 0; i < m_enemyParty.Count; i++)
-                {
-                    m_enemyParty[i].GetComponent<BattleStateMachine>().m_battle = true;
-                    m_enemyParty[i].GetComponent<BattleStateMachine>().m_firstAction = true;
-                }
-                m_isChangeState = true;
+                StateChange();
             }
-            if (WinnerChack() > 1)
-            {
-                Debug.Log("win");
-                contactEnemy.m_isBattle = false;
-            }
-            else if (WinnerChack() > 0)
-            {
-                Debug.Log("lose");
-                contactEnemy.m_isBattle = false;
-            }
-            else
-            {
-                return;
-            }
+            WinnerChack();
         }
         else
         {
@@ -99,7 +76,7 @@ public class BattleManager : MonoBehaviour
     {
         return (100 - speed) / 10f;
     }
-    int WinnerChack()
+    void WinnerChack()
     {
         characterDeadCount = 0;
         enemyDeadCount = 0;
@@ -119,18 +96,16 @@ public class BattleManager : MonoBehaviour
         }
         if (characterDeadCount == m_partyManager.m_charaParty.Count)
         {
-            return 1;
+            Debug.Log("lose");
+            contactEnemy.m_isBattle = false;
         }
         else if (enemyDeadCount == m_enemyParty.Count)
         {
-            return 2;
-        }
-        else
-        {
-            return 0;
+            Debug.Log("win");
+            contactEnemy.m_isBattle = false;
         }
     }
-    void TargetPosition()
+    void TargetCharacters()
     {
         for (int n = 0; n < m_enemyParty.Count; n++)
         {
@@ -146,5 +121,19 @@ public class BattleManager : MonoBehaviour
                 m_partyManager.m_charaParty[n].GetComponent<BattleStateMachine>().m_targetCharacters.Add(m_enemyParty[i]);
             }
         }
+    }
+    void StateChange()
+    {
+        for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
+        {
+            m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_battle = true;
+            m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_firstAction = true;
+        }
+        for (int i = 0; i < m_enemyParty.Count; i++)
+        {
+            m_enemyParty[i].GetComponent<BattleStateMachine>().m_battle = true;
+            m_enemyParty[i].GetComponent<BattleStateMachine>().m_firstAction = true;
+        }
+        m_isChangeState = true;
     }
 }

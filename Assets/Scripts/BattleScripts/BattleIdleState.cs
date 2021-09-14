@@ -8,10 +8,8 @@ public partial class BattleStateMachine : MonoBehaviour
         {
             if (owner.m_battle)
             {
-                //owner.PlayAnimation("");
+                //owner.PlayAnimation("Idle");
             }
-            //待機
-            //タイマーセット
             if (owner.m_firstAction)
             {
                 if (owner.CompareTag("Enemy"))

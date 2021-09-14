@@ -7,6 +7,7 @@ public partial class BattleStateMachine : MonoBehaviour
     [SerializeField] GameObject m_battlePanel = null;
     [SerializeField] PlayerControllerCC playerControllerCC = null;
     [SerializeField] PlayerControllerRB playerControllerRB = null;
+    [SerializeField] float m_moveSpeed = 10f;
     private bool m_open = false;
     private int m_characterActionCount = 0;
 
@@ -16,7 +17,7 @@ public partial class BattleStateMachine : MonoBehaviour
     public bool m_battle = false;
     public bool m_action = false;
     private Vector3 m_targetPosition;
-    public Vector3 m_currentPosition;
+    private float m_distance = 0;
     public List<GameObject> m_targetCharacters = new List<GameObject>();
     public int m_targetNumber = 0;
     public bool m_firstAction = false;
@@ -24,21 +25,23 @@ public partial class BattleStateMachine : MonoBehaviour
     BattleStateMachineBase currentState;
     BattleIdleState battleIdleState = new BattleIdleState();
     BattleWaitActionState battleWaitActionState = new BattleWaitActionState();
-    BattleAtatckState battleAtatckState = new BattleAtatckState();
+    BattleMoveState battleMoveState = new BattleMoveState();
+    BattleAttackState battleAttackState = new BattleAttackState();
 
     Animator animator;
-    AutoMove autoMove;
+    HasSkillList hasSkillList;
+    BattleManager battleManager;
     void Start()
     {
+        battleManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<BattleManager>();
         animator = GetComponent<Animator>();
-        autoMove = GetComponent<AutoMove>();
+        hasSkillList = GetComponent<HasSkillList>();
 
         ChangeState(battleIdleState);
     }
 
     void Update()
     {
-        m_currentPosition = this.transform.position;
         currentState.OnUpdate(this);
 
         Timer();
@@ -59,7 +62,7 @@ public partial class BattleStateMachine : MonoBehaviour
     }
     void Timer()
     {
-        if (m_characterActionCount < 2 && currentState != battleAtatckState)
+        if (m_characterActionCount < 2 && currentState != battleMoveState)
         {
             m_countTimer -= Time.deltaTime;
         }

@@ -18,8 +18,8 @@ public class ContactEnemy : MonoBehaviour
     {
         if (m_isContact)
         {
-            distsnce = Vector3.Distance(m_contactPosition, transform.position);
-            if (distsnce > 15)
+            distsnce = (m_contactPosition.x - transform.position.x) * (m_contactPosition.x - transform.position.x) + (m_contactPosition.z - transform.position.z) * (m_contactPosition.z - transform.position.z);
+            if (Mathf.Sqrt(distsnce) > 15f)
             {
                 m_isBattle = false;
                 DeleteField();

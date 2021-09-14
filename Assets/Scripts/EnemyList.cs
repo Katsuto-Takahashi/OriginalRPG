@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class EnemyList : MonoBehaviour
 {
-    [SerializeField]public List<GameObject> m_enemyList = new List<GameObject>();
+    public List<GameObject> m_enemyList = new List<GameObject>();
 }

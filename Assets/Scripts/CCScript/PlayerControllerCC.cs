@@ -35,9 +35,17 @@ public partial class PlayerControllerCC : MonoBehaviour
     /// <summary>メインカメラを基準にdirectionを変換する</summary>
     Vector3 m_moveForward = Vector3.zero;
 
-    void Start()
+    void OnEnable()
     {
         m_nowTransform = this.transform;
+        var dir = m_nowTransform.forward;
+        dir.y = 0f;
+        m_targetRotation = Quaternion.LookRotation(dir);
+    }
+
+    void Start()
+    {
+        //m_nowTransform = this.transform;
 
         m_characterController = GetComponent<CharacterController>();
         m_animator = GetComponentInChildren<Animator>();
@@ -56,6 +64,7 @@ public partial class PlayerControllerCC : MonoBehaviour
 
         currentState.OnUpdate(this);
     }
+
     void ApplyInputAxis()
     {
         //入力を保存
