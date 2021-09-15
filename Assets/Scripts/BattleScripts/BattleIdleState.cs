@@ -8,25 +8,27 @@ public partial class BattleStateMachine : MonoBehaviour
         {
             if (owner.m_battle)
             {
+                owner.m_countTimer = owner.m_actionTimer;
                 //owner.PlayAnimation("Idle");
             }
             if (owner.m_firstAction)
             {
-                if (owner.CompareTag("Enemy"))
-                {
-                    owner.m_countTimer = owner.m_actionTimer;
-                }
-                else if (owner.CompareTag("Player"))
-                {
-                    owner.m_countTimer = 0f;
-                }
+                Debug.Log(owner.name + "はじめ");
+                //if (owner.CompareTag("Enemy"))
+                //{
+                //    owner.m_countTimer = owner.m_actionTimer;
+                //}
+                //else if (owner.CompareTag("Player"))
+                //{
+                //    owner.m_countTimer = 0f;
+                //}
                 owner.m_firstAction = false;
             }
         }
 
         public override void OnExit(BattleStateMachine owner)
         {
-            owner.m_countTimer += owner.m_actionTimer;
+            //owner.m_countTimer += owner.m_actionTimer;
         }
 
         public override void OnUpdate(BattleStateMachine owner)

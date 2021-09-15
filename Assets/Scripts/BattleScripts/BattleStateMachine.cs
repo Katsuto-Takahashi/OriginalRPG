@@ -4,11 +4,11 @@ using UnityEngine;
 
 public partial class BattleStateMachine : MonoBehaviour
 {
-    [SerializeField] GameObject m_battlePanel = null;
+    public GameObject m_battlePanel = null;
     [SerializeField] PlayerControllerCC playerControllerCC = null;
     [SerializeField] PlayerControllerRB playerControllerRB = null;
     [SerializeField] float m_moveSpeed = 10f;
-    private bool m_open = false;
+    public bool m_open = false;
     private int m_characterActionCount = 0;
 
     public float m_actionTimer;
@@ -31,13 +31,15 @@ public partial class BattleStateMachine : MonoBehaviour
     Animator animator;
     HasSkillList hasSkillList;
     BattleManager battleManager;
+    void OnEnable()
+    {
+        ChangeState(battleIdleState);
+    }
     void Start()
     {
         battleManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<BattleManager>();
         animator = GetComponent<Animator>();
         hasSkillList = GetComponent<HasSkillList>();
-
-        ChangeState(battleIdleState);
     }
 
     void Update()
@@ -49,8 +51,8 @@ public partial class BattleStateMachine : MonoBehaviour
     void ChangeState(BattleStateMachineBase nextState)
     {
         currentState?.OnExit(this);
-        nextState.OnEnter(this);
         currentState = nextState;
+        currentState.OnEnter(this);
     }
     void PlayAnimation(string stateName, float transitionDuration = 0.1f)
     {
@@ -62,5 +64,10 @@ public partial class BattleStateMachine : MonoBehaviour
         {
             m_countTimer -= Time.deltaTime;
         }
+    }
+    public void ChangeIdle()
+    {
+        ChangeState(battleIdleState);
+        m_countTimer = 0;
     }
 }

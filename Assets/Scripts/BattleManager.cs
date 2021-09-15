@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class BattleManager : MonoBehaviour
@@ -12,40 +11,17 @@ public class BattleManager : MonoBehaviour
     [SerializeField] BattleEnemyList m_battleEnemyList = null;
     private GameObject m_gameObject;
     private List<GameObject> m_enemyParty = new List<GameObject>();
-    private List<bool> m_enemyDeadList = new List<bool>();
-    private List<bool> m_characterDeadList = new List<bool>();
+    private List<EnemyManager> m_enemyDeadList = new List<EnemyManager>();
+    private List<CharacterParameterManager> m_characterDeadList = new List<CharacterParameterManager>();
     private bool m_isCreated = false;
     private bool m_isChangeState = false;
-    private bool m_isDestry = false;
+    private bool m_finish = false;
     private int characterDeadCount = 0;
     private int enemyDeadCount = 0;
 
-    void Update()
+    private void Start()
     {
-        if (contactEnemy.m_isBattle)
-        {
-            if (contactEnemy.m_isContact && !m_isCreated)
-            {
-                BattleStanby();
-                TargetCharacters();
-            }
-            if (!m_isChangeState)
-            {
-                StateChange();
-            }
-            WinnerChack();
-        }
-        else
-        {
-            m_isChangeState = false;
-            contactEnemy.DeleteField();
-            m_isDestry = true;
-            if (m_isDestry && m_enemyParty.Count > 0)
-            {
-                DestryEnemy(1);
-                m_isDestry = false;
-            }
-        }
+        contactEnemy.Battle += StartBattle;
     }
     void CreateEnemy(int num)
     {
@@ -54,7 +30,7 @@ public class BattleManager : MonoBehaviour
             m_gameObject = Instantiate(m_enemyPrefabs.m_enemyList[contactEnemy.m_enemyID - 1], contactEnemy.m_contactPosition, Quaternion.identity);
             m_enemyParty.Add(m_gameObject);
             m_enemyParty[i].name = m_enemyParty[i].GetComponent<EnemyManager>().enemyParameters.EnemyCharacterName + $"{i}";
-            m_enemyDeadList.Add(m_enemyParty[i].GetComponent<EnemyManager>().IsDeadState);
+            m_enemyDeadList.Add(m_enemyParty[i].GetComponent<EnemyManager>());
             m_enemyParty[i].GetComponent<BattleStateMachine>().enabled = true;
             m_enemyParty[i].GetComponent<BattleStateMachine>().m_actionTimer = Timer(m_enemyParty[i].GetComponent<EnemyManager>().enemyParameters.Speed);
             m_battleEnemyList.m_battleEnemys.Add(m_enemyParty[i]);
@@ -65,8 +41,12 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < num; i++)
         {
-            Destroy(m_battleEnemyList.m_battleEnemys[i]);
+            Destroy(m_enemyParty[i]);
         }
+        m_enemyParty.Clear();
+        m_enemyDeadList.Clear();
+        m_characterDeadList.Clear();
+        m_battleEnemyList.m_battleEnemys.Clear();
     }
     void BattleStanby()
     {
@@ -76,9 +56,9 @@ public class BattleManager : MonoBehaviour
         }
         for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
         {
-            m_characterDeadList.Add(m_partyManager.m_charaParty[i].GetComponent<CharacterParameterManager>().IsDeadState);
-            m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().enabled = true;
+            m_characterDeadList.Add(m_partyManager.m_charaParty[i].GetComponent<CharacterParameterManager>());
             m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_actionTimer = Timer(m_partyManager.m_charaParty[i].GetComponent<CharacterParameterManager>().Speed);
+            m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().enabled = true;
         }
         //敵がボスの時はにげれないようにする
         //if (true)
@@ -96,14 +76,14 @@ public class BattleManager : MonoBehaviour
         enemyDeadCount = 0;
         for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
         {
-            if (m_characterDeadList[i] == true)
+            if (m_characterDeadList[i].IsDeadState == true)
             {
-                characterDeadCount++; 
+                characterDeadCount++;
             }
         }
         for (int i = 0; i < m_enemyParty.Count; i++)
         {
-            if (m_enemyDeadList[i] == true)
+            if (m_enemyDeadList[i].IsDeadState == true)
             {
                 enemyDeadCount++;
             }
@@ -145,8 +125,12 @@ public class BattleManager : MonoBehaviour
         }
         for (int i = 0; i < m_enemyParty.Count; i++)
         {
-            m_enemyParty[i].GetComponent<BattleStateMachine>().m_battle = true;
-            m_enemyParty[i].GetComponent<BattleStateMachine>().m_firstAction = true;
+            var e = m_enemyParty[i]?.GetComponent<BattleStateMachine>();
+            if (e != null)
+            {
+                e.m_battle = true;
+                e.m_firstAction = true;
+            }
         }
         m_isChangeState = true;
     }
@@ -208,5 +192,67 @@ public class BattleManager : MonoBehaviour
             }
         }
         return damage;
+    }
+    void FinishBattle()
+    {
+        for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
+        {
+            m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_targetCharacters.Clear();
+            m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_battle = false;
+            m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_open = false;
+            m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().m_battlePanel.SetActive(false);
+            m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().enabled = false;
+        }
+        for (int i = 0; i < m_enemyParty.Count; i++)
+        {
+            m_enemyParty[i].GetComponent<BattleStateMachine>().m_battle = false;
+        }
+        m_finish = true;
+    }
+    void StartBattle()
+    {
+        StartCoroutine(BattleUpdate());
+    }
+    IEnumerator BattleUpdate()
+    {
+        bool battleNow = true;
+        if (contactEnemy.m_isContact && !m_isCreated)
+        {
+            BattleStanby();
+            TargetCharacters();
+        }
+        if (!m_isChangeState)
+        {
+            StateChange();
+        }
+        while (battleNow)
+        {
+            if (contactEnemy.m_isBattle)
+            {
+               
+                if (m_isChangeState && m_isCreated)
+                {
+                    WinnerChack();
+                }
+            }
+            else
+            {
+                m_isChangeState = false;
+                contactEnemy.DeleteField();
+                if (!m_finish)
+                {
+                    FinishBattle();
+                }
+                battleNow = contactEnemy.m_isBattle;
+            }
+            yield return null;
+        }
+        DestryEnemy(1);
+        m_isCreated = false;
+        m_finish = false;
+        for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
+        {
+            m_partyManager.m_charaParty[i].GetComponent<BattleStateMachine>().ChangeIdle();
+        }
     }
 }

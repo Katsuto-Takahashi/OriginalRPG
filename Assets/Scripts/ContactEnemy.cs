@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+using System;
 
 public class ContactEnemy : MonoBehaviour
 {
@@ -13,6 +13,7 @@ public class ContactEnemy : MonoBehaviour
     public int m_enemyID;
     public Vector3 m_contactPosition;
     private float distsnce;
+    public event Action Battle;
 
     void Update()
     {
@@ -49,6 +50,7 @@ public class ContactEnemy : MonoBehaviour
             m_isContact = true;
             m_isBattle = true;
             Destroy(other.gameObject);
+            Battle.Invoke();
         }
     }
 }
