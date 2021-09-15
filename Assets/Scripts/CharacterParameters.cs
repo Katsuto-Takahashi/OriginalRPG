@@ -88,7 +88,7 @@ public class CharacterParameters : MonoBehaviour
     [SerializeField]
     [Range(0, 10000)]
     private int luck;
-    protected int Luck
+    public int Luck
     {
         get { return luck; }
         set { luck = value; }

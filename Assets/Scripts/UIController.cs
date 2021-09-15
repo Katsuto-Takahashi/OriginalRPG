@@ -398,6 +398,5 @@ public class UIController : MonoBehaviour
         m_selectedCommandNumber = 0;
         m_commandList[m_selectedCommandNumber].GetComponent<UIChanger>().SelectedCommandColorChange();
         m_horiCount = 0;
-        Debug.Log(m_commandList[m_selectedCommandNumber].gameObject.activeInHierarchy);
     }
 }

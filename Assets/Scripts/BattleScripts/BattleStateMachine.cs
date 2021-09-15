@@ -56,10 +56,6 @@ public partial class BattleStateMachine : MonoBehaviour
     {
         animator.CrossFadeInFixedTime(stateName, transitionDuration);
     }
-    internal static T GetRandom<T>(params T[] Params)
-    {
-        return Params[Random.Range(0, Params.Length)];
-    }
     void Timer()
     {
         if (m_characterActionCount < 2 && currentState != battleMoveState)

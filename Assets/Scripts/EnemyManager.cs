@@ -74,14 +74,10 @@ public class EnemyManager : MonoBehaviour, ITakableDamage
         {
             HP = enemyParameters.MaxHP;
         }
-        else if (HP < 1)
+        else if (HP <= 0)
         {
             HP = 0;
             IsDeadState = true;
-        }
-        else
-        {
-            IsDeadState = false;
         }
         if (AP >= enemyParameters.MaxAP)
         {

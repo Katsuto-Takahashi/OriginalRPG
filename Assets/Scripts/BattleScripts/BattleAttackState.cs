@@ -9,7 +9,14 @@ public partial class BattleStateMachine : MonoBehaviour
             //攻撃
             //owner.PlayAnimation("Attack");
             //攻撃対象のTakeDamage()を呼ぶ
-            owner.m_targetCharacters[owner.m_targetNumber].GetComponent<EnemyManager>().TakeDamage(owner.battleManager.damageCalculator.DecideEnemyDamege(owner.hasSkillList.m_normalSkill[0].attackType, owner.hasSkillList.m_normalSkill[0].attackAttributes,owner.battleManager.damageCalculator.CalculateNormalDamage(owner.hasSkillList.m_normalSkill[0], owner.m_targetCharacters[owner.m_targetNumber].GetComponent<EnemyManager>().enemyParameters.Defense,owner.GetComponent<CharacterParameterManager>().Strength) ,owner.m_targetCharacters[owner.m_targetNumber].GetComponent<EnemyManager>().enemyParameters));
+            if (owner.CompareTag("Player"))
+            {
+                owner.m_targetCharacters[owner.m_targetNumber].GetComponent<EnemyManager>().TakeDamage(owner.battleManager.Damage(owner.gameObject, owner.m_targetCharacters[owner.m_targetNumber], owner.hasSkillList.m_normalSkill[0]));
+            }
+            else if (owner.CompareTag("Enemy"))
+            {
+                owner.m_targetCharacters[owner.m_targetNumber].GetComponent<CharacterParameterManager>().TakeDamage(owner.battleManager.Damage(owner.gameObject, owner.m_targetCharacters[owner.m_targetNumber], owner.hasSkillList.m_normalSkill[0]));
+            }
         }
 
         public override void OnExit(BattleStateMachine owner)

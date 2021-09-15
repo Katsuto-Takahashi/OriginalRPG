@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    public DamageCalculator damageCalculator = null;
+    [SerializeField] DamageCalculator damageCalculator = null;
     [SerializeField] ContactEnemy contactEnemy = null;
     [SerializeField] EnemyList m_enemyPrefabs = null;
     [SerializeField] PartyManager m_partyManager = null;
@@ -16,6 +16,7 @@ public class BattleManager : MonoBehaviour
     private List<bool> m_characterDeadList = new List<bool>();
     private bool m_isCreated = false;
     private bool m_isChangeState = false;
+    private bool m_isDestry = false;
     private int characterDeadCount = 0;
     private int enemyDeadCount = 0;
 
@@ -38,6 +39,12 @@ public class BattleManager : MonoBehaviour
         {
             m_isChangeState = false;
             contactEnemy.DeleteField();
+            m_isDestry = true;
+            if (m_isDestry && m_enemyParty.Count > 0)
+            {
+                DestryEnemy(1);
+                m_isDestry = false;
+            }
         }
     }
     void CreateEnemy(int num)
@@ -53,6 +60,13 @@ public class BattleManager : MonoBehaviour
             m_battleEnemyList.m_battleEnemys.Add(m_enemyParty[i]);
         }
         m_isCreated = true;
+    }
+    void DestryEnemy(int num)
+    {
+        for (int i = 0; i < num; i++)
+        {
+            Destroy(m_battleEnemyList.m_battleEnemys[i]);
+        }
     }
     void BattleStanby()
     {
@@ -135,5 +149,64 @@ public class BattleManager : MonoBehaviour
             m_enemyParty[i].GetComponent<BattleStateMachine>().m_firstAction = true;
         }
         m_isChangeState = true;
+    }
+    public int Damage(GameObject attacker, GameObject defender, SkillData skillData)
+    {
+        int damage = 0;
+        if (attacker.CompareTag("Player"))
+        {
+            var parameterManager = attacker.GetComponent<CharacterParameterManager>();
+            var enemyParameter = defender.GetComponent<EnemyManager>().enemyParameters;
+            if (skillData.attackType == SkillData.AttackType.physicalAttack)
+            {
+                if (Random.Range(0, 200) > parameterManager.Luck)
+                {
+                    damage = damageCalculator.DecideEnemyDamege(skillData, damageCalculator.CalculateNormalDamage(skillData, enemyParameter.Defense, parameterManager.Strength), enemyParameter);
+                }
+                else
+                {
+                    damage = damageCalculator.DecideEnemyDamege(skillData, damageCalculator.CalculateCriticalDamage(skillData, parameterManager.Strength), enemyParameter);
+                }
+            }
+            else if (skillData.attackType == SkillData.AttackType.magicAttack)
+            {
+                if (Random.Range(0, 200) > parameterManager.Luck)
+                {
+                    damage = damageCalculator.DecideEnemyDamege(skillData, damageCalculator.CalculateNormalDamage(skillData, enemyParameter.MagicResist, parameterManager.MagicPower), enemyParameter);
+                }
+                else
+                {
+                    damage = damageCalculator.DecideEnemyDamege(skillData, damageCalculator.CalculateCriticalDamage(skillData, parameterManager.MagicPower), enemyParameter);
+                }
+            }
+        }
+        else if (attacker.CompareTag("Enemy"))
+        {
+            var enemyParameter = attacker.GetComponent<EnemyManager>().enemyParameters;
+            var parameterManager = defender.GetComponent<CharacterParameterManager>();
+            if (skillData.attackType == SkillData.AttackType.physicalAttack)
+            {
+                if (Random.Range(0, 200) > enemyParameter.Luck)
+                {
+                    damage = damageCalculator.DecidePlayerDamege(damageCalculator.CalculateNormalDamage(skillData, parameterManager.Defense, enemyParameter.Strength));
+                }
+                else
+                {
+                    damage = damageCalculator.DecidePlayerDamege(damageCalculator.CalculateCriticalDamage(skillData, enemyParameter.Strength));
+                }
+            }
+            else if (skillData.attackType == SkillData.AttackType.magicAttack)
+            {
+                if (Random.Range(0, 200) > enemyParameter.Luck)
+                {
+                    damage = damageCalculator.DecidePlayerDamege(damageCalculator.CalculateNormalDamage(skillData, parameterManager.MagicResist, enemyParameter.MagicPower));
+                }
+                else
+                {
+                    damage = damageCalculator.DecidePlayerDamege(damageCalculator.CalculateCriticalDamage(skillData, enemyParameter.MagicPower));
+                }
+            }
+        }
+        return damage;
     }
 }

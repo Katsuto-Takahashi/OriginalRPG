@@ -40,7 +40,7 @@ public class DamageCalculator : MonoBehaviour
     /// <param name="damage">ダメージの計算結果</param>
     /// <param name="enemy">敵のパラメータ</param>
     /// <returns>キャラクターが敵に与えるダメージ</returns>
-    public int DecideEnemyDamege(SkillData.AttackType attackType, SkillData.AttackAttributes attributes, int damage, EnemyParameters enemy)
+    public int DecideEnemyDamege(SkillData skillData, int damage, EnemyParameters enemy)
     {
         if (damage <= 0)
         {
@@ -52,16 +52,16 @@ public class DamageCalculator : MonoBehaviour
         }
         if (decideDamege != 0)
         {
-            if ((int)(decideDamege * enemy.attackTypeResistance[(int)attackType]) != 0)
+            if ((int)(decideDamege * enemy.attackTypeResistance[(int)skillData.attackType]) != 0)
             {
-                decideDamege = (int)(decideDamege * enemy.attackTypeResistance[(int)attackType]);
+                decideDamege = (int)(decideDamege * enemy.attackTypeResistance[(int)skillData.attackType]);
             }
         }
         if (decideDamege != 0)
         {
-            if ((int)(decideDamege * enemy.attackAttributeResistance[(int)attributes]) != 0)
+            if ((int)(decideDamege * enemy.attackAttributeResistance[(int)skillData.attackAttributes]) != 0)
             {
-                decideDamege = (int)(decideDamege * enemy.attackAttributeResistance[(int)attributes]);
+                decideDamege = (int)(decideDamege * enemy.attackAttributeResistance[(int)skillData.attackAttributes]);
             }
         }
         return decideDamege;

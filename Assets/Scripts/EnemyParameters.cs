@@ -80,7 +80,7 @@ public class EnemyParameters : ScriptableObject
     [SerializeField]
     [Range(0, 10000)]
     private int luck = 0;
-    protected int Luck
+    public int Luck
     {
         get { return luck; }
         set { luck = value; }
