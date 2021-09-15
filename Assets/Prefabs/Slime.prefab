@@ -478,8 +478,7 @@ GameObject:
   - component: {fileID: 6722998763772854090}
   - component: {fileID: 528473566}
   - component: {fileID: 912346318}
-  - component: {fileID: 1692295632}
-  - component: {fileID: 1692295633}
+  - component: {fileID: 4975218352625791097}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
@@ -568,50 +567,28 @@ MonoBehaviour:
   m_battlePanel: {fileID: 0}
   playerControllerCC: {fileID: 0}
   playerControllerRB: {fileID: 0}
+  m_moveSpeed: 10
   m_actionTimer: 0
   m_battle: 0
   m_action: 0
-  m_currentPosition: {x: 0, y: 0, z: 0}
   m_targetCharacters: []
   m_targetNumber: 0
   m_firstAction: 0
---- !u!195 &1692295632
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6722241011771852990}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 10
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 200
-  m_StoppingDistance: 1
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &1692295633
+--- !u!114 &4975218352625791097
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6722241011771852990}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c880e05fd7a6801418aa32857fe1ea42, type: 3}
+  m_Script: {fileID: 11500000, guid: 844fb6f2508cee94db89c7876b66e409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_naviTarget: {fileID: 0}
-  m_navMesh: {fileID: 1692295632}
-  restart: 0
+  m_normalSkill:
+  - {fileID: 11400000, guid: 408cb59764b74164ea227dc67d4a20ae, type: 2}
+  m_skillDatas: []
 --- !u!1 &6722446595711228746
 GameObject:
   m_ObjectHideFlags: 0
