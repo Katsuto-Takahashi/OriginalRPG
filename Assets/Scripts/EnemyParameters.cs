@@ -41,7 +41,7 @@ public class EnemyParameters : ScriptableObject
         set { maxAP = value; }
     }
     /// <summary>敵キャラクターの物理攻撃力</summary>
-    /// [SerializeField]
+    [SerializeField]
     [Range(1, 10000)]
     private int strength = 1;
     public int Strength
