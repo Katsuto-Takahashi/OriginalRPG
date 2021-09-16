@@ -6,24 +6,23 @@ public partial class BattleStateMachine : MonoBehaviour
     {
         public override void OnEnter(BattleStateMachine owner)
         {
+            if (owner.CompareTag("Enemy"))
+            {
+                owner.PlayAnimation("Idle");
+            }
+            else if (owner.CompareTag("Player"))
+            {
+                owner.PlayAnimation("Idle");
+            }
             if (owner.m_battle)
             {
+                if (owner.CompareTag("Enemy"))
+                {
+                    Debug.Log("action");
+                    owner.m_action = true;
+                }
                 owner.m_countTimer = owner.m_actionTimer;
-                //owner.PlayAnimation("Idle");
-            }
-            if (owner.m_firstAction)
-            {
-                Debug.Log(owner.name + "はじめ");
-                //if (owner.CompareTag("Enemy"))
-                //{
-                //    owner.m_countTimer = owner.m_actionTimer;
-                //}
-                //else if (owner.CompareTag("Player"))
-                //{
-                //    owner.m_countTimer = 0f;
-                //}
-                owner.m_firstAction = false;
-            }
+            }         
         }
 
         public override void OnExit(BattleStateMachine owner)
@@ -47,6 +46,23 @@ public partial class BattleStateMachine : MonoBehaviour
                         owner.m_characterActionCount++;
                         owner.ChangeState(owner.battleWaitActionState);
                     }
+                }
+            }
+            else
+            {
+                if (owner.m_firstAction)
+                {
+                    Debug.Log(owner.name + "はじめ");
+                    if (owner.CompareTag("Enemy"))
+                    {
+                        owner.m_countTimer = owner.m_actionTimer;
+                        owner.m_action = true;
+                    }
+                    else if (owner.CompareTag("Player"))
+                    {
+                        owner.m_countTimer = 0f;
+                    }
+                    owner.m_firstAction = false;
                 }
             }
         }

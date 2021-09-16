@@ -6,7 +6,14 @@ public partial class BattleStateMachine : MonoBehaviour
     {
         public override void OnEnter(BattleStateMachine owner)
         {
-            //owner.PlayAnimation("Move");
+            if (owner.CompareTag("Enemy"))
+            {
+                owner.PlayAnimation("Move");
+            }
+            else if (owner.CompareTag("Player"))
+            {
+                owner.PlayAnimation("Move");
+            }
             if (owner.CompareTag("Player"))
             {
                 if (owner.playerControllerCC)

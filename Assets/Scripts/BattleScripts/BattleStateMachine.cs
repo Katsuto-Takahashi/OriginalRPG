@@ -28,18 +28,19 @@ public partial class BattleStateMachine : MonoBehaviour
     BattleMoveState battleMoveState = new BattleMoveState();
     BattleAttackState battleAttackState = new BattleAttackState();
 
-    Animator animator;
-    HasSkillList hasSkillList;
+    [SerializeField] Animator animator = null;
+    [SerializeField] HasSkillList hasSkillList = null;
     BattleManager battleManager;
     void OnEnable()
     {
+        m_characterActionCount = 0;
         ChangeState(battleIdleState);
     }
     void Start()
     {
         battleManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<BattleManager>();
-        animator = GetComponent<Animator>();
-        hasSkillList = GetComponent<HasSkillList>();
+        //animator = GetComponent<Animator>();
+        //hasSkillList = GetComponent<HasSkillList>();
     }
 
     void Update()
@@ -58,6 +59,14 @@ public partial class BattleStateMachine : MonoBehaviour
     {
         animator.CrossFadeInFixedTime(stateName, transitionDuration);
     }
+    //void PlayPlayerAnimation(string stateName, float transitionDuration = 0.1f)
+    //{
+    //    animator.CrossFadeInFixedTime(stateName, transitionDuration);
+    //}
+    //void PlayEnemyAnimation(string stateName, float transitionDuration = 0.1f)
+    //{
+    //    animator.CrossFadeInFixedTime(stateName, transitionDuration);
+    //}
     void Timer()
     {
         if (m_characterActionCount < 2 && currentState != battleMoveState)

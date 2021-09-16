@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using UniRx;
 
 public class CharacterParameters : MonoBehaviour
 {
@@ -12,6 +13,12 @@ public class CharacterParameters : MonoBehaviour
         get { return characterName; }
         set { characterName = value;} 
     }
+
+    //[SerializeField]
+    //protected IntReactiveProperty testHp = new IntReactiveProperty(1000); 
+
+    //public IReadOnlyReactiveProperty<int> TestHP => testHp; 
+
     /// <summary>キャラクターの最大HP</summary>
     [SerializeField]
     [Range(1, 10000)]

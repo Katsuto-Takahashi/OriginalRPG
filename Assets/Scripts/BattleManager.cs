@@ -68,7 +68,7 @@ public class BattleManager : MonoBehaviour
     }
     float Timer(int speed)
     {
-        return (100 - speed) / 10f;
+        return (1000 - speed) / 100f;
     }
     void WinnerChack()
     {
@@ -128,8 +128,8 @@ public class BattleManager : MonoBehaviour
             var e = m_enemyParty[i]?.GetComponent<BattleStateMachine>();
             if (e != null)
             {
-                e.m_battle = true;
                 e.m_firstAction = true;
+                e.m_battle = true;
             }
         }
         m_isChangeState = true;

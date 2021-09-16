@@ -26,6 +26,7 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
     [SerializeField]
     private bool isDeadState = false;
     public bool IsDeadState { get => isDeadState; set => isDeadState = value; }
+    [SerializeField] HPAndAPDisplay m_UIDisplay = null;
 
     void Start()
     {
@@ -60,6 +61,7 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
     public virtual void TakeDamage(int damage)
     {
         NowHP -= damage;
+        m_UIDisplay.ChangeUI();
     }
     private void LevelUp()
     {

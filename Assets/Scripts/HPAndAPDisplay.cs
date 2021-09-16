@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using UniRx;
 
 public class HPAndAPDisplay : MonoBehaviour
 {
     [SerializeField] PartyManager m_partyManager = null;
     [SerializeField] private bool m_isDisplay = false;
     [SerializeField] GameObject m_gameObject = null;
+
+    //[SerializeField] CharacterParameters m_characterParameters;
+
     private GameObject m_ui;
     private List<GameObject> m_gameObjects = new List<GameObject>();
     private int m_memberNumber = 1;
@@ -23,6 +27,7 @@ public class HPAndAPDisplay : MonoBehaviour
             m_ui.transform.SetParent(this.transform, false);
             m_gameObjects.Add(m_ui);
             m_parameters.Add(m_partyManager.m_charaParty[i].GetComponent<CharacterParameterManager>());
+            //m_parameters[i].TestHP.Subscribe(_ => ChangeUI());
         }
     }
 
@@ -91,6 +96,7 @@ public class HPAndAPDisplay : MonoBehaviour
                 m_parameters[i].MaxHP,
                 m_parameters[i].NowAP,
                 m_parameters[i].MaxAP);
+            //m_parameters[i].TestHP.Subscribe(_ => ChangeUI());
         }
     }
     public void ChangeUI()
