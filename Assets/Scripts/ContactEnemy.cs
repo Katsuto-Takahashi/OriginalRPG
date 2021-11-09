@@ -7,22 +7,29 @@ public class ContactEnemy : MonoBehaviour
 {
     [SerializeField] GameObject m_battleFeildPrefab = null;
     private GameObject m_battleFeild;
-    public bool m_isContact = false;
-    public bool m_isBattle = false;
-    public int m_enemyParty;
-    public int m_enemyID;
-    public Vector3 m_contactPosition;
-    private float distsnce;
+    private bool m_isContact = false;
+    private bool m_isBattle = false;
+    private int m_enemyParty;
+    private int m_enemyID;
+    private Vector3 m_contactPosition;
+    private float m_distsnce;
+
+    public Vector3 ContactPosition { get => m_contactPosition; set => m_contactPosition = value; }
+    public int EnemyID { get => m_enemyID; set => m_enemyID = value; }
+    public int EnemyParty { get => m_enemyParty; set => m_enemyParty = value; }
+    public bool IsBattle { get => m_isBattle; set => m_isBattle = value; }
+    public bool IsContact { get => m_isContact; set => m_isContact = value; }
+
     public event Action Battle;
 
     void Update()
     {
-        if (m_isContact)
+        if (IsContact)
         {
-            distsnce = (m_contactPosition.x - transform.position.x) * (m_contactPosition.x - transform.position.x) + (m_contactPosition.z - transform.position.z) * (m_contactPosition.z - transform.position.z);
-            if (Mathf.Sqrt(distsnce) > 15f)
+            m_distsnce = (ContactPosition.x - transform.position.x) * (ContactPosition.x - transform.position.x) + (ContactPosition.z - transform.position.z) * (ContactPosition.z - transform.position.z);
+            if (Mathf.Sqrt(m_distsnce) > 15f)
             {
-                m_isBattle = false;
+                IsBattle = false;
                 DeleteField();
             }
         }
@@ -35,20 +42,20 @@ public class ContactEnemy : MonoBehaviour
     public void DeleteField()
     {
         Destroy(m_battleFeild);
-        m_isContact = false;
-        m_contactPosition = Vector3.zero;
-        distsnce = 0f;
+        IsContact = false;
+        ContactPosition = Vector3.zero;
+        m_distsnce = 0f;
     }
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy") && !m_isContact)
+        if (other.gameObject.CompareTag("Enemy") && !IsContact)
         {
-            m_contactPosition = other.transform.position;
+            ContactPosition = other.transform.position;
             CreateField(other);
-            m_enemyParty = other.gameObject.GetComponent<EnemyManager>().enemyParameters.EnemyPartyNumber;
-            m_enemyID = other.gameObject.GetComponent<EnemyManager>().enemyParameters.EnemyCharacterID;
-            m_isContact = true;
-            m_isBattle = true;
+            EnemyParty = other.gameObject.GetComponent<EnemyManager>().EnemyParameters.EnemyPartyNumber;
+            EnemyID = other.gameObject.GetComponent<EnemyManager>().EnemyParameters.EnemyCharacterID;
+            IsContact = true;
+            IsBattle = true;
             Destroy(other.gameObject);
             Battle.Invoke();
         }

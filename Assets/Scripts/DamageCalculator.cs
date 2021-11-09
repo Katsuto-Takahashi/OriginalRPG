@@ -8,7 +8,7 @@ public class DamageCalculator : MonoBehaviour
     private readonly float[] criticalDamegeRandam = new float[] { 0.95f, 0.96f, 0.97f, 0.98f, 0.99f, 1.00f, 1.01f, 1.02f, 1.03f, 1.04f, 1.05f};
     private readonly int[] minDamage = new int[] { 0, 1 };
     private int decideDamege;
-    internal static T GetRandom<T>(params T[] Params)
+    internal T GetRandom<T>(params T[] Params)
     {
         return Params[Random.Range(0, Params.Length)];
     }
@@ -35,8 +35,7 @@ public class DamageCalculator : MonoBehaviour
         return (int)criticalDamege;
     }
     /// <summary>キャラクターが敵に与えるダメージの決定</summary>
-    /// <param name="attackType">技の攻撃のタイプ</param>
-    /// <param name="attributes">技の属性</param>
+    /// <param name="skillData">技データ</param>
     /// <param name="damage">ダメージの計算結果</param>
     /// <param name="enemy">敵のパラメータ</param>
     /// <returns>キャラクターが敵に与えるダメージ</returns>

@@ -6,18 +6,16 @@ using UnityEngine;
 public class HPAndAPDisplay : MonoBehaviour
 {
     [SerializeField] PartyManager m_partyManager = null;
-    [SerializeField] private bool m_isDisplay = false;
+    [SerializeField] bool m_isDisplay = false;
     [SerializeField] GameObject m_gameObject = null;
 
-    //[SerializeField] CharacterParameters m_characterParameters;
+    GameObject m_ui;
+    List<GameObject> m_gameObjects = new List<GameObject>();
+    int m_memberNumber = 1;
+    int m_beforeMemberNumber;
+    List<CharacterParameterManager> m_parameters = new List<CharacterParameterManager>();
 
-    private GameObject m_ui;
-    private List<GameObject> m_gameObjects = new List<GameObject>();
-    private int m_memberNumber = 1;
-    private int m_beforeMemberNumber;
-    private List<CharacterParameterManager> m_parameters = new List<CharacterParameterManager>();
-
-    private void Awake()
+    void Awake()
     {
         m_memberNumber = m_partyManager.m_charaParty.Count;
         m_beforeMemberNumber = m_memberNumber;
@@ -27,15 +25,12 @@ public class HPAndAPDisplay : MonoBehaviour
             m_ui.transform.SetParent(this.transform, false);
             m_gameObjects.Add(m_ui);
             m_parameters.Add(m_partyManager.m_charaParty[i].GetComponent<CharacterParameterManager>());
-            //m_parameters[i].TestHP.Subscribe(_ => ChangeUI());
         }
     }
-
     void Start()
     {
         CreateUI();
     }
-
     void Update()
     {
         m_memberNumber = m_partyManager.m_charaParty.Count;
@@ -81,7 +76,6 @@ public class HPAndAPDisplay : MonoBehaviour
             }
         }
     }
-
     void CreateUI()
     {
         for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
@@ -96,7 +90,6 @@ public class HPAndAPDisplay : MonoBehaviour
                 m_parameters[i].MaxHP,
                 m_parameters[i].NowAP,
                 m_parameters[i].MaxAP);
-            //m_parameters[i].TestHP.Subscribe(_ => ChangeUI());
         }
     }
     public void ChangeUI()

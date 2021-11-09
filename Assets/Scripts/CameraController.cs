@@ -6,7 +6,7 @@ using Cinemachine;
 public class CameraController : MonoBehaviour
 {
     /// <summary>視点をリセットする際のpositionの目安</summary>
-    public Transform m_resetLookPosition;
+    [SerializeField] Transform m_resetLookPosition = null;
     /// <summary>CinemachineFreeLookのコンポーネント</summary>
     CinemachineFreeLook m_freeLookCamera;
     /// <summary>カメラが目標に動いているかどうか</summary>
@@ -20,6 +20,8 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         m_freeLookCamera = GetComponent<CinemachineFreeLook>();
     }
 
@@ -28,7 +30,6 @@ public class CameraController : MonoBehaviour
         if (Input.GetButtonDown("Rstickbutton"))
         {
             ResetCameraDirection(m_resetLookPosition.position);
-            Debug.Log("Rstickbutton");
         }
 
         if (m_isMoved)

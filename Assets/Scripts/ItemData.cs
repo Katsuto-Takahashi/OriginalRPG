@@ -5,62 +5,27 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemData", menuName = "ItemData")]
 public class ItemData : ScriptableObject
 {
-    /// <summary>アイテムの名前</summary>
-    [SerializeField]
-    private string itemName;
-    public string ItemName
-    {
-        get { return itemName; }
-        set { itemName = value; }
-    }
-    /// <summary>アイテムID</summary>
-    [SerializeField]
-    [Range(0, 10000)] private int itemID;
-    public int ItemID
-    {
-        get { return itemID; }
-        private set { itemID = value; }
-    }
-    /// <summary>アイテムレア度</summary>
-    [SerializeField]
-    [Range(0, 10)] private int itemRarity;
-    public int ItemRarity
-    {
-        get { return itemRarity; }
-        private set { itemRarity = value; }
-    }
-    /// <summary>アイテムの効果値</summary>
-    [SerializeField] 
-    [Range(0, 1000)] private int itemEffectValue;
-    public int ItemEffectValue
-    {
-        get { return itemEffectValue; }
-        private set { itemEffectValue = value; }
-    }
-    /// <summary>アイテムのサブ効果値</summary>
-    [SerializeField]
-    [Range(0, 1000)] private int itemSubEffectValue;
-    public int ItemSubEffectValue
-    {
-        get { return itemSubEffectValue; }
-        private set { itemSubEffectValue = value; }
-    }
-    /// <summary>アイテムの売値</summary>
-    [SerializeField] 
-    [Range(0, 10000)] private int sellingPrice;
-    public int SellingPrice
-    {
-        get { return sellingPrice; }
-        private set { sellingPrice = value; }
-    }
-    /// <summary>アイテムの買値</summary>
-    [SerializeField] 
-    [Range(0, 10000)] private int bidPrice;
-    public int BidPrice
-    {
-        get { return bidPrice; }
-        private set { bidPrice = value; }
-    }
+    [SerializeField, Tooltip("アイテムの名前")]
+    string itemName = "";
+    public string ItemName { get => itemName; }
+    [SerializeField, Tooltip("アイテムID"), Range(0, 10000)]
+    int itemID = 0;
+    public int ItemID { get => itemID; }
+    [SerializeField, Tooltip("アイテムレア度"), Range(0, 10)]
+    int itemRarity = 0;
+    public int ItemRarity { get => itemRarity; }
+    [SerializeField, Tooltip("アイテムの効果値"), Range(0, 1000)]
+    int itemEffectValue = 0;
+    public int ItemEffectValue { get => itemEffectValue; }
+    [SerializeField, Tooltip("アイテムのサブ効果値"), Range(0, 1000)]
+    int itemSubEffectValue = 0;
+    public int ItemSubEffectValue { get => itemSubEffectValue; }
+    [SerializeField, Tooltip("アイテムの売値"), Range(0, 10000)]
+    int sellingPrice = 0;
+    public int SellingPrice { get => sellingPrice; }
+    [SerializeField, Tooltip("アイテムの買値"), Range(0, 10000)]
+    int bidPrice = 0;
+    public int BidPrice { get => bidPrice; }
     public enum ItemAttributes
     {
         HitPointRecovery,
@@ -70,14 +35,9 @@ public class ItemData : ScriptableObject
         magicalWeapon,
         magicalArmor
     }
-    /// <summary>アイテムの属性</summary>
+    [Tooltip("アイテムの属性")]
     public ItemAttributes itemAttributes;
-    /// <summary>アイテムの情報</summary>
-    [SerializeField]
-    private string itemInformation;
-    public string ItemInformation
-    {
-        get { return itemInformation; }
-        set { itemInformation = value; }
-    }
+    [SerializeField, Tooltip("アイテムの情報")]
+    string itemInformation = "";
+    public string ItemInformation { get => itemInformation; }
 }

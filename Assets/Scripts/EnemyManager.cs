@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour, ITakableDamage
 {
-    public EnemyParameters enemyParameters = null;
+    [SerializeField] EnemyParameters m_enemyParameters = null;
+    public EnemyParameters EnemyParameters { get => m_enemyParameters;private set => m_enemyParameters = value; }
     //　毒状態かどうか
     [SerializeField]
     private bool isPoisonState = false;
@@ -40,48 +41,48 @@ public class EnemyManager : MonoBehaviour, ITakableDamage
     public EnemyState enemyState = EnemyState.Idle;
     void Start()
     {
-        HP = enemyParameters.MaxHP;
-        AP = enemyParameters.MaxAP;
-        for (int i = 0; i < enemyParameters.attackAttributeResistance.Length; i++)
+        HP = EnemyParameters.MaxHP;
+        AP = EnemyParameters.MaxAP;
+        for (int i = 0; i < EnemyParameters.attackAttributeResistance.Length; i++)
         {
-            enemyParameters.attackAttributeResistance[i] = float.Parse(enemyParameters.attackAttributeResistance[i].ToString("f1"));
-            if (enemyParameters.attackAttributeResistance[i] <= 0.0f)
+            EnemyParameters.attackAttributeResistance[i] = float.Parse(EnemyParameters.attackAttributeResistance[i].ToString("f1"));
+            if (EnemyParameters.attackAttributeResistance[i] <= 0.0f)
             {
-                enemyParameters.attackAttributeResistance[i] = 0.0f;
+                EnemyParameters.attackAttributeResistance[i] = 0.0f;
             }
-            else if (enemyParameters.attackAttributeResistance[i] >= 2.0f)
+            else if (EnemyParameters.attackAttributeResistance[i] >= 2.0f)
             {
-                enemyParameters.attackAttributeResistance[i] = 2.0f;
+                EnemyParameters.attackAttributeResistance[i] = 2.0f;
             }
         }
-        for (int i = 0; i < enemyParameters.attackTypeResistance.Length; i++)
+        for (int i = 0; i < EnemyParameters.attackTypeResistance.Length; i++)
         {
-            enemyParameters.attackTypeResistance[i] = float.Parse(enemyParameters.attackTypeResistance[i].ToString("f1"));
-            if (enemyParameters.attackTypeResistance[i] <= 0.0f)
+            EnemyParameters.attackTypeResistance[i] = float.Parse(EnemyParameters.attackTypeResistance[i].ToString("f1"));
+            if (EnemyParameters.attackTypeResistance[i] <= 0.0f)
             {
-                enemyParameters.attackTypeResistance[i] = 0.0f;
+                EnemyParameters.attackTypeResistance[i] = 0.0f;
             }
-            else if (enemyParameters.attackTypeResistance[i] >= 2.0f)
+            else if (EnemyParameters.attackTypeResistance[i] >= 2.0f)
             {
-                enemyParameters.attackTypeResistance[i] = 2.0f;
+                EnemyParameters.attackTypeResistance[i] = 2.0f;
             }
         }
     }
 
     void Update()
     {
-        if (HP >= enemyParameters.MaxHP)
+        if (HP >= EnemyParameters.MaxHP)
         {
-            HP = enemyParameters.MaxHP;
+            HP = EnemyParameters.MaxHP;
         }
         else if (HP <= 0)
         {
             HP = 0;
             IsDeadState = true;
         }
-        if (AP >= enemyParameters.MaxAP)
+        if (AP >= EnemyParameters.MaxAP)
         {
-            AP = enemyParameters.MaxAP;
+            AP = EnemyParameters.MaxAP;
         }
         else if (AP < 1)
         {

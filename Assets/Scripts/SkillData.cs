@@ -5,37 +5,27 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SkillData", menuName = "SkillData")]
 public class SkillData : ScriptableObject
 {
-    /// <summary>スキルの名前</summary>
-    [SerializeField]
-    private string skillName;
-    public string SkillName
-    {
-        get { return skillName; }
-        set { skillName = value; }
-    }
-    /// <summary>スキルの情報</summary>
-    [SerializeField]
-    private string skillInformation;
-    public string SkillInformation
-    {
-        get { return skillInformation; }
-        set { skillInformation = value; }
-    }
+    [SerializeField, Tooltip("スキルの名前")]
+    string skillName = "";
+    public string SkillName { get => skillName; }
+    [SerializeField, Tooltip("スキルの情報")]
+    string skillInformation = "";
+    public string SkillInformation { get => skillInformation; }
     /// <summary>スキルの威力</summary>
-    [SerializeField]
-    [Range(0, 1000)] private int skillPower = default;
+    [SerializeField, Tooltip("スキルの威力"), Range(0, 1000)]
+    int skillPower = 0;
     public int SkillPower { get => skillPower; }
     /// <summary>スキル倍率</summary>
-    [SerializeField]
-    [Range(0.0f, 2.0f)] private float skillMagnification = default;
+    [SerializeField, Tooltip("スキル倍率"), Range(0.0f, 2.0f)]
+    float skillMagnification = 0.0f;
     public float SkillMagnification { get => skillMagnification; }
     /// <summary>必要AP</summary>
-    [SerializeField]
-    [Range(1,1000)] private int requiredAP = default;
+    [SerializeField, Tooltip("必要AP"), Range(1, 1000)]
+    int requiredAP = 1;
     public int RequiredAP { get => requiredAP; }
     /// <summary>攻撃の範囲</summary>
-    [SerializeField]
-    [Range(1, 15)] private int attackRange = default;
+    [SerializeField, Tooltip("攻撃の範囲"), Range(1, 15)]
+    int attackRange = 1;
     public int AttackRange { get => attackRange; }
     public enum AttackAttributes
     {
@@ -49,7 +39,7 @@ public class SkillData : ScriptableObject
         dark,
         light
     }
-    /// <summary>攻撃の属性</summary>
+    [Tooltip("攻撃の属性")]
     public AttackAttributes attackAttributes;
 
     public enum AttackType
@@ -57,6 +47,6 @@ public class SkillData : ScriptableObject
         physicalAttack,
         magicAttack
     }
-    /// <summary>攻撃のタイプ</summary>
+    [Tooltip("攻撃のタイプ")]
     public AttackType attackType;
 }

@@ -5,27 +5,29 @@ using System;
 
 public class CharacterParameterManager : CharacterParameters, ITakableDamage
 {
-    private int nextExp = 0;
-    private float levelCorrection = 4.8f;
+    int nextExp = 0;
+    float levelCorrection = 4.8f;
     //int baseParameter = 0;
     ////　装備している武器
     //[SerializeField]
-    //private ItemData equipWeapon = null;
+    //ItemData equipWeapon = null;
     ////　装備している鎧
     //[SerializeField]
-    //private ItemData equipArmor = null;
+    //ItemData equipArmor = null;
     //　毒状態かどうか
     [SerializeField]
-    private bool isPoisonState = false;
+    bool isPoisonState = false;
     public bool IsPoisonState { get => isPoisonState; set => isPoisonState = value; }
     //　痺れ状態かどうか
     [SerializeField]
-    private bool isNumbnessState = false;
+    bool isNumbnessState = false;
     public bool IsNumbnessState { get => isNumbnessState; set => isNumbnessState = value; }
     //　HPがあるかどうか
     [SerializeField]
-    private bool isDeadState = false;
+    bool isDeadState = false;
     public bool IsDeadState { get => isDeadState; set => isDeadState = value; }
+    bool levelUP = false;
+    public bool LevelUP { get => levelUP; set => levelUP = value; }
     [SerializeField] HPAndAPDisplay m_UIDisplay = null;
 
     void Start()
@@ -61,17 +63,24 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
     public virtual void TakeDamage(int damage)
     {
         NowHP -= damage;
+        if (NowHP < 1)
+        {
+            NowHP = 0;
+        }
         m_UIDisplay.ChangeUI();
     }
-    private void LevelUp()
+    void LevelUp()
     {
+        LevelUP = true;
         Level++;
         CalculateExp(Level);
+        ParameterUp(Level);
+        m_UIDisplay.ChangeUI();
     }
-    public void GetExp(EnemyParameters enemyParameters)
+    public void GetExp(int Exp)
     {
-        CharacterExp += enemyParameters.ExperiencePoint;
-        CharacterTotalExp += enemyParameters.ExperiencePoint;
+        CharacterExp += Exp;
+        CharacterTotalExp += Exp;
         if (CharacterNextExp - CharacterExp <= 0)
         {
             nextExp = CharacterNextExp - CharacterExp;
@@ -83,7 +92,7 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
             }
         }
     }
-    private void CalculateExp(int level)
+    void CalculateExp(int level)
     {
         if (level % 10 == 0)
         {
@@ -97,6 +106,21 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
         {
             CharacterNextExp = (int)((level * level * 0.07 * (level - 10) + level * 2) * levelCorrection);
         }
+    }
+    void ParameterUp(int level)
+    {
+        int baseParameter = level % 5 + 1;
+        MaxHP += baseParameter;
+        NowHP += baseParameter;
+        MaxAP += baseParameter;
+        NowAP += baseParameter;
+        Strength += baseParameter;
+        Defense += baseParameter;
+        MagicPower += baseParameter;
+        MagicResist += baseParameter;
+        Speed += baseParameter;
+        Luck++;
+        SkillPoint += baseParameter;
     }
     //private int BuffChange(int parameter)
     //{

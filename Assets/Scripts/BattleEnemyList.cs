@@ -6,18 +6,59 @@ using UnityEngine.UI;
 public class BattleEnemyList : MonoBehaviour
 {
     [SerializeField] List<GameObject> m_target = new List<GameObject>();
-    public List<GameObject> m_battleEnemys = new List<GameObject>();
+    List<GameObject> m_battleEnemys = new List<GameObject>();
+    bool target = false;
+    
     void Start()
+    {
+        CreateTarget();
+    }
+    void Update()
+    {
+        if (target)
+        {
+            CreateTarget();
+            target = false;
+        }
+    }
+    public void SetEnemy(List<Image> images)
+    {
+        images.Clear();
+        for (int i = 0; i < m_battleEnemys.Count; i++)
+        {
+            images.Add(m_target[i].GetComponent<Image>());
+        }
+    }
+    void CreateTarget()
     {
         for (int i = 0; i < m_battleEnemys.Count; i++)
         {
-            m_target[i].GetComponentInChildren<CharacterParameterUI>().CreateName(m_battleEnemys[i].GetComponent<EnemyManager>().enemyParameters.EnemyCharacterName);
+            var ui = m_target[i].GetComponent<CharacterParameterUI>();
+            if (m_battleEnemys.Count > 1)
+            {
+                ui.CreateName($"{m_battleEnemys[i].GetComponent<EnemyManager>().EnemyParameters.EnemyCharacterName}" + $"{i + 1}");
+            }
+            else
+            {
+                ui.CreateName(m_battleEnemys[i].GetComponent<EnemyManager>().EnemyParameters.EnemyCharacterName);
+            }
             m_target[i].SetActive(true);
         }
     }
-
-    void Update()
+    public void ChengeBool()
     {
-        
+        target = true;
+    }
+    public void AddEnemyList(GameObject enemy)
+    {
+        m_battleEnemys.Add(enemy);
+    }
+    public void ClearEnemyList()
+    {
+        for (int i = 0; i < m_target.Count; i++)
+        {
+            m_target[i].SetActive(false);
+        }
+        m_battleEnemys.Clear();
     }
 }
