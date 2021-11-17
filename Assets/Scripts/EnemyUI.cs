@@ -23,6 +23,11 @@ public class EnemyUI : MonoBehaviour
     void Update()
     {
         m_rectTransform.LookAt(Camera.main.transform);
+        ChangeColor();
+    }
+
+    void ChangeColor()
+    {
         if (m_enemyManager.HP / (float)m_enemyManager.EnemyParameters.MaxHP < 0.7f)
         {
             if (m_enemyManager.HP / (float)m_enemyManager.EnemyParameters.MaxHP < 0.35f)
@@ -46,6 +51,7 @@ public class EnemyUI : MonoBehaviour
             m_text.color = new Color(0, 255, 0);
         }
     }
+
     public void ChangeName(string enemyName)
     {
         if (m_text == null)

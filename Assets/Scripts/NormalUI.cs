@@ -8,12 +8,19 @@ public class NormalUI : UIController
     {
         base.StartSet();
     }
+
     protected override void OnUpdate()
     {
         base.OnUpdate();
     }
+
     protected override void GoToZero()
     {
         base.GoToZero();
+    }
+
+    protected override void CommandSelectedAction()
+    {
+
     }
 }

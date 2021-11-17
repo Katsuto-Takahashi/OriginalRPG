@@ -6,102 +6,50 @@ using UnityEngine;
 public class EnemyParameters : ScriptableObject
 {
     [SerializeField, Tooltip("敵キャラクターの名前")]
-    private string enemyCharacterName;
-    public string EnemyCharacterName
-    {
-        get { return enemyCharacterName; }
-        private set { enemyCharacterName = value; }
-    }
+    private string enemyCharacterName = "";
+    public string EnemyCharacterName => enemyCharacterName;
     [SerializeField, Tooltip("敵キャラクターのID"), Range(1, 10000)]
     private int enemyCharacterID = 1;
-    public int EnemyCharacterID
-    {
-        get { return enemyCharacterID; }
-        private set { enemyCharacterID = value; }
-    }
+    public int EnemyCharacterID => enemyCharacterID;
     [SerializeField, Tooltip("敵キャラクターの最大HP"), Range(1, 10000)]
     private int maxHP = 1;
-    public int MaxHP
-    {
-        get { return maxHP; }
-        private set { maxHP = value; }
-    }
+    public int MaxHP => maxHP;
     [SerializeField, Tooltip("敵キャラクターの最大AP"), Range(0, 10000)]
     private int maxAP = 0;
-    public int MaxAP
-    {
-        get { return maxAP; }
-        private set { maxAP = value; }
-    }
+    public int MaxAP => maxAP;
     [SerializeField, Tooltip("敵キャラクターの物理攻撃力"), Range(1, 10000)]
     private int strength = 1;
-    public int Strength
-    {
-        get { return strength; }
-        private set { strength = value; }
-    }
+    public int Strength => strength;
     [SerializeField, Tooltip("敵キャラクターの物理防御力"), Range(1, 10000)]
     private int defense = 1;
-    public int Defense
-    {
-        get { return defense; }
-        private set { defense = value; }
-    }
+    public int Defense => defense;
     [SerializeField, Tooltip("敵キャラクターの魔法攻撃力"), Range(1, 10000)]
     private int magicPower = 1;
-    public int MagicPower
-    {
-        get { return magicPower; }
-        private set { magicPower = value; }
-    }
+    public int MagicPower => magicPower;
     [SerializeField, Tooltip("敵キャラクターの魔法防御力"), Range(1, 10000)]
     private int magicResist = 1;
-    public int MagicResist
-    {
-        get { return magicResist; }
-        private set { magicResist = value; }
-    }
+    public int MagicResist => magicResist;
     [SerializeField, Tooltip("敵キャラクターの運"), Range(0, 10000)]
     private int luck = 0;
-    public int Luck
-    {
-        get { return luck; }
-        private set { luck = value; }
-    }
+    public int Luck => luck;
     [SerializeField, Tooltip("敵キャラクターの速さ"), Range(1, 10000)]
     private int speed = 1;
-    public int Speed
-    {
-        get { return speed; }
-        private set { speed = value; }
-    }
+    public int Speed=> speed;
     [SerializeField, Tooltip("敵キャラクターの一つ目のドロップアイテム")]
-    private GameObject firstDropItem;
-    public GameObject FirstDropItem { get => firstDropItem; private set => firstDropItem = value; }
+    private GameObject firstDropItem = null;
+    public GameObject FirstDropItem => firstDropItem;
     [SerializeField, Tooltip("敵キャラクターの二つ目のドロップアイテム")]
-    private GameObject secondDropItem;
-    public GameObject SecondDropItem { get => secondDropItem; private set => secondDropItem = value; }
+    private GameObject secondDropItem = null;
+    public GameObject SecondDropItem  => secondDropItem;
     [SerializeField, Tooltip("敵キャラクターの二つ目のアイテムのドロップ率"), Range(0, 100)]
     private int dropRate = 0;
-    public int DropRate
-    {
-        get { return dropRate; }
-        private set { dropRate = value; }
-    }
+    public int DropRate => dropRate;
     [SerializeField, Tooltip("敵キャラクターを倒した際の獲得経験値"), Range(1, 10000)]
     private int experiencePoint = 1;
-    public int ExperiencePoint
-    {
-        get { return experiencePoint; }
-        private set { experiencePoint = value; }
-    }
+    public int ExperiencePoint => experiencePoint;
     [SerializeField, Tooltip("敵キャラクターのパーティー構成"), Range(1, 6)]
     private int enemyPartyNumber = 1;
-    public int EnemyPartyNumber
-    {
-        get { return enemyPartyNumber; }
-        private set { enemyPartyNumber = value; }
-    }
+    public int EnemyPartyNumber => enemyPartyNumber;
     /// <summary>攻撃される技の属性</summary>
     public enum AttackAttributesResistance
     {

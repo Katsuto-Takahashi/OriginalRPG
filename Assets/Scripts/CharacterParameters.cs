@@ -6,7 +6,7 @@ public class CharacterParameters : MonoBehaviour
 {
     [SerializeField, Tooltip("キャラクターの名前")]
     string characterName = "";
-    public string CharacterName { get => characterName; }
+    public string CharacterName => characterName;
     [SerializeField, Tooltip("キャラクターの最大HP"), Range(1, 10000)]
     int maxHP = 1;
     public int MaxHP

@@ -40,18 +40,22 @@ public class UIController : MonoBehaviour
     {
         GoToZero();
     }
+
     void Start()
     {
         StartSet();
     }
+
     protected virtual void StartSet()
     {
         m_gg = GetComponent<GridLayoutGroup>();
     }
+
     void Update()
     {
         OnUpdate();
     }
+
     protected virtual void OnUpdate()
     {
         float v = Input.GetAxisRaw("Dpad_v");
@@ -66,6 +70,7 @@ public class UIController : MonoBehaviour
             OnUIPanelReturnChanged();
         }
     }
+
     /// <summary>Dpadでのコマンド操作</summary>
     /// <param name="v">Dpadの縦方向の入力</param>
     /// <param name="h">Dpadの横方向の入力</param>
@@ -210,6 +215,7 @@ public class UIController : MonoBehaviour
             m_saveTime = 0f;
         }
     }
+
     /// <summary>選択しているコマンドの変更</summary>
     /// <param name="input">Dpadの方向の入力</param>
     void CommandChenge(float input)
@@ -240,6 +246,7 @@ public class UIController : MonoBehaviour
         }
         SelectedCommandColorChange();
     }
+
     /// <summary>選択しているコマンドの継続的な変更</summary>
     /// <param name="input">Dpadの方向の入力</param>
     void ContinuousCommandChenge(float input)
@@ -262,6 +269,7 @@ public class UIController : MonoBehaviour
         }
         SelectedCommandColorChange();
     }
+
     /// <summary>選択しているコマンドの縦横方向の変更</summary>
     /// <param name="v">Dpadの縦方向の入力</param>
     /// <param name="h">Dpadの横方向の入力</param>
@@ -345,6 +353,7 @@ public class UIController : MonoBehaviour
         }
         SelectedCommandColorChange();
     }
+
     /// <summary>選択しているコマンドの継続的な縦横方向の変更</summary>
     /// <param name="v">Dpadの縦方向の入力</param>
     /// <param name="h">Dpadの横方向の入力</param>
@@ -409,6 +418,7 @@ public class UIController : MonoBehaviour
             CommandSelectedAction();
         }
     }
+
     void CommandPanelChanged()
     {
         if (m_special)
@@ -422,6 +432,7 @@ public class UIController : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
     void OnUIPanelReturnChanged()
     {
         if (m_changeCommandList[m_selectedCommandNumber].m_commandPanelList[(int)ChangeCommand.Before] != null)
@@ -438,14 +449,14 @@ public class UIController : MonoBehaviour
             }
         }
     }
-    protected virtual void CommandSelectedAction()
-    {
-    }
+
+    protected virtual void CommandSelectedAction() { }
+
     void SelectedCommandColorChange()
     {
         m_commandList[m_selectedCommandNumber].color = new Color(1, 1, 1, m_ColorAlpha / 255);
-
     }
+
     void NonCommandColorChange()
     {
         m_commandList[m_selectedCommandNumber].color = new Color(1, 1, 1, 0);
