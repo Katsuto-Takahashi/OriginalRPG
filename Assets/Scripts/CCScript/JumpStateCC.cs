@@ -9,7 +9,7 @@ public partial class PlayerControllerCC : MonoBehaviour
         bool isJump = false;
         public override void OnEnter(PlayerControllerCC owner)
         {
-            Debug.Log("Jump");
+            //Debug.Log("Jump");
             //owner.m_currentVelocity.x = 0f;
             //owner.m_currentVelocity.z = 0f;
             owner.m_currentVelocity.y = owner.m_jumpingPower;
@@ -29,18 +29,18 @@ public partial class PlayerControllerCC : MonoBehaviour
             if (time < 0.2f)
             {
                 isJump = true;
-                Debug.Log("空中無敵");
+                //Debug.Log("空中無敵");
             }
             if (isJump)
             {
                 if (owner.m_characterController.isGrounded)
                 {
-                    Debug.Log("Jump -> Land");
+                    //Debug.Log("Jump -> Land");
                     owner.ChangeState(owner.landState);
                 }
                 if (time < 0f)
                 {
-                    Debug.Log("Jump -> Fall");
+                    //Debug.Log("Jump -> Fall");
                     owner.ChangeState(owner.fallState);
                 }
             }

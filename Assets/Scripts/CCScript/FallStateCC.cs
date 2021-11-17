@@ -6,7 +6,7 @@ public partial class PlayerControllerCC : MonoBehaviour
     {
         public override void OnEnter(PlayerControllerCC owner)
         {
-            Debug.Log("Fall");
+            //Debug.Log("Fall");
             owner.PlayAnimation("Fall");
         }
 
@@ -18,7 +18,7 @@ public partial class PlayerControllerCC : MonoBehaviour
         {
             if (owner.m_characterController.isGrounded)
             {
-                Debug.Log("Fall -> Land");
+                //Debug.Log("Fall -> Land");
                 owner.ChangeState(owner.landState);
             }
             else

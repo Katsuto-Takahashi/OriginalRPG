@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class BattleStateMachine : MonoBehaviour
+public partial class BattleCharacterStateMachine : MonoBehaviour
 {
     public GameObject m_battlePanel = null;
     [SerializeField] PlayerControllerCC playerControllerCC = null;
@@ -27,6 +27,7 @@ public partial class BattleStateMachine : MonoBehaviour
     BattleWaitActionState battleWaitActionState = new BattleWaitActionState();
     BattleMoveState battleMoveState = new BattleMoveState();
     BattleAttackState battleAttackState = new BattleAttackState();
+    BattleDeadState battleDeadState = new BattleDeadState();
 
     [SerializeField] Animator animator = null;
     [SerializeField] HasSkillList hasSkillList = null;
@@ -78,5 +79,9 @@ public partial class BattleStateMachine : MonoBehaviour
     {
         ChangeState(battleIdleState);
         m_countTimer = 0;
+    }
+    public void ChangeDead()
+    {
+        ChangeState(battleDeadState);
     }
 }

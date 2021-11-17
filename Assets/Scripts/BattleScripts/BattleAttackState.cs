@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-public partial class BattleStateMachine : MonoBehaviour
+public partial class BattleCharacterStateMachine : MonoBehaviour
 {
     public class BattleAttackState : BattleStateMachineBase
     {
         float attackTime = 1f;
         float time = 1f;
-        public override void OnEnter(BattleStateMachine owner)
+        public override void OnEnter(BattleCharacterStateMachine owner)
         {
             //攻撃
             if (owner.CompareTag("Enemy"))
@@ -19,7 +19,7 @@ public partial class BattleStateMachine : MonoBehaviour
             }            
         }
 
-        public override void OnExit(BattleStateMachine owner)
+        public override void OnExit(BattleCharacterStateMachine owner)
         {
             if (owner.CompareTag("Player"))
             {
@@ -36,7 +36,7 @@ public partial class BattleStateMachine : MonoBehaviour
             time = attackTime;
         }
 
-        public override void OnUpdate(BattleStateMachine owner)
+        public override void OnUpdate(BattleCharacterStateMachine owner)
         {
             time -= Time.deltaTime;
 

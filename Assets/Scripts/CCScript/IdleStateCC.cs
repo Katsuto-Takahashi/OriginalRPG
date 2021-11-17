@@ -25,7 +25,7 @@ public partial class PlayerControllerCC : MonoBehaviour
             }
             if (owner.m_characterController.isGrounded)
             {
-                if (Input.GetButtonDown("×button"))
+                if (Input.GetButtonDown("L1button"))
                 {
                     //Debug.Log("Idle -> Jump");
                     owner.ChangeState(owner.jumpState);

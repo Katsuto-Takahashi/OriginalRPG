@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public partial class BattleStateMachine : MonoBehaviour
+public partial class BattleCharacterStateMachine : MonoBehaviour
 {
     public class BattleIdleState : BattleStateMachineBase
     {
-        public override void OnEnter(BattleStateMachine owner)
+        public override void OnEnter(BattleCharacterStateMachine owner)
         {
             if (owner.CompareTag("Enemy"))
             {
@@ -18,19 +18,17 @@ public partial class BattleStateMachine : MonoBehaviour
             {
                 if (owner.CompareTag("Enemy"))
                 {
-                    Debug.Log("action");
                     owner.m_action = true;
                 }
-                owner.m_countTimer = owner.m_actionTimer;
+                owner.m_countTimer += owner.m_actionTimer;
             }         
         }
 
-        public override void OnExit(BattleStateMachine owner)
+        public override void OnExit(BattleCharacterStateMachine owner)
         {
-            //owner.m_countTimer += owner.m_actionTimer;
         }
 
-        public override void OnUpdate(BattleStateMachine owner)
+        public override void OnUpdate(BattleCharacterStateMachine owner)
         {
             if (owner.m_battle && owner.m_characterActionCount < 3)
             {
@@ -52,7 +50,6 @@ public partial class BattleStateMachine : MonoBehaviour
             {
                 if (owner.m_firstAction)
                 {
-                    Debug.Log(owner.name + "はじめ");
                     if (owner.CompareTag("Enemy"))
                     {
                         owner.m_countTimer = owner.m_actionTimer;

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public partial class BattleStateMachine : MonoBehaviour
+public partial class BattleCharacterStateMachine : MonoBehaviour
 {
     public abstract class BattleStateMachineBase
     {
-        public abstract void OnEnter(BattleStateMachine owner);
-        public abstract void OnUpdate(BattleStateMachine owner);
-        public abstract void OnExit(BattleStateMachine owner);
+        public abstract void OnEnter(BattleCharacterStateMachine owner);
+        public abstract void OnUpdate(BattleCharacterStateMachine owner);
+        public abstract void OnExit(BattleCharacterStateMachine owner);
     }
 }

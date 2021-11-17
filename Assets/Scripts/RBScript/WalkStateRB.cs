@@ -24,7 +24,7 @@ public partial class PlayerControllerRB : MonoBehaviour
                     dir.y = 0f;
                     owner.m_targetRotation = Quaternion.LookRotation(dir);
                     owner.m_currentVelocity = new Vector3(owner.m_nowTransform.forward.x, owner.m_currentVelocity.y, owner.m_nowTransform.forward.z);
-                    if (Input.GetButtonDown("×button"))
+                    if (Input.GetButtonDown("L1button"))
                     {
                         owner.ChangeState(owner.jumpState);
                     }
@@ -38,7 +38,7 @@ public partial class PlayerControllerRB : MonoBehaviour
             {
                 if (owner.IsGround())
                 {
-                    if (Input.GetButtonDown("×button"))
+                    if (Input.GetButtonDown("L1button"))
                     {
                         Debug.Log("Walk -> Jump");
                         owner.ChangeState(owner.jumpState);

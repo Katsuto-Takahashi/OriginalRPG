@@ -41,7 +41,7 @@ public partial class PlayerControllerRB : MonoBehaviour
                     Debug.Log("Land -> Idle");
                     owner.ChangeState(owner.idleState);
                 }
-                if (Input.GetButtonDown("×button"))
+                if (Input.GetButtonDown("L1button"))
                 {
                     Debug.Log("Land -> Jump");
                     owner.ChangeState(owner.jumpState);

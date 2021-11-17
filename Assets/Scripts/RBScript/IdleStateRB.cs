@@ -25,7 +25,7 @@ public partial class PlayerControllerRB : MonoBehaviour
             }
             if (owner.IsGround())
             {
-                if (Input.GetButtonDown("×button"))
+                if (Input.GetButtonDown("L1button"))
                 {
                     Debug.Log("Idle -> Jump");
                     owner.ChangeState(owner.jumpState);
