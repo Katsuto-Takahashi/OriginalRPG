@@ -39,7 +39,8 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < num; i++)
         {
-            m_gameObject = Instantiate(m_enemyPrefabs.m_enemyList[m_contactEnemy.EnemyID - 1], new Vector3(m_contactEnemy.ContactPosition.x + i, m_contactEnemy.ContactPosition.y, m_contactEnemy.ContactPosition.z + i), Quaternion.identity);
+            //m_gameObject = Instantiate(m_enemyPrefabs.m_enemyList[m_contactEnemy.EnemyID - 1], new Vector3(m_contactEnemy.ContactPosition.x + i, m_contactEnemy.ContactPosition.y, m_contactEnemy.ContactPosition.z + i), Quaternion.identity);
+            m_gameObject = Instantiate(m_enemyPrefabs.m_enemyList[m_contactEnemy.EnemyID - 1], new Vector3((m_contactEnemy.ContactPosition + m_contactEnemy.ptr.forward * 3).x + i, m_contactEnemy.ContactPosition.y, (m_contactEnemy.ContactPosition + m_contactEnemy.ptr.forward * 3).z + i), Quaternion.identity);
             m_enemyParty.Add(m_gameObject);
             var em = m_enemyParty[i].GetComponent<EnemyManager>();
             m_enemyParty[i].name = em.EnemyParameters.EnemyCharacterName + $"{i}";
@@ -51,6 +52,7 @@ public class BattleManager : MonoBehaviour
             m_firstDrop.Add(m_enemyList[i].EnemyParameters.FirstDropItem);
             m_secondDrop.Add(m_enemyList[i].EnemyParameters.SecondDropItem);
             m_getExperiencePoint += m_enemyList[i].EnemyParameters.ExperiencePoint;
+            m_enemyParty[i].transform.LookAt(m_contactEnemy.ContactPosition);
         }
         m_battleEnemyList.ChengeBool();
         m_isCreated = true;

@@ -20,6 +20,8 @@ public class ContactEnemy : MonoBehaviour
     public bool IsBattle { get => m_isBattle; set => m_isBattle = value; }
     public bool IsContact { get => m_isContact; set => m_isContact = value; }
 
+    public Transform ptr;
+
     public event Action Battle;
 
     void Update()
@@ -50,6 +52,7 @@ public class ContactEnemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy") && !IsContact)
         {
+            ptr = transform;
             ContactPosition = other.transform.position;
             CreateField(other);
             EnemyParty = other.gameObject.GetComponent<EnemyManager>().EnemyParameters.EnemyPartyNumber;
