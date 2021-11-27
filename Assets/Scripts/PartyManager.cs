@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PartyManager : MonoBehaviour
 {
-    public List<GameObject> m_charaParty = new List<GameObject>();
+    [SerializeField] List<GameObject> m_characterParty = new List<GameObject>();
+
+    [SerializeField] List<GameObject> m_enemyParty = new List<GameObject>();
+
+    public List<GameObject> CharacterParty { get => m_characterParty;}
+
+    public List<GameObject> EnemyParty { get => m_enemyParty; }
 }

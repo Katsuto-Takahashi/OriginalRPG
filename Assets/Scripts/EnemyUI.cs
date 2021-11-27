@@ -54,6 +54,11 @@ public class EnemyUI : MonoBehaviour
 
     public void ChangeName(string enemyName)
     {
+        SetName(enemyName);
+    }
+
+    void SetName(string enemyName)
+    {
         if (m_text == null)
         {
             m_text = GetComponentInChildren<Text>();

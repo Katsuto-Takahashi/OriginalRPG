@@ -13,14 +13,14 @@ public class ContactEnemy : MonoBehaviour
     private int m_enemyID;
     private Vector3 m_contactPosition;
     private float m_distsnce;
+    private Transform m_PlayerTransform;
 
-    public Vector3 ContactPosition { get => m_contactPosition; set => m_contactPosition = value; }
-    public int EnemyID { get => m_enemyID; set => m_enemyID = value; }
-    public int EnemyParty { get => m_enemyParty; set => m_enemyParty = value; }
+    public Vector3 ContactPosition { get => m_contactPosition;}
+    public int EnemyID { get => m_enemyID;}
+    public int EnemyParty { get => m_enemyParty;}
     public bool IsBattle { get => m_isBattle; set => m_isBattle = value; }
     public bool IsContact { get => m_isContact; set => m_isContact = value; }
-
-    public Transform ptr;
+    public Transform PlayerTransform { get => m_PlayerTransform;}
 
     public event Action Battle;
 
@@ -36,7 +36,7 @@ public class ContactEnemy : MonoBehaviour
             }
         }
     }
-    public void CreateField(Collider other)
+    void CreateField(Collider other)
     {
         m_battleFeildPrefab.transform.position = other.transform.position;
         m_battleFeild = Instantiate(m_battleFeildPrefab);
@@ -45,18 +45,18 @@ public class ContactEnemy : MonoBehaviour
     {
         Destroy(m_battleFeild);
         IsContact = false;
-        ContactPosition = Vector3.zero;
+        m_contactPosition = Vector3.zero;
         m_distsnce = 0f;
     }
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Enemy") && !IsContact)
         {
-            ptr = transform;
-            ContactPosition = other.transform.position;
+            m_PlayerTransform = transform;
+            m_contactPosition = other.transform.position;
             CreateField(other);
-            EnemyParty = other.gameObject.GetComponent<EnemyManager>().EnemyParameters.EnemyPartyNumber;
-            EnemyID = other.gameObject.GetComponent<EnemyManager>().EnemyParameters.EnemyCharacterID;
+            m_enemyParty = other.gameObject.GetComponent<EnemyManager>().EnemyParameters.EnemyPartyNumber;
+            m_enemyID = other.gameObject.GetComponent<EnemyManager>().EnemyParameters.EnemyCharacterID;
             IsContact = true;
             IsBattle = true;
             Destroy(other.gameObject);

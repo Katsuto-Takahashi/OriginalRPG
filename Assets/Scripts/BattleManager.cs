@@ -6,7 +6,6 @@ public class BattleManager : MonoBehaviour
 {
     [SerializeField] DamageCalculator m_damageCalculator = null;
     [SerializeField] ContactEnemy m_contactEnemy = null;
-    [SerializeField] EnemyList m_enemyPrefabs = null;
     [SerializeField] PartyManager m_partyManager = null;
     [SerializeField] BattleEnemyList m_battleEnemyList = null;
     [SerializeField] GameObject m_battleInformationUIObject = null;
@@ -40,10 +39,17 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < num; i++)
         {
             //m_gameObject = Instantiate(m_enemyPrefabs.m_enemyList[m_contactEnemy.EnemyID - 1], new Vector3(m_contactEnemy.ContactPosition.x + i, m_contactEnemy.ContactPosition.y, m_contactEnemy.ContactPosition.z + i), Quaternion.identity);
-            m_gameObject = Instantiate(m_enemyPrefabs.m_enemyList[m_contactEnemy.EnemyID - 1], new Vector3((m_contactEnemy.ContactPosition + m_contactEnemy.ptr.forward * 3).x + i, m_contactEnemy.ContactPosition.y, (m_contactEnemy.ContactPosition + m_contactEnemy.ptr.forward * 3).z + i), Quaternion.identity);
+            m_gameObject = Instantiate(m_partyManager.EnemyParty[m_contactEnemy.EnemyID - 1], new Vector3((m_contactEnemy.ContactPosition + m_contactEnemy.PlayerTransform.forward * 3).x + i, m_contactEnemy.ContactPosition.y, (m_contactEnemy.ContactPosition + m_contactEnemy.PlayerTransform.forward * 3).z + i), Quaternion.identity);
             m_enemyParty.Add(m_gameObject);
             var em = m_enemyParty[i].GetComponent<EnemyManager>();
-            m_enemyParty[i].name = em.EnemyParameters.EnemyCharacterName + $"{i}";
+            if (num > 1)
+            {
+                m_enemyParty[i].name = em.EnemyParameters.EnemyCharacterName + $"{i + 1}";
+            }
+            else
+            {
+                m_enemyParty[i].name = em.EnemyParameters.EnemyCharacterName;
+            }
             m_enemyList.Add(em);
             var ebsm = m_enemyParty[i].GetComponent<BattleCharacterStateMachine>();
             ebsm.enabled = true;
@@ -70,11 +76,11 @@ public class BattleManager : MonoBehaviour
     }
     void BattleStanby()
     {
-        for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
+        for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
         {
-            var cpm = m_partyManager.m_charaParty[i].GetComponent<CharacterParameterManager>();
+            var cpm = m_partyManager.CharacterParty[i].GetComponent<CharacterParameterManager>();
             m_characterList.Add(cpm);
-            var cbsm = m_partyManager.m_charaParty[i].GetComponent<BattleCharacterStateMachine>();
+            var cbsm = m_partyManager.CharacterParty[i].GetComponent<BattleCharacterStateMachine>();
             cbsm.m_actionTimer = Timer(cpm.Speed);
             cbsm.enabled = true;
         }
@@ -111,7 +117,7 @@ public class BattleManager : MonoBehaviour
     {
         characterDeadCount = 0;
         enemyDeadCount = 0;
-        for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
+        for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
         {
             if (m_characterList[i].IsDeadState == true)
             {
@@ -126,7 +132,7 @@ public class BattleManager : MonoBehaviour
                 enemyDeadCount++;
             }
         }
-        if (characterDeadCount == m_partyManager.m_charaParty.Count)
+        if (characterDeadCount == m_partyManager.CharacterParty.Count)
         {
             m_battleResults = BattleResults.Lose;
             m_contactEnemy.IsBattle = false;
@@ -141,24 +147,24 @@ public class BattleManager : MonoBehaviour
     {
         for (int n = 0; n < m_enemyParty.Count; n++)
         {
-            for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
+            for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
             {
-                m_enemyParty[n].GetComponent<BattleCharacterStateMachine>().m_targetCharacters.Add(m_partyManager.m_charaParty[i]);
+                m_enemyParty[n].GetComponent<BattleCharacterStateMachine>().m_targetCharacters.Add(m_partyManager.CharacterParty[i]);
             }
         }
-        for (int n = 0; n < m_partyManager.m_charaParty.Count; n++)
+        for (int n = 0; n < m_partyManager.CharacterParty.Count; n++)
         {
             for (int i = 0; i < m_enemyParty.Count; i++)
             {
-                m_partyManager.m_charaParty[n].GetComponent<BattleCharacterStateMachine>().m_targetCharacters.Add(m_enemyParty[i]);
+                m_partyManager.CharacterParty[n].GetComponent<BattleCharacterStateMachine>().m_targetCharacters.Add(m_enemyParty[i]);
             }
         }
     }
     void StateChange()
     {
-        for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
+        for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
         {
-            var cbsm = m_partyManager.m_charaParty[i].GetComponent<BattleCharacterStateMachine>();
+            var cbsm = m_partyManager.CharacterParty[i].GetComponent<BattleCharacterStateMachine>();
             cbsm.m_battle = true;
             cbsm.m_firstAction = true;
         }
@@ -173,7 +179,13 @@ public class BattleManager : MonoBehaviour
         }
         m_isChangeState = true;
     }
+
     public int Damage(GameObject attacker, GameObject defender, SkillData skillData)
+    {
+        return DamageCalculate(attacker, defender, skillData);
+    }
+
+    int DamageCalculate(GameObject attacker, GameObject defender, SkillData skillData)
     {
         int damage = 0;
         if (attacker.CompareTag("Player"))
@@ -184,27 +196,27 @@ public class BattleManager : MonoBehaviour
             {
                 if (Random.Range(0, 200) > parameterManager.Luck)
                 {
-                    damage = m_damageCalculator.DecideEnemyDamege(skillData, m_damageCalculator.CalculateNormalDamage(skillData, enemyParameter.Defense, parameterManager.Strength), enemyParameter);
+                    damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, parameterManager.Strength, enemyParameter.Defense, m_battleInformationUI.Critical);
                 }
                 else
                 {
-                    damage = m_damageCalculator.DecideEnemyDamege(skillData, m_damageCalculator.CalculateCriticalDamage(skillData, parameterManager.Strength), enemyParameter);
                     m_battleInformationUI.Critical = true;
+                    damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter,  parameterManager.Strength, enemyParameter.Defense, m_battleInformationUI.Critical);
                 }
             }
             else if (skillData.attackType == SkillData.AttackType.magicAttack)
             {
                 if (Random.Range(0, 200) > parameterManager.Luck)
                 {
-                    damage = m_damageCalculator.DecideEnemyDamege(skillData, m_damageCalculator.CalculateNormalDamage(skillData, enemyParameter.MagicResist, parameterManager.MagicPower), enemyParameter);
+                    damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, parameterManager.MagicPower, enemyParameter.MagicResist, m_battleInformationUI.Critical);
                 }
                 else
                 {
-                    damage = m_damageCalculator.DecideEnemyDamege(skillData, m_damageCalculator.CalculateCriticalDamage(skillData, parameterManager.MagicPower), enemyParameter);
                     m_battleInformationUI.Critical = true;
+                    damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, parameterManager.MagicPower, enemyParameter.MagicResist, m_battleInformationUI.Critical);
                 }
             }
-            StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, enemyParameter.EnemyCharacterName, m_battleInformationUI.Critical));
+            StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, defender.name, m_battleInformationUI.Critical));
         }
         else if (attacker.CompareTag("Enemy"))
         {
@@ -214,24 +226,24 @@ public class BattleManager : MonoBehaviour
             {
                 if (Random.Range(0, 200) > enemyParameter.Luck)
                 {
-                    damage = m_damageCalculator.DecidePlayerDamege(m_damageCalculator.CalculateNormalDamage(skillData, parameterManager.Defense, enemyParameter.Strength));
+                    damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.Strength, parameterManager.Defense, m_battleInformationUI.Critical);
                 }
                 else
                 {
-                    damage = m_damageCalculator.DecidePlayerDamege(m_damageCalculator.CalculateCriticalDamage(skillData, enemyParameter.Strength));
                     m_battleInformationUI.Critical = true;
+                    damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.Strength, parameterManager.Defense, m_battleInformationUI.Critical);
                 }
             }
             else if (skillData.attackType == SkillData.AttackType.magicAttack)
             {
                 if (Random.Range(0, 200) > enemyParameter.Luck)
                 {
-                    damage = m_damageCalculator.DecidePlayerDamege(m_damageCalculator.CalculateNormalDamage(skillData, parameterManager.MagicResist, enemyParameter.MagicPower));
+                    damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.MagicPower, parameterManager.MagicResist, m_battleInformationUI.Critical);
                 }
                 else
                 {
-                    damage = m_damageCalculator.DecidePlayerDamege(m_damageCalculator.CalculateCriticalDamage(skillData, enemyParameter.MagicPower));
                     m_battleInformationUI.Critical = true;
+                    damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.MagicPower, parameterManager.MagicResist, m_battleInformationUI.Critical);
                 }
             }
             StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, parameterManager.CharacterName, m_battleInformationUI.Critical));
@@ -240,9 +252,9 @@ public class BattleManager : MonoBehaviour
     }
     void FinishBattle()
     {
-        for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
+        for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
         {
-            var cbsm = m_partyManager.m_charaParty[i].GetComponent<BattleCharacterStateMachine>();
+            var cbsm = m_partyManager.CharacterParty[i].GetComponent<BattleCharacterStateMachine>();
             cbsm.m_targetCharacters.Clear();
             cbsm.m_battle = false;
             cbsm.m_open = false;
@@ -319,9 +331,9 @@ public class BattleManager : MonoBehaviour
         }
         m_isCreated = false;
         m_finish = false;
-        for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
+        for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
         {
-            m_partyManager.m_charaParty[i].GetComponent<BattleCharacterStateMachine>().ChangeIdle();
+            m_partyManager.CharacterParty[i].GetComponent<BattleCharacterStateMachine>().ChangeIdle();
         }
     }
     IEnumerator BattleData()

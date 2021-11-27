@@ -17,23 +17,25 @@ public class HPAndAPDisplay : MonoBehaviour
 
     void Awake()
     {
-        m_memberNumber = m_partyManager.m_charaParty.Count;
+        m_memberNumber = m_partyManager.CharacterParty.Count;
         m_beforeMemberNumber = m_memberNumber;
         for (int i = 0; i < m_beforeMemberNumber; i++)
         {
             m_ui = Instantiate(m_gameObject);
             m_ui.transform.SetParent(this.transform, false);
             m_gameObjects.Add(m_ui);
-            m_parameters.Add(m_partyManager.m_charaParty[i].GetComponent<CharacterParameterManager>());
+            m_parameters.Add(m_partyManager.CharacterParty[i].GetComponent<CharacterParameterManager>());
         }
     }
+
     void Start()
     {
         CreateUI();
     }
+
     void Update()
     {
-        m_memberNumber = m_partyManager.m_charaParty.Count;
+        m_memberNumber = m_partyManager.CharacterParty.Count;
         if (m_beforeMemberNumber != m_memberNumber)
         {
             Debug.Log("人数変化");
@@ -54,7 +56,7 @@ public class HPAndAPDisplay : MonoBehaviour
                     m_ui = Instantiate(m_gameObject);
                     m_ui.transform.SetParent(this.transform, false);
                     m_gameObjects.Add(m_ui);
-                    m_parameters.Add(m_partyManager.m_charaParty[i].GetComponent<CharacterParameterManager>());
+                    m_parameters.Add(m_partyManager.CharacterParty[i].GetComponent<CharacterParameterManager>());
                 }
             }
             CreateUI();
@@ -76,9 +78,10 @@ public class HPAndAPDisplay : MonoBehaviour
             }
         }
     }
+
     void CreateUI()
     {
-        for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
+        for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
         {
             var ui = m_gameObjects[i].GetComponent<CharacterParameterUI>();
             ui.CreateName(m_parameters[i].CharacterName);
@@ -92,19 +95,9 @@ public class HPAndAPDisplay : MonoBehaviour
                 m_parameters[i].MaxAP);
         }
     }
+
     public void ChangeUI()
     {
-        for (int i = 0; i < m_partyManager.m_charaParty.Count; i++)
-        {
-            var ui = m_gameObjects[i].GetComponent<CharacterParameterUI>();
-            ui.CreateParameter(m_parameters[i].NowHP,
-                m_parameters[i].MaxHP,
-                m_parameters[i].NowAP,
-                m_parameters[i].MaxAP);
-            ui.CreateGage(m_parameters[i].NowHP,
-                m_parameters[i].MaxHP,
-                m_parameters[i].NowAP,
-                m_parameters[i].MaxAP);
-        }
+        CreateUI();
     }
 }

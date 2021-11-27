@@ -23,6 +23,10 @@ public class BattleEnemyList : MonoBehaviour
     }
     public void SetEnemy(List<Image> images)
     {
+        Set(images);
+    }
+    void Set(List<Image> images)
+    {
         images.Clear();
         for (int i = 0; i < m_battleEnemys.Count; i++)
         {
@@ -54,6 +58,11 @@ public class BattleEnemyList : MonoBehaviour
         m_battleEnemys.Add(enemy);
     }
     public void ClearEnemyList()
+    {
+        Clear();
+    }
+
+    void Clear()
     {
         for (int i = 0; i < m_target.Count; i++)
         {
