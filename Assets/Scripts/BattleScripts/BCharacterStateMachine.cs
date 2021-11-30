@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class BattleCharacterStateMachine : MonoBehaviour
+public partial class BCharacterStateMachine : MonoBehaviour
 {
     public GameObject m_battlePanel = null;
     [SerializeField] PlayerControllerCC playerControllerCC = null;

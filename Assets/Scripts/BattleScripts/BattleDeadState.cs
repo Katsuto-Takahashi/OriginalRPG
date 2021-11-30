@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class BattleCharacterStateMachine : MonoBehaviour
+public partial class BCharacterStateMachine : MonoBehaviour
 {
     public class BattleDeadState : BattleStateMachineBase
     {
         bool death = false;
-        public override void OnEnter(BattleCharacterStateMachine owner)
+        public override void OnEnter(BCharacterStateMachine owner)
         {
             if (owner.CompareTag("Enemy"))
             {
@@ -24,11 +24,11 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             }
         }
 
-        public override void OnExit(BattleCharacterStateMachine owner)
+        public override void OnExit(BCharacterStateMachine owner)
         {
         }
 
-        public override void OnUpdate(BattleCharacterStateMachine owner)
+        public override void OnUpdate(BCharacterStateMachine owner)
         {
         }
     }

@@ -51,7 +51,7 @@ public class BattleManager : MonoBehaviour
                 m_enemyParty[i].name = em.EnemyParameters.EnemyCharacterName;
             }
             m_enemyList.Add(em);
-            var ebsm = m_enemyParty[i].GetComponent<BattleCharacterStateMachine>();
+            var ebsm = m_enemyParty[i].GetComponent<BCharacterStateMachine>();
             ebsm.enabled = true;
             ebsm.m_actionTimer = Timer(em.EnemyParameters.Speed);
             m_battleEnemyList.AddEnemyList(m_enemyParty[i]);
@@ -80,7 +80,7 @@ public class BattleManager : MonoBehaviour
         {
             var cpm = m_partyManager.CharacterParty[i].GetComponent<CharacterParameterManager>();
             m_characterList.Add(cpm);
-            var cbsm = m_partyManager.CharacterParty[i].GetComponent<BattleCharacterStateMachine>();
+            var cbsm = m_partyManager.CharacterParty[i].GetComponent<BCharacterStateMachine>();
             cbsm.m_actionTimer = Timer(cpm.Speed);
             cbsm.enabled = true;
         }
@@ -128,7 +128,7 @@ public class BattleManager : MonoBehaviour
         {
             if (m_enemyList[i].IsDeadState == true)
             {
-                m_enemyParty[i].GetComponent<BattleCharacterStateMachine>().ChangeDead();
+                m_enemyParty[i].GetComponent<BCharacterStateMachine>().ChangeDead();
                 enemyDeadCount++;
             }
         }
@@ -149,14 +149,14 @@ public class BattleManager : MonoBehaviour
         {
             for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
             {
-                m_enemyParty[n].GetComponent<BattleCharacterStateMachine>().m_targetCharacters.Add(m_partyManager.CharacterParty[i]);
+                m_enemyParty[n].GetComponent<BCharacterStateMachine>().m_targetCharacters.Add(m_partyManager.CharacterParty[i]);
             }
         }
         for (int n = 0; n < m_partyManager.CharacterParty.Count; n++)
         {
             for (int i = 0; i < m_enemyParty.Count; i++)
             {
-                m_partyManager.CharacterParty[n].GetComponent<BattleCharacterStateMachine>().m_targetCharacters.Add(m_enemyParty[i]);
+                m_partyManager.CharacterParty[n].GetComponent<BCharacterStateMachine>().m_targetCharacters.Add(m_enemyParty[i]);
             }
         }
     }
@@ -164,13 +164,13 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
         {
-            var cbsm = m_partyManager.CharacterParty[i].GetComponent<BattleCharacterStateMachine>();
+            var cbsm = m_partyManager.CharacterParty[i].GetComponent<BCharacterStateMachine>();
             cbsm.m_battle = true;
             cbsm.m_firstAction = true;
         }
         for (int i = 0; i < m_enemyParty.Count; i++)
         {
-            var e = m_enemyParty[i]?.GetComponent<BattleCharacterStateMachine>();
+            var e = m_enemyParty[i]?.GetComponent<BCharacterStateMachine>();
             if (e != null)
             {
                 e.m_firstAction = true;
@@ -254,7 +254,7 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
         {
-            var cbsm = m_partyManager.CharacterParty[i].GetComponent<BattleCharacterStateMachine>();
+            var cbsm = m_partyManager.CharacterParty[i].GetComponent<BCharacterStateMachine>();
             cbsm.m_targetCharacters.Clear();
             cbsm.m_battle = false;
             cbsm.m_open = false;
@@ -263,7 +263,7 @@ public class BattleManager : MonoBehaviour
         }
         for (int i = 0; i < m_enemyParty.Count; i++)
         {
-            m_enemyParty[i].GetComponent<BattleCharacterStateMachine>().m_battle = false;
+            m_enemyParty[i].GetComponent<BCharacterStateMachine>().m_battle = false;
         }
         StartCoroutine(BattleData());
 
@@ -333,7 +333,7 @@ public class BattleManager : MonoBehaviour
         m_finish = false;
         for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
         {
-            m_partyManager.CharacterParty[i].GetComponent<BattleCharacterStateMachine>().ChangeIdle();
+            m_partyManager.CharacterParty[i].GetComponent<BCharacterStateMachine>().ChangeIdle();
         }
     }
     IEnumerator BattleData()

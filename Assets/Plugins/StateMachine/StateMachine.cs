@@ -18,17 +18,17 @@ public class StateMachine<TOwner>
 
         protected virtual void OnEnter(State prevState) { }
 
-        internal void AnimationEnd(Animator animator, int layer = 0)
+        /*internal void AnimationEnd(Animator animator, int layer = 0)
         {
             OnAnimationEnd(animator, layer);
-        }
+        }*/
 
-        protected virtual bool OnAnimationEnd(Animator animator, int layer = 0) 
+        /*protected virtual bool OnAnimationEnd(Animator animator, int layer = 0) 
         {
             AnimatorStateInfo animatorStateInfo = animator.GetCurrentAnimatorStateInfo(layer);
             if (animatorStateInfo.loop) { return false; }
             return animatorStateInfo.normalizedTime > 1f;
-        }
+        }*/
 
         internal void Update()
         {
@@ -50,7 +50,7 @@ public class StateMachine<TOwner>
 
     public State CurrentSate { get; private set; }
 
-    private LinkedList<State> states = new LinkedList<State>();
+    LinkedList<State> states = new LinkedList<State>();
 
     public StateMachine(TOwner owner)
     {
@@ -108,10 +108,10 @@ public class StateMachine<TOwner>
         CurrentSate.Enter(null);
     }
 
-    public void AnimationEnd(Animator animator, int layer = 0)
+    /*public void AnimationEnd(Animator animator, int layer = 0)
     {
         CurrentSate.AnimationEnd(animator, layer);
-    }
+    }*/
 
     public void Update()
     {
@@ -130,7 +130,7 @@ public class StateMachine<TOwner>
         }
         Change(to);
     }
-    private void Change(State nextState)
+    void Change(State nextState)
     {
         CurrentSate.Exit(nextState);
         nextState.Enter(CurrentSate);

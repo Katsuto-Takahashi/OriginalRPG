@@ -1,11 +1,30 @@
-﻿using UnityEngine;
-using State = StateMachine<BattleCharacterStateMachine>.State;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using State = StateMachine<MovementCharacterStateMachine>.State;
 
-public partial class BattleCharacterStateMachine : MonoBehaviour
+public partial class MovementCharacterStateMachine : MonoBehaviour
 {
-    public class BattleCharacterState
+    public class MovementCharacterState : MonoBehaviour
     {
-        public class Wait : State
+        public class Idole : State
+        {
+            protected override void OnEnter(State prevState)
+            {
+            }
+            protected override void OnUpdate()
+            {
+                if (owner.m_inputDirection != Vector3.zero)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Walk);
+                }
+            }
+            protected override void OnExit(State nextState)
+            {
+            }
+        }
+
+        public class Walk : State
         {
             protected override void OnEnter(State prevState)
             {
@@ -16,87 +35,56 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnExit(State nextState)
             {
             }
-            //protected override bool OnAnimationEnd(Animator animator, int layer = 0)
-            //{
-            //    return base.OnAnimationEnd(animator, layer);
-            //}
+
         }
 
-        public class Standby : State
+        public class Run : State
         {
             protected override void OnEnter(State prevState)
             {
             }
-
             protected override void OnUpdate()
             {
             }
-
-            protected override void OnExit(State nextState)
-            {
-            }
-
-            //protected override bool OnAnimationEnd(Animator animator, int layer = 0)
-            //{
-            //    return base.OnAnimationEnd(animator, layer);
-            //}
-        }
-
-        public class Move : State
-        {
-            protected override void OnEnter(State prevState)
-            {
-            }
-
-            protected override void OnUpdate()
-            {
-            }
-
             protected override void OnExit(State nextState)
             {
             }
         }
 
-        public class BattleAction : State
+        public class Jump : State
         {
             protected override void OnEnter(State prevState)
             {
             }
-
             protected override void OnUpdate()
             {
             }
-
             protected override void OnExit(State nextState)
             {
             }
         }
 
-        public class ActionEnd : State
+        public class Fall : State
         {
             protected override void OnEnter(State prevState)
             {
             }
-
             protected override void OnUpdate()
             {
             }
-
             protected override void OnExit(State nextState)
             {
             }
         }
 
-        public class NoBattle : State
+        public class Land : State
         {
             protected override void OnEnter(State prevState)
             {
             }
-
             protected override void OnUpdate()
             {
             }
-
             protected override void OnExit(State nextState)
             {
             }
@@ -107,11 +95,9 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
             }
-
             protected override void OnUpdate()
             {
             }
-
             protected override void OnExit(State nextState)
             {
             }
