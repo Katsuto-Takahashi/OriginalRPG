@@ -8,7 +8,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     StateMachine<MovementCharacterStateMachine> m_stateMachine;
     enum ActEvent : byte
     {
-        Idole,
+        Idle,
         Walk,
         Run,
         Jump,
@@ -19,6 +19,8 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
 
     Animator m_animator;
     Rigidbody m_rigidbody;
+    CapsuleCollider m_capsuleCollider;
+
     /// <summary>入力の方向</summary>
     Vector3 m_inputDirection = Vector3.zero;
     /// <summary>プレイヤーのtransfom</summary>
@@ -49,7 +51,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     {
         m_stateMachine = new StateMachine<MovementCharacterStateMachine>(this);
 
-        m_stateMachine.AddAnyTransition<MovementCharacterState.Idole>((int)ActEvent.Idole);
+        m_stateMachine.AddAnyTransition<MovementCharacterState.Idle>((int)ActEvent.Idle);
         m_stateMachine.AddAnyTransition<MovementCharacterState.Walk>((int)ActEvent.Walk);
         m_stateMachine.AddAnyTransition<MovementCharacterState.Run>((int)ActEvent.Run);
         m_stateMachine.AddAnyTransition<MovementCharacterState.Jump>((int)ActEvent.Jump);
@@ -57,13 +59,13 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         m_stateMachine.AddAnyTransition<MovementCharacterState.Land>((int)ActEvent.Land);
         m_stateMachine.AddAnyTransition<MovementCharacterState.Dead>((int)ActEvent.Dead);
 
-        m_stateMachine.Start<MovementCharacterState.Idole>();
+        m_stateMachine.Start<MovementCharacterState.Idle>();
     }
 
-    public void SetUp(Animator setAnimator, Rigidbody setRigidbody, Transform setTransform, float setRotationSpeed, float setWalkSpeed, float setRunSpeed, float setJumpPower, float setGravityScale, float setIsGroundLength, LayerMask setGroundLayer)
+    public void SetUp(Animator setAnimator, Rigidbody setRigidbody, Transform setTransform, Parameters setParam, CapsuleCollider setCollider)
     {
+        SetParam(setAnimator, setRigidbody, setTransform, setParam, setCollider);
         SetState();
-        SetParam(setAnimator, setRigidbody, setTransform, setRotationSpeed, setWalkSpeed, setRunSpeed, setJumpPower, setGravityScale, setIsGroundLength, setGroundLayer);
     }
 
     public void OnUpdate()
@@ -71,26 +73,32 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         m_stateMachine.Update();
 
         m_moveForward = Camera.main.transform.TransformDirection(m_inputDirection);
+
+        ApplyMovement();
+        ApplyRotation();
+        ApplyGravity();
     }
 
-    void SetParam(Animator setAnimator, Rigidbody setRigidbody, Transform setTransform, float setRotationSpeed, float setWalkSpeed, float setRunSpeed, float setJumpPower, float setGravityScale, float setIsGroundLength, LayerMask setGroundLayer)
+    void SetParam(Animator setAnimator, Rigidbody setRigidbody, Transform setTransform, Parameters setParam, CapsuleCollider setCollider)
     {
         m_animator = setAnimator;
         m_rigidbody = setRigidbody;
         m_myTransform = setTransform;
-        m_rotatingSpeed = setRotationSpeed;
-        m_walkingSpeed = setWalkSpeed;
-        m_runningSpeed = setRunSpeed;
-        m_jumpingPower = setJumpPower;
-        m_gravityScale = setGravityScale;
-        m_isGroundLength = setIsGroundLength;
-        m_groundLayer = setGroundLayer;
+        m_rotatingSpeed = setParam.RotatingSpeed;
+        m_walkingSpeed = setParam.WalkingSpeed;
+        m_runningSpeed = setParam.RunningSpeed;
+        m_jumpingPower = setParam.JumpingPower;
+        m_gravityScale = setParam.GravityScale;
+        m_isGroundLength = setParam.IsGroundLength;
+        m_groundLayer = setParam.GroundLayer;
+        m_capsuleCollider = setCollider;
     }
 
     void ApplyMovement()
     {
-        //プレイヤーの移動
-        Vector3 velocity = Vector3.Scale(m_currentVelocity, new Vector3(m_walkingSpeed, 1f, m_walkingSpeed));
+        Vector3 velocity;
+        if (Input.GetButton("R1button")) velocity = Vector3.Scale(m_currentVelocity, new Vector3(m_runningSpeed, 1f, m_runningSpeed));
+        else velocity = Vector3.Scale(m_currentVelocity, new Vector3(m_walkingSpeed, 1f, m_walkingSpeed));
         m_rigidbody.velocity = velocity;
     }
 
@@ -107,12 +115,34 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         m_inputDirection = Vector3.forward * v + Vector3.right * h;
     }
 
+    bool IsGround()
+    {
+        Vector3 start = new Vector3(m_myTransform.position.x, m_myTransform.position.y + m_capsuleCollider.center.y, m_myTransform.position.z);
+        Vector3 end = start + Vector3.down * m_isGroundLength;
+        Debug.DrawLine(start, end, Color.red);
+        bool isGround = Physics.Linecast(start, end, m_groundLayer);
+        return isGround;
+    }
+
+    void ApplyGravity()
+    {
+        if (IsGround())
+        {
+            m_currentVelocity.y = 0f;
+        }
+    }
+
     bool FinishedAnimation(int layer = 0)
     {
         return AnimationController.Instance.FinishedAnimation(m_animator, layer);
+        /*AnimatorStateInfo animatorStateInfo = m_animator.GetCurrentAnimatorStateInfo(layer);
+        if (animatorStateInfo.loop) return false;
+        return animatorStateInfo.normalizedTime > 1f;*/
     }
+
     void PlayAnimation(string stateName, float transitionDuration = 0.1f)
     {
         AnimationController.Instance.PlayAnimation(m_animator, stateName, transitionDuration);
+        //m_animator.CrossFadeInFixedTime(stateName, transitionDuration);
     }
 }

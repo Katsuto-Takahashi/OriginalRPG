@@ -19,8 +19,6 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
     void SetState()
     {
-        //m_animator = GetComponent<Animator>();
-
         m_stateMachine = new StateMachine<BattleCharacterStateMachine>(this);
 
         m_stateMachine.AddAnyTransition<BattleCharacterState.Wait>((int)ActEvent.Wait);
@@ -38,10 +36,6 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         SetAnim(animator);
         SetState();
     }
-    //void Update()
-    //{
-    //    m_stateMachine.Update();
-    //}
     public void OnUpdate()
     {
         m_stateMachine.Update();
@@ -54,13 +48,9 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     bool FinishedAnimation(int layer = 0)
     {
         return AnimationController.Instance.FinishedAnimation(m_animator, layer);
-        /*AnimatorStateInfo animatorStateInfo = m_animator.GetCurrentAnimatorStateInfo(layer);
-        if (animatorStateInfo.loop) return false;
-        return animatorStateInfo.normalizedTime > 1f;*/
     }
     void PlayAnimation(string stateName, float transitionDuration = 0.1f)
     {
         AnimationController.Instance.PlayAnimation(m_animator, stateName, transitionDuration);
-        //m_animator.CrossFadeInFixedTime(stateName, transitionDuration);
     }
 }
