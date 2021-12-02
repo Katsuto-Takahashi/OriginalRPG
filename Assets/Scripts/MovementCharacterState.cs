@@ -24,7 +24,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                     }
                     if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                     {
-                        if (Input.GetButtonDown("R1button"))
+                        if (Input.GetButton("R1button"))
                         {
                             StateMachine.Dispatch((int)ActEvent.Run);
                         }
@@ -57,7 +57,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                     }
                     if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                     {
-                        if (Input.GetButtonDown("R1button"))
+                        if (Input.GetButton("R1button"))
                         {
                             StateMachine.Dispatch((int)ActEvent.Run);
                         }
@@ -85,10 +85,8 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
-                if (Input.GetButton("R1button"))
-                {
-                    owner.PlayAnimation("Run");
-                }
+                owner.m_movingSpeed = owner.m_runningSpeed;
+                owner.PlayAnimation("Run");
             }
             protected override void OnUpdate()
             {
@@ -121,6 +119,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnExit(State nextState)
             {
+                owner.m_movingSpeed = owner.m_walkingSpeed;
             }
         }
 
@@ -128,6 +127,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                owner.m_currentVelocity = Vector3.zero;
                 owner.PlayAnimation("Jump");
                 owner.m_rigidbody.AddForce(Vector3.up * owner.m_jumpingPower, ForceMode.Impulse);
             }
@@ -140,6 +140,13 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                 else
                 {
                     owner.m_currentVelocity.y = owner.m_jumpingPower;
+                    if (owner.m_inputDirection.sqrMagnitude > 0.1f)
+                    {
+                        var dir = owner.m_moveForward;
+                        dir.y = 0f;
+                        owner.m_targetRotation = Quaternion.LookRotation(dir);
+                        owner.m_currentVelocity = new Vector3(owner.m_myTransform.forward.x, owner.m_currentVelocity.y, owner.m_myTransform.forward.z);
+                    }
                 }
             }
             protected override void OnExit(State nextState)
@@ -178,7 +185,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             {
                 if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                 {
-                    if (Input.GetButtonDown("R1button"))
+                    if (Input.GetButton("R1button"))
                     {
                         StateMachine.Dispatch((int)ActEvent.Run);
                     }

@@ -31,7 +31,8 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     Vector3 m_currentVelocity;
     /// <summary>目標のrotation</summary>
     Quaternion m_targetRotation;
-
+    /// <summary>移動速度</summary>
+    float m_movingSpeed;
     /// <summary>回転速度</summary>
     float m_rotatingSpeed;
     /// <summary>歩く速度</summary>
@@ -92,13 +93,13 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         m_isGroundLength = setParam.IsGroundLength;
         m_groundLayer = setParam.GroundLayer;
         m_capsuleCollider = setCollider;
+        m_movingSpeed = m_walkingSpeed;
     }
 
     void ApplyMovement()
     {
         Vector3 velocity;
-        if (Input.GetButton("R1button")) velocity = Vector3.Scale(m_currentVelocity, new Vector3(m_runningSpeed, 1f, m_runningSpeed));
-        else velocity = Vector3.Scale(m_currentVelocity, new Vector3(m_walkingSpeed, 1f, m_walkingSpeed));
+        velocity = Vector3.Scale(m_currentVelocity, new Vector3(m_movingSpeed, 1f, m_movingSpeed));
         m_rigidbody.velocity = velocity;
     }
 

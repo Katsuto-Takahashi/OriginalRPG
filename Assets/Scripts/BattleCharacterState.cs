@@ -16,10 +16,6 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnExit(State nextState)
             {
             }
-            //protected override bool OnAnimationEnd(Animator animator, int layer = 0)
-            //{
-            //    return base.OnAnimationEnd(animator, layer);
-            //}
         }
 
         public class Standby : State
@@ -35,11 +31,6 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnExit(State nextState)
             {
             }
-
-            //protected override bool OnAnimationEnd(Animator animator, int layer = 0)
-            //{
-            //    return base.OnAnimationEnd(animator, layer);
-            //}
         }
 
         public class Move : State

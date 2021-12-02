@@ -16,6 +16,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         Dead
     }
     Animator m_animator;
+    int m_nowHitPoint;
 
     void SetState()
     {
@@ -31,18 +32,19 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         
         m_stateMachine.Start<BattleCharacterState.Wait>();
     }
-    public void SetUp(Animator animator)
+    public void SetUp(Animator animator, CharacterParameters cp)
     {
-        SetAnim(animator);
+        SetAnim(animator, cp);
         SetState();
     }
     public void OnUpdate()
     {
         m_stateMachine.Update();
     }
-    void SetAnim(Animator animator)
+    void SetAnim(Animator animator, CharacterParameters cp)
     {
         m_animator = animator;
+        m_nowHitPoint = cp.NowHP;
     }
 
     bool FinishedAnimation(int layer = 0)
