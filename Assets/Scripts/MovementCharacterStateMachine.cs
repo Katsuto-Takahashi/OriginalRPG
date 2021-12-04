@@ -75,9 +75,15 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
 
         m_moveForward = Camera.main.transform.TransformDirection(m_inputDirection);
 
+        //ApplyMovement();
+        //ApplyRotation();
+        ApplyGravity();
+    }
+
+    public void OnFixedUpdate()
+    {
         ApplyMovement();
         ApplyRotation();
-        ApplyGravity();
     }
 
     void SetParam(Animator setAnimator, Rigidbody setRigidbody, Transform setTransform, Parameters setParam, CapsuleCollider setCollider)

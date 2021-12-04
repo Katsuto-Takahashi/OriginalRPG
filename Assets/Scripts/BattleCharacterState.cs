@@ -9,9 +9,14 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                owner.m_isBattle = true;
             }
             protected override void OnUpdate()
             {
+                if (owner.m_nowHP < 1)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Dead);
+                }
             }
             protected override void OnExit(State nextState)
             {
@@ -26,6 +31,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnUpdate()
             {
+                if (owner.m_nowHP < 1)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Dead);
+                }
             }
 
             protected override void OnExit(State nextState)
@@ -41,6 +50,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnUpdate()
             {
+                if (owner.m_nowHP < 1)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Dead);
+                }
             }
 
             protected override void OnExit(State nextState)
@@ -56,6 +69,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnUpdate()
             {
+                if (owner.m_nowHP < 1)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Dead);
+                }
             }
 
             protected override void OnExit(State nextState)
@@ -71,6 +88,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnUpdate()
             {
+                if (owner.m_nowHP < 1)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Dead);
+                }
             }
 
             protected override void OnExit(State nextState)
@@ -82,10 +103,15 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                owner.m_isBattle = false;
             }
 
             protected override void OnUpdate()
             {
+                if (owner.m_nowHP < 1)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Dead);
+                }
             }
 
             protected override void OnExit(State nextState)
@@ -101,6 +127,17 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnUpdate()
             {
+                if (owner.m_nowHP > 0)
+                {
+                    if (owner.m_isBattle)
+                    {
+                        StateMachine.Dispatch((int)ActEvent.Wait);
+                    }
+                    else
+                    {
+                        StateMachine.Dispatch((int)ActEvent.NoBattle);
+                    }
+                }
             }
 
             protected override void OnExit(State nextState)

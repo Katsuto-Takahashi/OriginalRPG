@@ -34,6 +34,7 @@ public class CharacterManager : MonoBehaviour
     [SerializeField, Tooltip("情報")]
     Parameters m_param = new Parameters();
 
+    CharacterParameterManager m_cpm;
     BattleCharacterStateMachine m_bcsm;
     MovementCharacterStateMachine m_mcsm;
     Animator m_animator;
@@ -48,11 +49,12 @@ public class CharacterManager : MonoBehaviour
         m_rigidbody = GetComponent<Rigidbody>();
         m_capsuleCollider = GetComponent<CapsuleCollider>();
 
+        //m_cp = GetComponent<CharacterParameterManager>();
         m_mcsm = GetComponent<MovementCharacterStateMachine>();
         m_bcsm = GetComponent<BattleCharacterStateMachine>();
 
         m_mcsm.SetUp(m_animator, m_rigidbody, m_myTransform, m_param, m_capsuleCollider);
-        m_bcsm.SetUp(m_animator);
+        //m_bcsm.SetUp(m_animator, m_cpm);
     }
 
     void Update()
@@ -60,6 +62,11 @@ public class CharacterManager : MonoBehaviour
         ApplyGetAxis();
         m_mcsm.OnUpdate();
         //m_bcsm.OnUpdate();
+    }
+
+    void FixedUpdate()
+    {
+        m_mcsm.OnFixedUpdate();
     }
 
     void ApplyGetAxis()

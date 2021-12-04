@@ -3,11 +3,13 @@ using UnityEngine;
 
 public class PartyManager : MonoBehaviour
 {
-    [SerializeField] List<GameObject> m_characterParty = new List<GameObject>();
+    [SerializeField, Tooltip("Player側")] 
+    List<GameObject> m_characterParty = new List<GameObject>();
 
-    [SerializeField] List<GameObject> m_enemyParty = new List<GameObject>();
+    [SerializeField, Tooltip("敵側")] 
+    List<GameObject> m_enemyParty = new List<GameObject>();
 
-    public List<GameObject> CharacterParty { get => m_characterParty;}
+    public List<GameObject> CharacterParty  => m_characterParty;
 
-    public List<GameObject> EnemyParty { get => m_enemyParty; }
+    public List<GameObject> EnemyParty => m_enemyParty;
 }

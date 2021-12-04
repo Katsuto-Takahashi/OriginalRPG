@@ -18,10 +18,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             {
                 if (owner.IsGround())
                 {
-                    if (Input.GetButtonDown("L1button"))
-                    {
-                        StateMachine.Dispatch((int)ActEvent.Jump);
-                    }
                     if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                     {
                         if (Input.GetButton("R1button"))
@@ -29,6 +25,10 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                             StateMachine.Dispatch((int)ActEvent.Run);
                         }
                         StateMachine.Dispatch((int)ActEvent.Walk);
+                    }
+                    if (Input.GetButtonDown("L1button"))
+                    {
+                        StateMachine.Dispatch((int)ActEvent.Jump);
                     }
                 }
                 else
@@ -127,7 +127,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
-                owner.m_currentVelocity = Vector3.zero;
+                //owner.m_currentVelocity = Vector3.zero;
                 owner.PlayAnimation("Jump");
                 owner.m_rigidbody.AddForce(Vector3.up * owner.m_jumpingPower, ForceMode.Impulse);
             }
@@ -183,7 +183,18 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnUpdate()
             {
-                if (owner.m_inputDirection.sqrMagnitude > 0.1f)
+                if (owner.FinishedAnimation())
+                {
+                    //if (Input.GetButtonDown("L1button"))
+                    //{
+                    //    StateMachine.Dispatch((int)ActEvent.Jump);
+                    //}
+                    //else
+                    //{
+                        StateMachine.Dispatch((int)ActEvent.Idle);
+                    //}
+                }
+                else if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                 {
                     if (Input.GetButton("R1button"))
                     {
@@ -191,10 +202,10 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                     }
                     StateMachine.Dispatch((int)ActEvent.Walk);
                 }
-                else if (owner.FinishedAnimation())
-                {
-                    StateMachine.Dispatch((int)ActEvent.Idle);
-                }
+                //else if (Input.GetButtonDown("L1button"))
+                //{
+                //    StateMachine.Dispatch((int)ActEvent.Jump);
+                //}
             }
             protected override void OnExit(State nextState)
             {
