@@ -47,6 +47,10 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     float m_isGroundLength;
     /// <summary>地面のレイヤー</summary>
     LayerMask m_groundLayer;
+    /// <summary>坂のレイヤー</summary>
+    LayerMask m_slopeLayer;
+    /// <summary>ジャンプ中かどうか</summary>
+    bool m_isJump;
 
     void SetState()
     {
@@ -65,6 +69,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
 
     public void SetUp(Animator setAnimator, Rigidbody setRigidbody, Transform setTransform, Parameters setParam, CapsuleCollider setCollider)
     {
+        m_isJump = false;
         SetParam(setAnimator, setRigidbody, setTransform, setParam, setCollider);
         SetState();
     }
@@ -98,6 +103,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         m_gravityScale = setParam.GravityScale;
         m_isGroundLength = setParam.IsGroundLength;
         m_groundLayer = setParam.GroundLayer;
+        m_slopeLayer = setParam.SlopeLayer;
         m_capsuleCollider = setCollider;
         m_movingSpeed = m_walkingSpeed;
     }
@@ -126,16 +132,41 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     {
         Vector3 start = new Vector3(m_myTransform.position.x, m_myTransform.position.y + m_capsuleCollider.center.y, m_myTransform.position.z);
         Vector3 end = start + Vector3.down * m_isGroundLength;
-        Debug.DrawLine(start, end, Color.red);
+        //Debug.DrawLine(start, end, Color.red);
         bool isGround = Physics.Linecast(start, end, m_groundLayer);
+        RaycastHit hit;
+        Ray ray = new Ray(start, Vector3.down);
+        bool isGrounded = Physics.SphereCast(ray, 0.19f, out hit, m_isGroundLength, m_groundLayer);
+        return isGrounded;
+    }
+
+    bool IsSlope()
+    {
+        Vector3 start = new Vector3(m_myTransform.position.x, m_myTransform.position.y + m_capsuleCollider.center.y, m_myTransform.position.z);
+        //15°までの坂なら上れる
+        Vector3 end = start + Vector3.down * m_isGroundLength * 1.1f;
+        //Debug.DrawLine(start, end, Color.red);
+        bool isGround = Physics.Linecast(start, end, m_slopeLayer);
         return isGround;
     }
 
+#if UNITY_EDITOR
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3 start = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
+        Gizmos.DrawLine(start, start + Vector3.down * m_isGroundLength * 1.1f);
+        //　Capsuleのレイを疑似的に視覚化
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z) + Vector3.down * m_isGroundLength, 0.19f);
+    }
+#endif
+
     void ApplyGravity()
     {
-        if (IsGround())
+        if (IsSlope() && !m_isJump)
         {
-            m_currentVelocity.y = 0f;
+            m_currentVelocity.y = m_gravityScale * Physics.gravity.y;
         }
     }
 

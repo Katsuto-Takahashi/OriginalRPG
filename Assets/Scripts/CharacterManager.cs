@@ -95,11 +95,14 @@ public class Parameters
     [SerializeField, Tooltip("重力の大きさ")]
     float m_gravityScale = 0f;
 
-    [SerializeField, Tooltip("接地判定に使用するRayの距離")]
+    [SerializeField, Tooltip("接地判定に使用するRayの長さ")]
     float m_isGroundLength = 0f;
 
     [SerializeField, Tooltip("地面のレイヤー")]
     LayerMask m_groundLayer = 0;
+
+    [SerializeField, Tooltip("坂のレイヤー")]
+    LayerMask m_slopeLayer = 0;
 
     public float RotatingSpeed => m_rotatingSpeed;
     public float WalkingSpeed => m_walkingSpeed;
@@ -108,4 +111,5 @@ public class Parameters
     public float GravityScale => m_gravityScale;
     public float IsGroundLength => m_isGroundLength;
     public LayerMask GroundLayer => m_groundLayer;
+    public LayerMask SlopeLayer => m_slopeLayer;
 }

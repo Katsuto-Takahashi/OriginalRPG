@@ -16,7 +16,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnUpdate()
             {
-                if (owner.IsGround())
+                if (owner.IsGround() || owner.IsSlope())
                 {
                     if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                     {
@@ -28,6 +28,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                     }
                     if (Input.GetButtonDown("L1button"))
                     {
+                        owner.m_isJump = true;
                         StateMachine.Dispatch((int)ActEvent.Jump);
                     }
                 }
@@ -49,10 +50,11 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnUpdate()
             {
-                if (owner.IsGround())
+                if (owner.IsGround() || owner.IsSlope())
                 {
                     if (Input.GetButtonDown("L1button"))
                     {
+                        owner.m_isJump = true;
                         StateMachine.Dispatch((int)ActEvent.Jump);
                     }
                     if (owner.m_inputDirection.sqrMagnitude > 0.1f)
@@ -64,7 +66,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                         var dir = owner.m_moveForward;
                         dir.y = 0f;
                         owner.m_targetRotation = Quaternion.LookRotation(dir);
-                        owner.m_currentVelocity = new Vector3(owner.m_myTransform.forward.x, owner.m_currentVelocity.y, owner.m_myTransform.forward.z);
+                        owner.m_currentVelocity = new Vector3(owner.m_moveForward.x, owner.m_currentVelocity.y, owner.m_moveForward.z);
                     }
                     else
                     {
@@ -92,10 +94,11 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             {
                 if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                 {
-                    if (owner.IsGround())
+                    if (owner.IsGround() || owner.IsSlope())
                     {
                         if (Input.GetButtonDown("L1button"))
                         {
+                            owner.m_isJump = true;
                             StateMachine.Dispatch((int)ActEvent.Jump);
                         }
                         if (Input.GetButtonUp("R1button"))
@@ -127,9 +130,8 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
-                //owner.m_currentVelocity = Vector3.zero;
+                owner.m_currentVelocity = Vector3.up * owner.m_jumpingPower;
                 owner.PlayAnimation("Jump");
-                owner.m_rigidbody.AddForce(Vector3.up * owner.m_jumpingPower, ForceMode.Impulse);
             }
             protected override void OnUpdate()
             {
@@ -139,7 +141,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                 }
                 else
                 {
-                    owner.m_currentVelocity.y = owner.m_jumpingPower;
                     if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                     {
                         var dir = owner.m_moveForward;
@@ -151,6 +152,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnExit(State nextState)
             {
+                owner.m_isJump = false;
             }
         }
 
@@ -158,15 +160,38 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                //owner.m_currentVelocity.x = 0f;
+                //owner.m_currentVelocity.z = 0f;
                 owner.PlayAnimation("Fall");
             }
             protected override void OnUpdate()
             {
-                if (owner.IsGround())
+                if (owner.IsGround() || owner.IsSlope())
                 {
                     StateMachine.Dispatch((int)ActEvent.Land);
                 }
-                owner.m_currentVelocity.y += owner.m_gravityScale * Physics.gravity.y * Time.deltaTime;
+                else
+                {
+                    owner.m_currentVelocity.y += Physics.gravity.y * Time.deltaTime;
+                    if (owner.m_inputDirection.sqrMagnitude > 0.1f)
+                    {
+                        var dir = owner.m_moveForward;
+                        dir.y = 0f;
+                        owner.m_targetRotation = Quaternion.LookRotation(dir);
+                        owner.m_currentVelocity = new Vector3(owner.m_moveForward.x , owner.m_currentVelocity.y, owner.m_moveForward.z);
+                    }
+                    else
+                    {
+                        if (Mathf.Abs(owner.m_currentVelocity.x) > 0.1f)
+                        {
+                            owner.m_currentVelocity.x *= 0.99f;
+                        }
+                        if (Mathf.Abs(owner.m_currentVelocity.z) > 0.1f)
+                        {
+                            owner.m_currentVelocity.z *= 0.99f;
+                        }
+                    }
+                }
             }
             protected override void OnExit(State nextState)
             {
@@ -185,14 +210,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             {
                 if (owner.FinishedAnimation())
                 {
-                    //if (Input.GetButtonDown("L1button"))
-                    //{
-                    //    StateMachine.Dispatch((int)ActEvent.Jump);
-                    //}
-                    //else
-                    //{
-                        StateMachine.Dispatch((int)ActEvent.Idle);
-                    //}
+                    StateMachine.Dispatch((int)ActEvent.Idle);
                 }
                 else if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                 {
@@ -202,10 +220,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                     }
                     StateMachine.Dispatch((int)ActEvent.Walk);
                 }
-                //else if (Input.GetButtonDown("L1button"))
-                //{
-                //    StateMachine.Dispatch((int)ActEvent.Jump);
-                //}
             }
             protected override void OnExit(State nextState)
             {
