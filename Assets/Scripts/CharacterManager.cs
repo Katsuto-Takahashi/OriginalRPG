@@ -2,37 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody), typeof(MovementCharacterStateMachine), typeof(BattleCharacterStateMachine))]
-[RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
+[RequireComponent(typeof(MovementCharacterStateMachine), typeof(BattleCharacterStateMachine))]
 public class CharacterManager : MonoBehaviour
 {
-    #region 仮置き
-    /*[SerializeField, Tooltip("回転速度")]
-    float m_rotatingSpeed;
-
-    [SerializeField, Tooltip("歩く速度")]
-    float m_walkingSpeed;
-
-    [SerializeField, Tooltip("走る速度")]
-    float m_runningSpeed;
-
-    [SerializeField, Tooltip("ジャンプ力")]
-    float m_jumpingPower;
-
-    [SerializeField, Tooltip("重力の大きさ")]
-    float m_gravityScale;
-
-    [SerializeField, Tooltip("接地判定に使用するRayの距離")]
-    float m_isGroundLength;
-
-    [SerializeField, Tooltip("地面のレイヤー")]
-    LayerMask m_groundLayer;*/
-    #endregion
-
     [Tooltip("自分のTransform")]
     Transform m_myTransform;
     [SerializeField, Tooltip("情報")]
     Parameters m_param = new Parameters();
+
+    bool m_isBattle;
+    bool m_donotMove;
 
     CharacterParameterManager m_cpm;
     BattleCharacterStateMachine m_bcsm;

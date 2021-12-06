@@ -25,6 +25,8 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     int m_hp;
     int m_nowAP;
     int m_ap;
+    float m_currentTimer;
+    float m_actionTimer;
     #endregion
 
     void SetState()
@@ -63,6 +65,12 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         m_nowAP = cpm.NowAP;
         m_hp = cpm.MaxHP;
         m_ap = cpm.MaxAP;
+        m_actionTimer = SetTime(cpm);
+    }
+
+    float SetTime(CharacterParameterManager cpm)
+    {
+        return (1000 - cpm.Speed) / 100f;
     }
 
     bool FinishedAnimation(int layer = 0)

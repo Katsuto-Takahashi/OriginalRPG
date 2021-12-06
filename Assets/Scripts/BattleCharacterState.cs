@@ -46,6 +46,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                owner.PlayAnimation("Run");
             }
 
             protected override void OnUpdate()
@@ -72,6 +73,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 if (owner.m_nowHP < 1)
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
+                }
+                if (owner.FinishedAnimation())
+                {
+                    StateMachine.Dispatch((int)ActEvent.ActionEnd);
                 }
             }
 
