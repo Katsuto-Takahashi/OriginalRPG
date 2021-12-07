@@ -17,15 +17,25 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     }
 
     Animator m_animator;
-
+    /// <summary>戦闘中かどうか</summary>
     bool m_isBattle;
+    /// <summary>対象との距離</summary>
+    float m_distance;
+    /// <summary>現在の待機時間</summary>
+    float m_currentTimer;
 
     #region パラメーター
+    /// <summary>現在のHP</summary>
     int m_nowHP;
+    /// <summary>最大のHP</summary>
     int m_hp;
+    /// <summary>現在のAP</summary>
     int m_nowAP;
+    /// <summary>最大のAP</summary>
     int m_ap;
-    float m_currentTimer;
+    /// <summary>移動速度</summary>
+    float m_moveSpeed;
+    /// <summary>待機時間</summary>
     float m_actionTimer;
     #endregion
 
@@ -43,11 +53,12 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         
         m_stateMachine.Start<BattleCharacterState.Wait>();
     }
-    public void SetUp(Animator animator, CharacterParameterManager cp)
+    public void SetUp(Animator animator, CharacterParameterManager cp, Parameters param)
     {
         m_isBattle = false;
         SetAnim(animator);
-        SetParam(cp);
+        SetCharaParam(cp);
+        SetParam(param);
         SetState();
     }
     public void OnUpdate()
@@ -59,18 +70,23 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         m_animator = animator;
     }
 
-    void SetParam(CharacterParameterManager cpm)
+    void SetCharaParam(CharacterParameterManager cpm)
     {
         m_nowHP = cpm.NowHP;
         m_nowAP = cpm.NowAP;
         m_hp = cpm.MaxHP;
         m_ap = cpm.MaxAP;
-        m_actionTimer = SetTime(cpm);
+        m_actionTimer = (1000 - cpm.Speed) / 100f;
     }
 
-    float SetTime(CharacterParameterManager cpm)
+    void SetParam(Parameters param)
     {
-        return (1000 - cpm.Speed) / 100f;
+        m_moveSpeed = (param.WalkingSpeed + param.RunningSpeed) / 2f;
+    }
+
+    void Timer()
+    {
+        m_currentTimer += Time.deltaTime;
     }
 
     bool FinishedAnimation(int layer = 0)

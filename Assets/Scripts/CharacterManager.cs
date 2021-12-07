@@ -34,7 +34,7 @@ public class CharacterManager : MonoBehaviour
         m_bcsm = GetComponent<BattleCharacterStateMachine>();
 
         m_mcsm.SetUp(m_animator, m_rigidbody, m_myTransform, m_param, m_capsuleCollider);
-        //m_bcsm.SetUp(m_animator, m_cpm);
+        //m_bcsm.SetUp(m_animator, m_cpm, m_param);
     }
 
     void Update()

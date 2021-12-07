@@ -80,8 +80,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
 
         m_moveForward = Camera.main.transform.TransformDirection(m_inputDirection);
 
-        //ApplyMovement();
-        //ApplyRotation();
         ApplyGravity();
     }
 
@@ -151,7 +149,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         Gizmos.color = Color.red;
         Vector3 start = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
         Gizmos.DrawLine(start, start + Vector3.down * m_isGroundLength * 1.1f);
-        //　Capsuleのレイを疑似的に視覚化
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z) + Vector3.down * m_isGroundLength, 0.19f);
     }

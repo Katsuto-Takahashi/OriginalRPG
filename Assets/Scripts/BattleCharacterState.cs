@@ -55,6 +55,22 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
+                if (owner.m_distance > 2f)
+                {
+                    //Vector3 target = owner.m_targetPosition;
+                    //target.y = 0f;
+                    //owner.transform.position = new Vector3(owner.transform.position.x, 0f, owner.transform.position.z);
+                    //owner.transform.LookAt(target);
+                    //owner.transform.position = Vector3.MoveTowards(owner.transform.position, owner.m_targetPosition, owner.m_moveSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    //Vector3 target = owner.m_targetPosition;
+                    //target.y = 0f;
+                    //owner.transform.position = new Vector3(owner.transform.position.x, 0f, owner.transform.position.z);
+                    //owner.transform.LookAt(target);
+                    StateMachine.Dispatch((int)ActEvent.BattleAction);
+                }
             }
 
             protected override void OnExit(State nextState)
