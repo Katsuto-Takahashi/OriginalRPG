@@ -84,23 +84,23 @@ public class CharacterParameters : MonoBehaviour
         get { return level; }
         set { level = value; }
     }
-    [SerializeField, Tooltip("キャラクターの経験値"), Range(0, 10000000)]
+    [SerializeField, Tooltip("キャラクターの現在の経験値"), Range(0, 10000000)]
     int exp = 0;
-    protected int CharacterExp
+    protected int NowExp
     {
         get { return exp; }
         set { exp = value; }
     }
     [SerializeField, Tooltip("キャラクターの総経験値"), Range(0, 10000000)]
     int characterTotalExp = 0;
-    protected int CharacterTotalExp
+    protected int TotalExp
     {
         get { return characterTotalExp; }
         set { characterTotalExp = value; }
     }
     [SerializeField, Tooltip("キャラクターの次のレベルまでの経験値"), Range(1, 10000000)]
     int characterNextExp = 1;
-    protected int CharacterNextExp
+    protected int NextExp
     {
         get { return characterNextExp; }
         set { characterNextExp = value; }
@@ -112,11 +112,12 @@ public class CharacterParameters : MonoBehaviour
         get { return characterSP; }
         set { characterSP = value; }
     }
-    [SerializeField, Tooltip("キャラクターのスペシャルゲージ"), Range(0, 100)]
-    int characterSG = 0;
-    public int SG
+    [Tooltip("キャラクターの特別な技が使用可能かどうか")]
+    bool availableSpecialSkill = false;
+    /// <summary>キャラクターの特別な技が使用可能かどうか</summary>
+    public bool SS
     {
-        get { return characterSG; }
-        set { characterSG = value; }
+        get { return availableSpecialSkill; }
+        set { availableSpecialSkill = value; }
     }
 }

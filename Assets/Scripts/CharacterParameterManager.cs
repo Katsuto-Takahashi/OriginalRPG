@@ -5,8 +5,8 @@ using System;
 
 public class CharacterParameterManager : CharacterParameters, ITakableDamage
 {
-    int nextExp = 0;
-    float levelCorrection = 4.8f;
+    float m_levelCorrection = 4.8f;
+    float m_charaCorrection = 0.07f;
     //int baseParameter = 0;
     ////　装備している武器
     //[SerializeField]
@@ -32,7 +32,6 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
 
     void Start()
     {
-       
     }
 
     void Update()
@@ -73,38 +72,44 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
     {
         LevelUP = true;
         Level++;
-        CalculateExp(Level);
+        CalculateNextExp(Level);
         ParameterUp(Level);
         m_UIDisplay.ChangeUI();
     }
-    public void GetExp(int Exp)
+    public void GetExp(int getExp)
     {
-        CharacterExp += Exp;
-        CharacterTotalExp += Exp;
-        if (CharacterNextExp - CharacterExp <= 0)
+        CalculateExp(getExp);
+    }
+
+    void CalculateExp(int getExp)
+    {
+        NowExp += getExp;
+        TotalExp += getExp;
+        if (NextExp - NowExp <= 0)
         {
-            nextExp = CharacterNextExp - CharacterExp;
-            CharacterExp = 0;
+            int exp = NextExp - NowExp;
+            NowExp = 0;
             if (Level != 100)
             {
                 LevelUp();
-                CharacterExp -= nextExp;
+                NowExp -= exp;
             }
         }
     }
-    void CalculateExp(int level)
+
+    void CalculateNextExp(int level)
     {
         if (level % 10 == 0)
         {
-            levelCorrection *= 1.002f;
+            m_levelCorrection *= 1.002f;
         }
         if (level - 10 <= 1)
         {
-            CharacterNextExp = (int)((level * level * 0.07 * 1 + level * 2) * levelCorrection);
+            NextExp = (int)((1 * m_charaCorrection * level * level + level * 2) * m_levelCorrection);
         }
         else
         {
-            CharacterNextExp = (int)((level * level * 0.07 * (level - 10) + level * 2) * levelCorrection);
+            NextExp = (int)(((level - 10) * m_charaCorrection * level * level + level * 2) * m_levelCorrection);
         }
     }
     void ParameterUp(int level)

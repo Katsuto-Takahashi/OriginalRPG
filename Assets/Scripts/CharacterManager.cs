@@ -17,6 +17,8 @@ public class CharacterManager : MonoBehaviour
     CharacterParameterManager m_cpm;
     BattleCharacterStateMachine m_bcsm;
     MovementCharacterStateMachine m_mcsm;
+    HasSkillList m_hsl;
+
     Animator m_animator;
     Rigidbody m_rigidbody;
     CapsuleCollider m_capsuleCollider;
@@ -32,6 +34,7 @@ public class CharacterManager : MonoBehaviour
         //m_cp = GetComponent<CharacterParameterManager>();
         m_mcsm = GetComponent<MovementCharacterStateMachine>();
         m_bcsm = GetComponent<BattleCharacterStateMachine>();
+        m_hsl = GetComponent<HasSkillList>();
 
         m_mcsm.SetUp(m_animator, m_rigidbody, m_myTransform, m_param, m_capsuleCollider);
         //m_bcsm.SetUp(m_animator, m_cpm, m_param);

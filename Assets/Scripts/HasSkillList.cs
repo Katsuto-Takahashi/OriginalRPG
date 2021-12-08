@@ -5,9 +5,11 @@ using UnityEngine;
 public class HasSkillList : MonoBehaviour
 {
     [SerializeField, Tooltip("通常攻撃")]
-    private List<SkillData> m_normalSkill = new List<SkillData>();
+    List<SkillData> m_normalSkill = new List<SkillData>();
     [SerializeField, Tooltip("スキル")]
-    private List<SkillData> m_skillDatas = new List<SkillData>();
+    List<SkillData> m_skillDatas = new List<SkillData>();
+    [SerializeField, Tooltip("魔法")]
+    List<SkillData> m_magicDatas = new List<SkillData>();
 
     public List<SkillData> NormalSkill 
     {
@@ -18,5 +20,10 @@ public class HasSkillList : MonoBehaviour
     {
         get { return m_skillDatas; }
         set { m_skillDatas = value; }
+    }
+    public List<SkillData> MagicDatas
+    {
+        get { return m_magicDatas; }
+        set { m_magicDatas = value; }
     }
 }

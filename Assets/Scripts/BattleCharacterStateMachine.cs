@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using State = StateMachine<BattleCharacterStateMachine>.State;
 
@@ -39,6 +40,13 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     float m_actionTimer;
     #endregion
 
+    [Tooltip("通常攻撃")]
+    List<SkillData> m_normalSkill = new List<SkillData>();
+    [Tooltip("スキル")]
+    List<SkillData> m_skillDatas = new List<SkillData>();
+    [Tooltip("魔法")]
+    List<SkillData> m_magicDatas = new List<SkillData>();
+
     void SetState()
     {
         m_stateMachine = new StateMachine<BattleCharacterStateMachine>(this);
@@ -53,12 +61,13 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         
         m_stateMachine.Start<BattleCharacterState.Wait>();
     }
-    public void SetUp(Animator animator, CharacterParameterManager cp, Parameters param)
+    public void SetUp(Animator animator, CharacterParameterManager cp, HasSkillList  hasSkill, Parameters param)
     {
         m_isBattle = false;
         SetAnim(animator);
         SetCharaParam(cp);
         SetParam(param);
+        SetSkill(hasSkill);
         SetState();
     }
     public void OnUpdate()
@@ -82,6 +91,27 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     void SetParam(Parameters param)
     {
         m_moveSpeed = (param.WalkingSpeed + param.RunningSpeed) / 2f;
+    }
+
+    void SetSkill(HasSkillList hasSkill)
+    {
+        for (int i = 0; i < hasSkill.NormalSkill.Count; i++)
+        {
+            m_normalSkill.Add(hasSkill.NormalSkill[i]);
+        }
+        GetSkill(hasSkill);
+    }
+
+    void GetSkill(HasSkillList hasSkill)
+    {
+        for (int i = 0; i < hasSkill.SkillDatas.Count; i++)
+        {
+            m_skillDatas.Add(hasSkill.SkillDatas[i]);
+        }
+        for (int i = 0; i < hasSkill.MagicDatas.Count; i++)
+        {
+            m_magicDatas.Add(hasSkill.MagicDatas[i]);
+        }
     }
 
     void Timer()
