@@ -115,22 +115,19 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
 
     void ApplyRotation()
     {
-        //プレイヤーの回転
         m_myTransform.rotation = Quaternion.Slerp(transform.rotation, m_targetRotation, Time.deltaTime * m_rotatingSpeed);
     }
 
     public void UserInput(float h, float v)
     {
-        //入力方向のベクトル
         m_inputDirection = Vector3.forward * v + Vector3.right * h;
     }
 
     bool IsGround()
     {
         Vector3 start = new Vector3(m_myTransform.position.x, m_myTransform.position.y + m_capsuleCollider.center.y, m_myTransform.position.z);
-        RaycastHit hit;
         Ray ray = new Ray(start, Vector3.down);
-        bool isGround = Physics.SphereCast(ray, 0.19f, out hit, m_isGroundLength, m_groundLayer);
+        bool isGround = Physics.SphereCast(ray, 0.19f, out _, m_isGroundLength, m_groundLayer);
         return isGround;
     }
 
@@ -138,7 +135,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     {
         Vector3 start = new Vector3(m_myTransform.position.x, m_myTransform.position.y + m_capsuleCollider.center.y, m_myTransform.position.z);
         //15°までの坂なら上れる
-        Vector3 end = start + Vector3.down * m_isGroundLength * 1.1f;
+        Vector3 end = start + 1.1f * m_isGroundLength * Vector3.down;
         bool isGround = Physics.Linecast(start, end, m_slopeLayer);
         return isGround;
     }
@@ -148,7 +145,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Vector3 start = new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z);
-        Gizmos.DrawLine(start, start + Vector3.down * m_isGroundLength * 1.1f);
+        Gizmos.DrawLine(start, start + 1.1f * m_isGroundLength * Vector3.down);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y + 0.75f, transform.position.z) + Vector3.down * m_isGroundLength, 0.19f);
     }

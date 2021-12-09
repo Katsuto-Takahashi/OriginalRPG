@@ -28,7 +28,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                     }
                     if (Input.GetButtonDown("L1button"))
                     {
-                        owner.m_isJump = true;
                         StateMachine.Dispatch((int)ActEvent.Jump);
                     }
                 }
@@ -39,6 +38,10 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnExit(State nextState)
             {
+                if (nextState is Jump)
+                {
+                    owner.m_isJump = true;
+                }
             }
         }
 
@@ -54,7 +57,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                 {
                     if (Input.GetButtonDown("L1button"))
                     {
-                        owner.m_isJump = true;
                         StateMachine.Dispatch((int)ActEvent.Jump);
                     }
                     if (owner.m_inputDirection.sqrMagnitude > 0.1f)
@@ -80,6 +82,10 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnExit(State nextState)
             {
+                if (nextState is Jump)
+                {
+                    owner.m_isJump = true;
+                }
             }
         }
 
@@ -98,7 +104,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                     {
                         if (Input.GetButtonDown("L1button"))
                         {
-                            owner.m_isJump = true;
                             StateMachine.Dispatch((int)ActEvent.Jump);
                         }
                         if (Input.GetButtonUp("R1button"))
@@ -122,6 +127,10 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnExit(State nextState)
             {
+                if (nextState is Jump)
+                {
+                    owner.m_isJump = true;
+                }
                 owner.m_movingSpeed = owner.m_walkingSpeed;
             }
         }

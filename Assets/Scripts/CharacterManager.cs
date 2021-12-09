@@ -37,7 +37,7 @@ public class CharacterManager : MonoBehaviour
         m_hsl = GetComponent<HasSkillList>();
 
         m_mcsm.SetUp(m_animator, m_rigidbody, m_myTransform, m_param, m_capsuleCollider);
-        //m_bcsm.SetUp(m_animator, m_cpm, m_param);
+        //m_bcsm.SetUp(m_animator, m_cpm, m_param, m_hsl);
     }
 
     void Update()

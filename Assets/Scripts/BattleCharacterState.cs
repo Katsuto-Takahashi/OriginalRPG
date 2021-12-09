@@ -9,7 +9,6 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
-                owner.m_isBattle = true;
             }
             protected override void OnUpdate()
             {
@@ -35,6 +34,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
+                if (true)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Move);
+                }
             }
 
             protected override void OnExit(State nextState)
@@ -46,6 +49,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                owner.m_dontMove = true;
                 owner.PlayAnimation("Run");
             }
 
@@ -54,6 +58,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 if (owner.m_nowHP < 1)
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
+                }
+                if (true)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Wait);
                 }
                 if (owner.m_distance > 2f)
                 {
@@ -75,6 +83,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnExit(State nextState)
             {
+                if (nextState is Wait)
+                {
+                    owner.m_dontMove = false;
+                }
             }
         }
 
@@ -105,6 +117,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                owner.m_dontMove = false;
             }
 
             protected override void OnUpdate()
@@ -112,6 +125,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 if (owner.m_nowHP < 1)
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
+                }
+                else
+                {
+                    StateMachine.Dispatch((int)ActEvent.Wait);
                 }
             }
 
@@ -133,6 +150,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
+                if (owner.m_isBattle)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Wait);
+                }
             }
 
             protected override void OnExit(State nextState)
@@ -144,6 +165,8 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                owner.m_dontMove = true;
+                owner.PlayAnimation("");
             }
 
             protected override void OnUpdate()
@@ -163,6 +186,8 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnExit(State nextState)
             {
+                owner.PlayAnimation("");
+                owner.m_dontMove = false;
             }
         }
     }

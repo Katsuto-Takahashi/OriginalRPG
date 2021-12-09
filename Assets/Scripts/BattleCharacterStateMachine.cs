@@ -19,11 +19,17 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
     Animator m_animator;
     /// <summary>戦闘中かどうか</summary>
-    bool m_isBattle;
+    bool m_isBattle = false;
+    /// <summary>操作可能かどうか</summary>
+    bool m_dontMove = false;
     /// <summary>対象との距離</summary>
     float m_distance;
     /// <summary>現在の待機時間</summary>
     float m_currentTimer;
+    /// <summary>行動の対象</summary>
+    GameObject m_target;
+    /// <summary>行動回数</summary>
+    int m_actionCount;
 
     #region パラメーター
     /// <summary>現在のHP</summary>
@@ -40,11 +46,11 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     float m_actionTimer;
     #endregion
 
-    [Tooltip("通常攻撃")]
+    /// <summary>通常攻撃</summary>
     List<SkillData> m_normalSkill = new List<SkillData>();
-    [Tooltip("スキル")]
+    /// <summary>スキル</summary>
     List<SkillData> m_skillDatas = new List<SkillData>();
-    [Tooltip("魔法")]
+    /// <summary>魔法</summary>
     List<SkillData> m_magicDatas = new List<SkillData>();
 
     void SetState()
@@ -61,19 +67,21 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         
         m_stateMachine.Start<BattleCharacterState.Wait>();
     }
+
     public void SetUp(Animator animator, CharacterParameterManager cp, HasSkillList  hasSkill, Parameters param)
     {
-        m_isBattle = false;
         SetAnim(animator);
         SetCharaParam(cp);
         SetParam(param);
         SetSkill(hasSkill);
         SetState();
     }
+
     public void OnUpdate()
     {
         m_stateMachine.Update();
     }
+
     void SetAnim(Animator animator)
     {
         m_animator = animator;
@@ -119,10 +127,16 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         m_currentTimer += Time.deltaTime;
     }
 
+    public void StartBattle()
+    {
+        m_isBattle = true;
+    }
+
     bool FinishedAnimation(int layer = 0)
     {
         return AnimationController.Instance.FinishedAnimation(m_animator, layer);
     }
+
     void PlayAnimation(string stateName, float transitionDuration = 0.1f)
     {
         AnimationController.Instance.PlayAnimation(m_animator, stateName, transitionDuration);
