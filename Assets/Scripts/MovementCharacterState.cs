@@ -16,7 +16,11 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnUpdate()
             {
-                if (owner.IsGround() || owner.IsSlope())
+                if (owner.m_notOperation)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Stop);
+                }
+                else if (owner.IsGround() || owner.IsSlope())
                 {
                     if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                     {
@@ -53,7 +57,11 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnUpdate()
             {
-                if (owner.IsGround() || owner.IsSlope())
+                if (owner.m_notOperation)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Stop);
+                }
+                else if (owner.IsGround() || owner.IsSlope())
                 {
                     if (Input.GetButtonDown("L1button"))
                     {
@@ -98,7 +106,11 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnUpdate()
             {
-                if (owner.m_inputDirection.sqrMagnitude > 0.1f)
+                if (owner.m_notOperation)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Stop);
+                }
+                else if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                 {
                     if (owner.IsGround() || owner.IsSlope())
                     {
@@ -235,6 +247,24 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
         }
 
+        public class Stop : State
+        {
+            protected override void OnEnter(State prevState)
+            {
+                owner.PlayAnimation("Idle");
+            }
+            protected override void OnUpdate()
+            {
+                if (!owner.m_notOperation)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Idle);
+                }
+            }
+            protected override void OnExit(State nextState)
+            {
+            }
+        }
+
         public class Dead : State
         {
             protected override void OnEnter(State prevState)
@@ -242,6 +272,10 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnUpdate()
             {
+                if (!owner.m_isDead)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Idle);
+                }
             }
             protected override void OnExit(State nextState)
             {

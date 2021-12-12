@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
 [RequireComponent(typeof(MovementCharacterStateMachine), typeof(BattleCharacterStateMachine))]
@@ -12,7 +14,7 @@ public class CharacterManager : MonoBehaviour
     Parameters m_param = new Parameters();
 
     bool m_isBattle;
-    bool m_donotMove;
+    bool m_isDead;
 
     CharacterParameterManager m_cpm;
     BattleCharacterStateMachine m_bcsm;
@@ -31,20 +33,23 @@ public class CharacterManager : MonoBehaviour
         m_rigidbody = GetComponent<Rigidbody>();
         m_capsuleCollider = GetComponent<CapsuleCollider>();
 
-        //m_cp = GetComponent<CharacterParameterManager>();
+        m_cpm = GetComponent<CharacterParameterManager>();
         m_mcsm = GetComponent<MovementCharacterStateMachine>();
         m_bcsm = GetComponent<BattleCharacterStateMachine>();
         m_hsl = GetComponent<HasSkillList>();
 
+        m_bcsm.Stop.Subscribe(s => StopMove(s));
+
         m_mcsm.SetUp(m_animator, m_rigidbody, m_myTransform, m_param, m_capsuleCollider);
-        //m_bcsm.SetUp(m_animator, m_cpm, m_param, m_hsl);
+        m_bcsm.SetUp(m_animator, m_cpm, m_hsl, m_param);
     }
 
     void Update()
     {
-        ApplyGetAxis();
         m_mcsm.OnUpdate();
-        //m_bcsm.OnUpdate();
+        m_bcsm.OnUpdate();
+
+        ApplyGetAxis();
     }
 
     void FixedUpdate()
@@ -58,9 +63,19 @@ public class CharacterManager : MonoBehaviour
         float v = Input.GetAxis("Lstick_v");
         m_mcsm.UserInput(h, v);
     }
+
+    void StopMove(bool stop)
+    {
+        m_mcsm.NotOperation = stop;
+    }
+
+    void Dead()
+    {
+
+    }
 }
 
-[System.Serializable]
+[Serializable]
 public class Parameters
 {
     [SerializeField, Tooltip("回転速度")]

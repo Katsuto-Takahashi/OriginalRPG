@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 using State = StateMachine<BattleCharacterStateMachine>.State;
 
 public partial class BattleCharacterStateMachine : MonoBehaviour
@@ -18,10 +20,15 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     }
 
     Animator m_animator;
+
     /// <summary>戦闘中かどうか</summary>
     bool m_isBattle = false;
-    /// <summary>操作可能かどうか</summary>
-    bool m_dontMove = false;
+    public bool IsBattle { get => m_isBattle; set => m_isBattle = value; }
+    /// <summary>入力による動きを止めるかどうか</summary>
+    BoolReactiveProperty m_stop = new BoolReactiveProperty(false);
+    /// <summary>入力による動きを止めるかのフラグ</summary>
+    public IReactiveProperty<bool> Stop => m_stop;
+
     /// <summary>対象との距離</summary>
     float m_distance;
     /// <summary>現在の待機時間</summary>
@@ -40,6 +47,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     int m_nowAP;
     /// <summary>最大のAP</summary>
     int m_ap;
+
     /// <summary>移動速度</summary>
     float m_moveSpeed;
     /// <summary>待機時間</summary>
@@ -65,7 +73,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         m_stateMachine.AddAnyTransition<BattleCharacterState.NoBattle>((int)ActEvent.NoBattle);
         m_stateMachine.AddAnyTransition<BattleCharacterState.Dead>((int)ActEvent.Dead);
         
-        m_stateMachine.Start<BattleCharacterState.Wait>();
+        m_stateMachine.Start<BattleCharacterState.NoBattle>();
     }
 
     public void SetUp(Animator animator, CharacterParameterManager cp, HasSkillList  hasSkill, Parameters param)
@@ -125,11 +133,6 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     void Timer()
     {
         m_currentTimer += Time.deltaTime;
-    }
-
-    public void StartBattle()
-    {
-        m_isBattle = true;
     }
 
     bool FinishedAnimation(int layer = 0)

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using State = StateMachine<MovementCharacterStateMachine>.State;
@@ -14,6 +15,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         Jump,
         Fall,
         Land,
+        Stop,
         Dead
     }
 
@@ -52,6 +54,13 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     /// <summary>ジャンプ中かどうか</summary>
     bool m_isJump;
 
+    /// <summary>操作可能かどうか</summary>
+    bool m_notOperation = false;
+    /// <summary>操作可能かのフラグ</summary>
+    public bool NotOperation { get => m_notOperation; set => m_notOperation = value; }
+    bool m_isDead = false;
+    public bool IsDead { get => m_isDead; set => m_isDead = value; }
+
     void SetState()
     {
         m_stateMachine = new StateMachine<MovementCharacterStateMachine>(this);
@@ -62,6 +71,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         m_stateMachine.AddAnyTransition<MovementCharacterState.Jump>((int)ActEvent.Jump);
         m_stateMachine.AddAnyTransition<MovementCharacterState.Fall>((int)ActEvent.Fall);
         m_stateMachine.AddAnyTransition<MovementCharacterState.Land>((int)ActEvent.Land);
+        m_stateMachine.AddAnyTransition<MovementCharacterState.Stop>((int)ActEvent.Stop);
         m_stateMachine.AddAnyTransition<MovementCharacterState.Dead>((int)ActEvent.Dead);
 
         m_stateMachine.Start<MovementCharacterState.Idle>();

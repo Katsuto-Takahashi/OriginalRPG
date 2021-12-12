@@ -9,6 +9,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("Wait");
             }
             protected override void OnUpdate()
             {
@@ -26,6 +27,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("Standby");
             }
 
             protected override void OnUpdate()
@@ -49,7 +51,8 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
-                owner.m_dontMove = true;
+                Debug.Log("Move");
+                owner.m_stop.Value = true;
                 owner.PlayAnimation("Run");
             }
 
@@ -85,7 +88,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             {
                 if (nextState is Wait)
                 {
-                    owner.m_dontMove = false;
+                    owner.m_stop.Value = false;
                 }
             }
         }
@@ -94,6 +97,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("BattleAction");
             }
 
             protected override void OnUpdate()
@@ -117,7 +121,8 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
-                owner.m_dontMove = false;
+                Debug.Log("ActionEnd");
+                owner.m_stop.Value = false;
             }
 
             protected override void OnUpdate()
@@ -141,6 +146,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("NoBattle");
                 owner.m_isBattle = false;
             }
 
@@ -165,7 +171,8 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
-                owner.m_dontMove = true;
+                Debug.Log("Dead");
+                owner.m_stop.Value = true;
                 owner.PlayAnimation("");
             }
 
@@ -187,7 +194,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnExit(State nextState)
             {
                 owner.PlayAnimation("");
-                owner.m_dontMove = false;
+                owner.m_stop.Value = false;
             }
         }
     }
