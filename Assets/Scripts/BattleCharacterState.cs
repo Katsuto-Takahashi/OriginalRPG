@@ -66,7 +66,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Wait);
                 }
-                if (owner.m_distance > 2f)
+                if (owner.m_distance > owner.m_normalSkill[0].AttackRange)
                 {
                     //Vector3 target = owner.m_targetPosition;
                     //target.y = 0f;
