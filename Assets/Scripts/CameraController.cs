@@ -38,32 +38,31 @@ public class CameraController : MonoBehaviour
             m_freeLookCamera.m_YAxis.Value = 0.5f;
             //向き
             float angle = Mathf.SmoothDamp(m_autoLookAtAngleProgress, m_nowTheAngle, ref m_currentCameraVelocity, 0.2f);
-            
-            // 前回との差分を設定
+
             m_freeLookCamera.m_XAxis.Value = angle - m_autoLookAtAngleProgress;
-            m_autoLookAtAngleProgress = angle;
 
             // 殆ど目標角度になったら終了
-            if (Mathf.Abs((int)m_autoLookAtAngleProgress) >= Mathf.Abs((int)m_nowTheAngle))
+            if (Mathf.Abs(m_autoLookAtAngleProgress - m_nowTheAngle) <= 0.01f)
             {
                 m_isMoved = false;
             }
+
+            // 前回との差分を設定
+            
+            m_autoLookAtAngleProgress = angle;
         }
     }
 
-    private void ResetCameraDirection(Vector3 target)
+    void ResetCameraDirection(Vector3 target)
     {
-        // それぞれのY座標をカメラの高さに合わせる
-        float cameraHeight = m_freeLookCamera.transform.position.y;
+        float cameraHeight = m_freeLookCamera.transform.position.y;//高さ統一
         Vector3 followPosition = new Vector3(m_freeLookCamera.Follow.position.x, cameraHeight, m_freeLookCamera.Follow.position.z);
         Vector3 targetPosition = new Vector3(target.x, cameraHeight, target.z);
 
-        // それぞれのベクトルを計算
         Vector3 followToTarget = targetPosition - followPosition;
         Vector3 followToTargetReverse = Vector3.Scale(followToTarget, new Vector3(-1, 1, -1));
         Vector3 followToCamera = m_freeLookCamera.transform.position - followPosition;
 
-        // カメラ回転の角度と方向を計算
         Vector3 axis = Vector3.Cross(followToCamera, followToTargetReverse);
         float direction = axis.y < 0 ? -1 : 1;
         float angle = Vector3.Angle(followToCamera, followToTargetReverse);
