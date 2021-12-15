@@ -269,6 +269,10 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                if (!owner.m_isBattle)
+                {
+                    owner.PlayAnimation("");
+                }
             }
             protected override void OnUpdate()
             {
@@ -279,6 +283,10 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnExit(State nextState)
             {
+                if (!owner.m_isBattle)
+                {
+                    owner.PlayAnimation("");
+                }
             }
         }
     }

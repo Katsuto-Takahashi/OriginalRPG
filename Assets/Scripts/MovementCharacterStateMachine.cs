@@ -58,8 +58,12 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     bool m_notOperation = false;
     /// <summary>操作可能かのフラグ</summary>
     public bool NotOperation { get => m_notOperation; set => m_notOperation = value; }
+
     bool m_isDead = false;
     public bool IsDead { get => m_isDead; set => m_isDead = value; }
+    /// <summary>戦闘中かどうか</summary>
+    bool m_isBattle = false;
+    public bool IsBattle { get => m_isBattle; set => m_isBattle = value; }
 
     void SetState()
     {
@@ -77,10 +81,10 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         m_stateMachine.Start<MovementCharacterState.Idle>();
     }
 
-    public void SetUp(Animator setAnimator, Rigidbody setRigidbody, Transform setTransform, Parameters setParam, CapsuleCollider setCollider)
+    public void SetUp(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, Transform setTransform, Parameters setParam)
     {
         m_isJump = false;
-        SetParam(setAnimator, setRigidbody, setTransform, setParam, setCollider);
+        SetParam(setAnimator, setRigidbody, setCollider, setTransform, setParam);
         SetState();
     }
 
@@ -99,10 +103,11 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         ApplyRotation();
     }
 
-    void SetParam(Animator setAnimator, Rigidbody setRigidbody, Transform setTransform, Parameters setParam, CapsuleCollider setCollider)
+    void SetParam(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, Transform setTransform, Parameters setParam)
     {
         m_animator = setAnimator;
         m_rigidbody = setRigidbody;
+        m_capsuleCollider = setCollider;
         m_myTransform = setTransform;
         m_rotatingSpeed = setParam.RotatingSpeed;
         m_walkingSpeed = setParam.WalkingSpeed;
@@ -112,7 +117,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         m_isGroundLength = setParam.IsGroundLength;
         m_groundLayer = setParam.GroundLayer;
         m_slopeLayer = setParam.SlopeLayer;
-        m_capsuleCollider = setCollider;
         m_movingSpeed = m_walkingSpeed;
     }
 

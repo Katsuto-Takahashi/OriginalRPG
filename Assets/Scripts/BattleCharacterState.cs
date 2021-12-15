@@ -13,7 +13,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             }
             protected override void OnUpdate()
             {
-                if (owner.m_nowHP < 1)
+                if (owner.m_isDead)
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
@@ -32,11 +32,11 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnUpdate()
             {
-                if (owner.m_nowHP < 1)
+                if (owner.m_isDead)
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
-                if (true)
+                else if (true)
                 {
                     StateMachine.Dispatch((int)ActEvent.Move);
                 }
@@ -58,11 +58,11 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnUpdate()
             {
-                if (owner.m_nowHP < 1)
+                if (owner.m_isDead)
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
-                if (true)
+                else if (true)
                 {
                     StateMachine.Dispatch((int)ActEvent.Wait);
                 }
@@ -102,10 +102,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnUpdate()
             {
-                if (owner.m_nowHP < 1)
-                {
-                    StateMachine.Dispatch((int)ActEvent.Dead);
-                }
+                //if (owner.m_isDead)
+                //{
+                //    StateMachine.Dispatch((int)ActEvent.Dead);
+                //}
                 if (owner.FinishedAnimation())
                 {
                     StateMachine.Dispatch((int)ActEvent.ActionEnd);
@@ -127,7 +127,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnUpdate()
             {
-                if (owner.m_nowHP < 1)
+                if (owner.m_isDead)
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
@@ -152,11 +152,11 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnUpdate()
             {
-                if (owner.m_nowHP < 1)
+                if (owner.m_isDead)
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
-                if (owner.m_isBattle)
+                else if (owner.m_isBattle)
                 {
                     StateMachine.Dispatch((int)ActEvent.Wait);
                 }
@@ -178,7 +178,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnUpdate()
             {
-                if (owner.m_nowHP > 0)
+                if (!owner.m_isDead)
                 {
                     if (owner.m_isBattle)
                     {
@@ -194,7 +194,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnExit(State nextState)
             {
                 owner.PlayAnimation("");
-                owner.m_stop.Value = false;
+                if (owner.FinishedAnimation())
+                {
+                    owner.m_stop.Value = false;
+                }
             }
         }
     }

@@ -24,6 +24,8 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     /// <summary>戦闘中かどうか</summary>
     bool m_isBattle = false;
     public bool IsBattle { get => m_isBattle; set => m_isBattle = value; }
+    bool m_isDead = false;
+    public bool IsDead { get => m_isDead; set => m_isDead = value; }
     /// <summary>入力による動きを止めるかどうか</summary>
     BoolReactiveProperty m_stop = new BoolReactiveProperty(false);
     /// <summary>入力による動きを止めるかのフラグ</summary>
@@ -76,10 +78,9 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         m_stateMachine.Start<BattleCharacterState.NoBattle>();
     }
 
-    public void SetUp(Animator animator, CharacterParameterManager cp, HasSkillList  hasSkill, Parameters param)
+    public void SetUp(Animator animator, HasSkillList  hasSkill, Parameters param)
     {
         SetAnim(animator);
-        SetCharaParam(cp);
         SetParam(param);
         SetSkill(hasSkill);
         SetState();
