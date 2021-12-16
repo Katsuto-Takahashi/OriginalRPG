@@ -36,14 +36,22 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
-                else if (true)
+                else if (owner.m_distance > 0)
                 {
                     StateMachine.Dispatch((int)ActEvent.Move);
+                }
+                else
+                {
+                    StateMachine.Dispatch((int)ActEvent.BattleAction);
                 }
             }
 
             protected override void OnExit(State nextState)
             {
+                if (nextState is Move || nextState is BattleAction)
+                {
+                    owner.m_currentTimer += owner.m_actionTimer;
+                }
             }
         }
 

@@ -42,10 +42,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnExit(State nextState)
             {
-                if (nextState is Jump)
-                {
-                    owner.m_isJump = true;
-                }
             }
         }
 
@@ -90,10 +86,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnExit(State nextState)
             {
-                if (nextState is Jump)
-                {
-                    owner.m_isJump = true;
-                }
             }
         }
 
@@ -139,10 +131,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnExit(State nextState)
             {
-                if (nextState is Jump)
-                {
-                    owner.m_isJump = true;
-                }
                 owner.m_movingSpeed = owner.m_walkingSpeed;
             }
         }
@@ -173,7 +161,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnExit(State nextState)
             {
-                owner.m_isJump = false;
             }
         }
 

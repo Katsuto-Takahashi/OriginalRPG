@@ -51,8 +51,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     LayerMask m_groundLayer;
     /// <summary>坂のレイヤー</summary>
     LayerMask m_slopeLayer;
-    /// <summary>ジャンプ中かどうか</summary>
-    bool m_isJump;
 
     /// <summary>操作可能かどうか</summary>
     bool m_notOperation = false;
@@ -83,7 +81,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
 
     public void SetUp(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, Transform setTransform, Parameters setParam)
     {
-        m_isJump = false;
         SetParam(setAnimator, setRigidbody, setCollider, setTransform, setParam);
         SetState();
     }
@@ -94,7 +91,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
 
         m_moveForward = Camera.main.transform.TransformDirection(m_inputDirection);
 
-        ApplyGravity();
+        ApplyGravity(m_stateMachine.CurrentSate);
     }
 
     public void OnFixedUpdate()
@@ -165,12 +162,11 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     }
 #endif
 
-    void ApplyGravity()
+    void ApplyGravity(State state)
     {
-        if (IsSlope() && !m_isJump)
-        {
-            m_currentVelocity.y = m_gravityScale * Physics.gravity.y;
-        }
+        if (state is MovementCharacterState.Jump) return;
+
+        if (IsSlope()) m_currentVelocity.y = m_gravityScale * Physics.gravity.y;
     }
 
     bool FinishedAnimation(int layer = 0)

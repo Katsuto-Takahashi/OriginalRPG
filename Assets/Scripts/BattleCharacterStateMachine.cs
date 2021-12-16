@@ -89,6 +89,8 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     public void OnUpdate()
     {
         m_stateMachine.Update();
+
+        Timer(m_stateMachine.CurrentSate);
     }
 
     void SetAnim(Animator animator)
@@ -131,9 +133,12 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         }
     }
 
-    void Timer()
+    void Timer(State state)
     {
-        m_currentTimer += Time.deltaTime;
+        if (state is BattleCharacterState.Wait || state is BattleCharacterState.Standby)
+        {
+            m_currentTimer += Time.deltaTime;
+        }
     }
 
     bool FinishedAnimation(int layer = 0)
