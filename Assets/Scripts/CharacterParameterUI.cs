@@ -19,9 +19,6 @@ public class CharacterParameterUI : MonoBehaviour
     {
         m_HP.text = nowHP.ToString("0") + "/" + maxHP.ToString("0");
         m_AP.text = nowAP.ToString("0") + "/" + maxAP.ToString("0");
-    }
-    public void CreateGage(int nowHP, int maxHP, int nowAP, int maxAP)
-    {
         m_HPGage.value = nowHP / (float)maxHP;
         m_APGage.value = nowAP / (float)maxAP;
     }

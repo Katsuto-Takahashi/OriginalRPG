@@ -66,7 +66,7 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
         {
             NowHP = 0;
         }
-        m_UIDisplay.ChangeUI();
+        //m_UIDisplay.ChangeUI();
     }
     void LevelUp()
     {
@@ -74,7 +74,7 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
         Level++;
         CalculateNextExp(Level);
         ParameterUp(Level);
-        m_UIDisplay.ChangeUI();
+        //m_UIDisplay.ChangeUI();
     }
     public void GetExp(int getExp)
     {

@@ -16,10 +16,12 @@ public class CharacterManager : MonoBehaviour
     protected Parameters m_param = new Parameters();
 
     protected HasSkillList m_hsl;
-    protected Character m_character;
+    private Character m_character;
     protected Animator m_animator;
     protected Rigidbody m_rigidbody;
     protected CapsuleCollider m_capsuleCollider;
+
+    public Character Character { get => m_character; set => m_character = value; }
 
     void Start()
     {
