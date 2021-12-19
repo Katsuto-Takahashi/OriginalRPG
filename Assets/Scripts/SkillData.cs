@@ -45,6 +45,7 @@ public class SkillData : ScriptableObject
     /// <summary>攻撃の範囲</summary>
     public float AttackRange => attackRange;
 
+    /// <summary>攻撃の属性</summary>
     public enum AttackAttributes
     {
         non,
@@ -58,15 +59,14 @@ public class SkillData : ScriptableObject
         light
     }
     [Tooltip("攻撃の属性")]
-    /// <summary>攻撃の属性</summary>
     public AttackAttributes attackAttributes;
 
+    /// <summary>攻撃のタイプ</summary>
     public enum AttackType
     {
         physicalAttack,
         magicAttack
     }
     [Tooltip("攻撃のタイプ")]
-    /// <summary>攻撃のタイプ</summary>
     public AttackType attackType;
 }

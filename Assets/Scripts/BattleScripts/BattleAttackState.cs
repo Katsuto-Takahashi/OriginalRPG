@@ -45,11 +45,11 @@ public partial class BCharacterStateMachine : MonoBehaviour
                 //攻撃対象のTakeDamage()を呼ぶ
                 if (owner.CompareTag("Player"))
                 {
-                    owner.m_targetCharacters[owner.m_targetNumber].GetComponent<EnemyManager>().TakeDamage(owner.battleManager.Damage(owner.gameObject, owner.m_targetCharacters[owner.m_targetNumber], owner.hasSkillList.m_normalSkill[0]));
+                    owner.m_targetCharacters[owner.m_targetNumber].GetComponent<EnemyManager>().TakeDamage(owner.battleManager.Damage(owner.gameObject, owner.m_targetCharacters[owner.m_targetNumber], owner.hasSkillList.NormalSkill[0]));
                 }
                 else if (owner.CompareTag("Enemy"))
                 {
-                    owner.m_targetCharacters[owner.m_targetNumber].GetComponent<CharacterParameterManager>().TakeDamage(owner.battleManager.Damage(owner.gameObject, owner.m_targetCharacters[owner.m_targetNumber], owner.hasSkillList.m_normalSkill[0]));
+                    owner.m_targetCharacters[owner.m_targetNumber].GetComponent<CharacterParameterManager>().TakeDamage(owner.battleManager.Damage(owner.gameObject, owner.m_targetCharacters[owner.m_targetNumber], owner.hasSkillList.NormalSkill[0]));
                 }
                 owner.ChangeState(owner.battleIdleState);
             }

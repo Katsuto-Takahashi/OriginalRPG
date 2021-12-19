@@ -25,7 +25,6 @@ public class PlayerManager : CharacterManager
         m_bcsm = GetComponent<BattleCharacterStateMachine>();
         m_hsl = GetComponent<HasSkillList>();
 
-        Character = GetComponent<Character>();
         Character.HP.DistinctUntilChanged().Subscribe(hp => CheckHP(hp));
         Character.AP.DistinctUntilChanged().Subscribe(ap => CheckAP(ap));
 

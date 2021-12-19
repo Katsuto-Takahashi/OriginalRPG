@@ -23,11 +23,18 @@ public class CharacterManager : MonoBehaviour
 
     public Character Character { get => m_character; set => m_character = value; }
 
+    void Awake()
+    {
+        m_character = GetComponent<Character>();
+    }
+
     void Start()
     {
         SetUp();
-        this.UpdateAsObservable().Subscribe(_ => OnUpdate());
-        this.FixedUpdateAsObservable().Subscribe(_ => OnFixedUpdate());
+        Observable.EveryUpdate().Subscribe(_ => OnUpdate())
+            .AddTo(this);
+        Observable.EveryFixedUpdate().Subscribe(_ => OnFixedUpdate())
+            .AddTo(this);
     }
 
     protected virtual void SetUp() { }

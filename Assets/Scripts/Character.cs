@@ -11,24 +11,39 @@ public class Character : CharacterParameter, ITakableDamage
 
     public void OnUpdate()
     {
-        
-    }
-    public virtual void TakeDamage(int damage)
-    {
-        HP.Value -= damage;
-        if (HP.Value < 1)
+        if (HP.Value >= MaxHP.Value)
+        {
+            HP.Value = MaxHP.Value;
+        }
+        else if (HP.Value < 1)
         {
             HP.Value = 0;
         }
-        //m_UIDisplay.ChangeUI();
+        if (AP.Value >= MaxAP.Value)
+        {
+            AP.Value = MaxAP.Value;
+        }
+        else if (AP.Value < 1)
+        {
+            AP.Value = 0;
+        }
+    }
+    public virtual void TakeDamage(int damage)
+    {
+        if (HP.Value - damage < 1)
+        {
+            HP.Value = 0;
+        }
+        else
+        {
+            HP.Value -= damage;
+        }
     }
     void LevelUp()
     {
-        //LevelUP = true;
         Level.Value++;
         CalculateNextExp(Level.Value);
         ParameterUp(Level.Value);
-        //m_UIDisplay.ChangeUI();
     }
     public void GetExp(int getExp)
     {
@@ -66,7 +81,7 @@ public class Character : CharacterParameter, ITakableDamage
             NextExp.Value = (int)(((level - 10) * m_charaCorrection * level * level + level * 2) * m_levelCorrection);
         }
     }
-    void ParameterUp(int level)
+    void ParameterUp(int level)//上昇の仕方は検討中
     {
         int baseParameter = level % 5 + 1;
         MaxHP.Value += baseParameter;

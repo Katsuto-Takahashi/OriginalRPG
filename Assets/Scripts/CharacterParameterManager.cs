@@ -28,7 +28,7 @@ public class CharacterParameterManager : CharacterParameters, ITakableDamage
     public bool IsDeadState { get => isDeadState; set => isDeadState = value; }
     bool levelUP = false;
     public bool LevelUP { get => levelUP; set => levelUP = value; }
-    [SerializeField] HPAndAPDisplay m_UIDisplay = null;
+    //[SerializeField] HPAndAPDisplay m_UIDisplay = null;
 
     void Start()
     {

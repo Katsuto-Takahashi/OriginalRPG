@@ -39,10 +39,14 @@ public class HPAndAPDisplay : MonoBehaviour
 
     void Start()
     {
-        Chenge();
+        
+        Create();
+        Observable.EveryUpdate().Subscribe(_ => OnUpdate())
+            .AddTo(this);
+        
     }
 
-    void Update()
+    void OnUpdate()
     {
         m_memberNumber = m_partyManager.CharacterParty.Count;
         if (m_beforeMemberNumber != m_memberNumber)
@@ -69,7 +73,7 @@ public class HPAndAPDisplay : MonoBehaviour
                 }
             }
 
-            Chenge();
+            Create();
             m_beforeMemberNumber = m_memberNumber;
         }
 
@@ -89,7 +93,7 @@ public class HPAndAPDisplay : MonoBehaviour
         }
     }
 
-    void Create()
+    void Chenge()
     {
         Debug.Log("チェンジ");
 
@@ -106,14 +110,14 @@ public class HPAndAPDisplay : MonoBehaviour
         }
     }
 
-    void Chenge()
+    void Create()
     {
         for (int i = 0; i < m_cm.Count; i++)
         {
-            m_cm[i].Character.HP.DistinctUntilChanged().Subscribe(_ => Create()).AddTo(m_gameObjects[i]);
-            m_cm[i].Character.MaxHP.DistinctUntilChanged().Subscribe(_ => Create()).AddTo(m_gameObjects[i]);
-            m_cm[i].Character.AP.DistinctUntilChanged().Subscribe(_ => Create()).AddTo(m_gameObjects[i]);
-            m_cm[i].Character.MaxAP.DistinctUntilChanged().Subscribe(_ => Create()).AddTo(m_gameObjects[i]);
+            m_cm[i].Character.HP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
+            m_cm[i].Character.MaxHP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
+            m_cm[i].Character.AP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
+            m_cm[i].Character.MaxAP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
         }
     }
 }
