@@ -28,6 +28,19 @@ public class PlayerManager : CharacterManager
         Character.HP.DistinctUntilChanged().Subscribe(hp => CheckHP(hp));
         Character.AP.DistinctUntilChanged().Subscribe(ap => CheckAP(ap));
 
+
+        Character.HP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        Character.AP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+
+        Character.MaxHP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        Character.MaxAP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        Character.Strength.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        Character.Defense.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        Character.MagicPower.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        Character.MagicResist.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        Character.Speed.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+
+
         m_bcsm.Stop.DistinctUntilChanged().Subscribe(s => StopMove(s));
 
         m_mcsm.SetUp(m_animator, m_rigidbody, m_capsuleCollider, m_myTransform, m_param);

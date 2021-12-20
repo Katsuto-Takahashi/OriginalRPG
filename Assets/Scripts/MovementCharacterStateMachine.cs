@@ -57,12 +57,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     /// <summary>操作可能かのフラグ</summary>
     public bool NotOperation { get => m_notOperation; set => m_notOperation = value; }
 
-    bool m_isDead = false;
-    public bool IsDead { get => m_isDead; set => m_isDead = value; }
-    /// <summary>戦闘中かどうか</summary>
-    bool m_isBattle = false;
-    public bool IsBattle { get => m_isBattle; set => m_isBattle = value; }
-
     void SetState()
     {
         m_stateMachine = new StateMachine<MovementCharacterStateMachine>(this);

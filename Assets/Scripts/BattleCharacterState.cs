@@ -110,10 +110,6 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnUpdate()
             {
-                //if (owner.m_isDead)
-                //{
-                //    StateMachine.Dispatch((int)ActEvent.Dead);
-                //}
                 if (owner.FinishedAnimation())
                 {
                     StateMachine.Dispatch((int)ActEvent.ActionEnd);

@@ -50,6 +50,12 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     /// <summary>最大のAP</summary>
     int m_ap;
 
+    int m_strength;
+    int m_defense;
+    int m_magicPower;
+    int m_magicResist;
+
+
     /// <summary>移動速度</summary>
     float m_moveSpeed;
     /// <summary>待機時間</summary>
@@ -98,13 +104,24 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         m_animator = animator;
     }
 
-    void SetCharaParam(CharacterParameterManager cpm)
+    public void Parameter(CharacterManager cm)
     {
-        m_nowHP = cpm.NowHP;
-        m_nowAP = cpm.NowAP;
-        m_hp = cpm.MaxHP;
-        m_ap = cpm.MaxAP;
-        m_actionTimer = (1000 - cpm.Speed) / 100f;
+        SetCharaParam(cm);
+    }
+
+    void SetCharaParam(CharacterManager cm)
+    {
+        m_nowHP = cm.Character.HP.Value;
+        m_nowAP = cm.Character.AP.Value;
+
+        m_hp = cm.Character.MaxHP.Value;
+        m_ap = cm.Character.MaxAP.Value;
+        m_strength = cm.Character.Strength.Value;
+        m_defense = cm.Character.Defense.Value;
+        m_magicPower = cm.Character.MagicPower.Value;
+        m_magicResist = cm.Character.MagicResist.Value;
+
+        m_actionTimer = (1000 - cm.Character.Speed.Value) / 100f;
     }
 
     void SetParam(Parameters param)

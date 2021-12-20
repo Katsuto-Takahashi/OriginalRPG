@@ -256,24 +256,12 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
-                if (!owner.m_isBattle)
-                {
-                    owner.PlayAnimation("");
-                }
             }
             protected override void OnUpdate()
             {
-                if (!owner.m_isDead)
-                {
-                    StateMachine.Dispatch((int)ActEvent.Idle);
-                }
             }
             protected override void OnExit(State nextState)
             {
-                if (!owner.m_isBattle)
-                {
-                    owner.PlayAnimation("");
-                }
             }
         }
     }
