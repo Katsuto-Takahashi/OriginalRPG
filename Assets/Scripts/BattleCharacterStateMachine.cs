@@ -154,7 +154,15 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     {
         if (state is BattleCharacterState.Wait || state is BattleCharacterState.Standby)
         {
-            m_currentTimer += Time.deltaTime;
+            if (m_actionCount < 3)//ここの3は蓄積できる行動回数
+            {
+                m_currentTimer += Time.deltaTime;
+            }
+            if (m_currentTimer > m_actionTimer)
+            {
+                m_currentTimer -= m_actionTimer;
+                m_actionCount++;
+            }
         }
     }
 

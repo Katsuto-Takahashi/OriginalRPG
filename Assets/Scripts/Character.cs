@@ -54,14 +54,17 @@ public class Character : CharacterParameter, ITakableDamage
     {
         NowExp.Value += getExp;
         TotalExp.Value += getExp;
-        if (NextExp.Value - NowExp.Value <= 0)
+        if (NextExp.Value <= NowExp.Value)
         {
             int exp = NextExp.Value - NowExp.Value;
-            NowExp.Value = 0;
             if (Level.Value != 100)
             {
                 LevelUp();
                 NowExp.Value -= exp;
+            }
+            else
+            {
+                NowExp.Value = 0;
             }
         }
     }

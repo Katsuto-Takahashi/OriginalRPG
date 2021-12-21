@@ -15,11 +15,11 @@ public class PlayerManager : CharacterManager
 
     protected override void SetUp()
     {
-        m_myTransform = transform;
+        //m_myTransform = transform;
 
-        m_animator = GetComponentInChildren<Animator>();
-        m_rigidbody = GetComponent<Rigidbody>();
-        m_capsuleCollider = GetComponent<CapsuleCollider>();
+        //m_animator = GetComponentInChildren<Animator>();
+        //m_rigidbody = GetComponent<Rigidbody>();
+        //m_capsuleCollider = GetComponent<CapsuleCollider>();
 
         m_mcsm = GetComponent<MovementCharacterStateMachine>();
         m_bcsm = GetComponent<BattleCharacterStateMachine>();
@@ -85,11 +85,13 @@ public class PlayerManager : CharacterManager
     }
     void CheckDead()
     {
+        //m_capsuleCollider.isTrigger = true;
         m_bcsm.IsDead = true;
         m_isDead.Value = true;
     }
     void Alive()
     {
+        //m_capsuleCollider.isTrigger = false;
         m_bcsm.IsDead = false;
         m_isDead.Value = false;
     }

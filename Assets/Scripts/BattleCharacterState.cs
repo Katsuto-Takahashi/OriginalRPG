@@ -50,7 +50,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             {
                 if (nextState is Move || nextState is BattleAction)
                 {
-                    owner.m_currentTimer += owner.m_actionTimer;
+                    owner.m_actionCount--;
                 }
             }
         }
@@ -151,7 +151,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("NoBattle");
+                owner.m_stop.Value = false;
                 owner.m_isBattle = false;
+                owner.m_currentTimer = 0f;
+                owner.m_actionCount = 1;
             }
 
             protected override void OnUpdate()

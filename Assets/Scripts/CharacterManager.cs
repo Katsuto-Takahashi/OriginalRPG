@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UniRx;
-using UniRx.Triggers;
 
-[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
+[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider), typeof(Character))]
 public class CharacterManager : MonoBehaviour
 {
     /// <summary>自分のTransform</summary>
@@ -25,7 +24,13 @@ public class CharacterManager : MonoBehaviour
 
     void Awake()
     {
+        m_myTransform = transform;
+
         m_character = GetComponent<Character>();
+
+        m_animator = GetComponentInChildren<Animator>();
+        m_rigidbody = GetComponent<Rigidbody>();
+        m_capsuleCollider = GetComponent<CapsuleCollider>();
     }
 
     void Start()
@@ -39,17 +44,7 @@ public class CharacterManager : MonoBehaviour
 
     protected virtual void SetUp() { }
 
-    //void Update()
-    //{
-    //    OnUpdate();
-    //}
-
     protected virtual void OnUpdate() { }
-
-    //void FixedUpdate()
-    //{
-    //    OnFixedUpdate();
-    //}
 
     protected virtual void OnFixedUpdate() { }
 }
