@@ -5,7 +5,7 @@ using UnityEngine;
 using UniRx;
 
 [RequireComponent(typeof(MovementCharacterStateMachine), typeof(BattleCharacterStateMachine))]
-public class PlayerManager : CharacterManager
+public class PlayerManager : Character
 {
     BoolReactiveProperty m_isDead = new BoolReactiveProperty(false);
     public IReadOnlyReactiveProperty<bool> IsDead => m_isDead;
@@ -15,30 +15,23 @@ public class PlayerManager : CharacterManager
 
     protected override void SetUp()
     {
-        //m_myTransform = transform;
-
-        //m_animator = GetComponentInChildren<Animator>();
-        //m_rigidbody = GetComponent<Rigidbody>();
-        //m_capsuleCollider = GetComponent<CapsuleCollider>();
-
         m_mcsm = GetComponent<MovementCharacterStateMachine>();
         m_bcsm = GetComponent<BattleCharacterStateMachine>();
-        m_hsl = GetComponent<HasSkillList>();
 
-        Character.HP.DistinctUntilChanged().Subscribe(hp => CheckHP(hp));
-        Character.AP.DistinctUntilChanged().Subscribe(ap => CheckAP(ap));
+        HP.DistinctUntilChanged().Subscribe(hp => CheckHP(hp));
+        AP.DistinctUntilChanged().Subscribe(ap => CheckAP(ap));
 
 
-        Character.HP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        Character.AP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        HP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        AP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
 
-        Character.MaxHP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        Character.MaxAP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        Character.Strength.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        Character.Defense.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        Character.MagicPower.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        Character.MagicResist.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        Character.Speed.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        MaxHP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        MaxAP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        Strength.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        Defense.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        MagicPower.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        MagicResist.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        Speed.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
 
 
         m_bcsm.Stop.DistinctUntilChanged().Subscribe(s => StopMove(s));
@@ -49,6 +42,7 @@ public class PlayerManager : CharacterManager
 
     protected override void OnUpdate()
     {
+        base.OnUpdate();
         m_mcsm.OnUpdate();
         m_bcsm.OnUpdate();
 

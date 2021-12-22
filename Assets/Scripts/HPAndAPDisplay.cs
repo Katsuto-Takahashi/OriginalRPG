@@ -22,7 +22,7 @@ public class HPAndAPDisplay : MonoBehaviour
 
     int m_beforeMemberNumber;
 
-    List<CharacterManager> m_cm = new List<CharacterManager>();
+    List<Character> m_cm = new List<Character>();
 
     void Awake()
     {
@@ -33,7 +33,7 @@ public class HPAndAPDisplay : MonoBehaviour
             m_ui = Instantiate(m_gameObject);
             m_ui.transform.SetParent(transform, false);
             m_gameObjects.Add(m_ui);
-            m_cm.Add(m_partyManager.CharacterParty[i].GetComponent<CharacterManager>());
+            m_cm.Add(m_partyManager.CharacterParty[i].GetComponent<Character>());
         }
     }
 
@@ -69,7 +69,7 @@ public class HPAndAPDisplay : MonoBehaviour
                     m_ui = Instantiate(m_gameObject);
                     m_ui.transform.SetParent(transform, false);
                     m_gameObjects.Add(m_ui);
-                    m_cm.Add(m_partyManager.CharacterParty[i].GetComponent<CharacterManager>());
+                    m_cm.Add(m_partyManager.CharacterParty[i].GetComponent<Character>());
                 }
             }
 
@@ -100,12 +100,12 @@ public class HPAndAPDisplay : MonoBehaviour
         for (int i = 0; i < m_cm.Count; i++)
         {
             var ui = m_gameObjects[i].GetComponent<CharacterParameterUI>();
-            ui.CreateName(m_cm[i].Character.Name.Value);
+            ui.CreateName(m_cm[i].Name.Value);
             ui.CreateParameter(
-                m_cm[i].Character.HP.Value,
-                m_cm[i].Character.MaxHP.Value,
-                m_cm[i].Character.AP.Value,
-                m_cm[i].Character.MaxAP.Value
+                m_cm[i].HP.Value,
+                m_cm[i].MaxHP.Value,
+                m_cm[i].AP.Value,
+                m_cm[i].MaxAP.Value
                 );
         }
     }
@@ -114,10 +114,10 @@ public class HPAndAPDisplay : MonoBehaviour
     {
         for (int i = 0; i < m_cm.Count; i++)
         {
-            m_cm[i].Character.HP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
-            m_cm[i].Character.MaxHP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
-            m_cm[i].Character.AP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
-            m_cm[i].Character.MaxAP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
+            m_cm[i].HP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
+            m_cm[i].MaxHP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
+            m_cm[i].AP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
+            m_cm[i].MaxAP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
         }
     }
 }

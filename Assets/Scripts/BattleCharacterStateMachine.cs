@@ -104,24 +104,24 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         m_animator = animator;
     }
 
-    public void Parameter(CharacterManager cm)
+    public void Parameter(Character cm)
     {
         SetCharaParam(cm);
     }
 
-    void SetCharaParam(CharacterManager cm)
+    void SetCharaParam(Character cm)
     {
-        m_nowHP = cm.Character.HP.Value;
-        m_nowAP = cm.Character.AP.Value;
+        m_nowHP = cm.HP.Value;
+        m_nowAP = cm.AP.Value;
 
-        m_hp = cm.Character.MaxHP.Value;
-        m_ap = cm.Character.MaxAP.Value;
-        m_strength = cm.Character.Strength.Value;
-        m_defense = cm.Character.Defense.Value;
-        m_magicPower = cm.Character.MagicPower.Value;
-        m_magicResist = cm.Character.MagicResist.Value;
+        m_hp = cm.MaxHP.Value;
+        m_ap = cm.MaxAP.Value;
+        m_strength = cm.Strength.Value;
+        m_defense = cm.Defense.Value;
+        m_magicPower = cm.MagicPower.Value;
+        m_magicResist = cm.MagicResist.Value;
 
-        m_actionTimer = (1000 - cm.Character.Speed.Value) / 100f;
+        m_actionTimer = (1000 - cm.Speed.Value) / 100f;
     }
 
     void SetParam(Parameters param)
