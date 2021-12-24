@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UniRx;
 
 [RequireComponent(typeof(MovementCharacterStateMachine), typeof(BattleCharacterStateMachine))]

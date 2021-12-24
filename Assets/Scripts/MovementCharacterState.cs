@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using State = StateMachine<MovementCharacterStateMachine>.State;
 
 public partial class MovementCharacterStateMachine : MonoBehaviour
