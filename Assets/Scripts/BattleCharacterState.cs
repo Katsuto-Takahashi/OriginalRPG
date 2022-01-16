@@ -17,6 +17,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
+                if (owner.m_actionCount > 0)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Standby);
+                }
             }
             protected override void OnExit(State nextState)
             {
@@ -179,6 +183,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("Dead");
+                owner.m_actionCount = 0;
                 owner.m_stop.Value = true;
                 owner.PlayAnimation("");
             }

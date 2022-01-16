@@ -37,6 +37,8 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     GameObject m_target;
     /// <summary>行動回数</summary>
     int m_actionCount;
+    /// <summary>蓄積可能な行動回数</summary>
+    int m_maxActionCount;
 
     #region パラメーター
     /// <summary>現在のHP</summary>
@@ -102,24 +104,25 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         m_animator = animator;
     }
 
-    public void Parameter(Character cm)
+    public void Parameter(Character character)
     {
-        SetCharaParam(cm);
+        SetCharaParam(character);
     }
 
-    void SetCharaParam(Character cm)
+    void SetCharaParam(Character character)
     {
-        m_nowHP = cm.HP.Value;
-        m_nowAP = cm.AP.Value;
+        m_nowHP = character.HP.Value;
+        m_nowAP = character.AP.Value;
 
-        m_hp = cm.MaxHP.Value;
-        m_ap = cm.MaxAP.Value;
-        m_strength = cm.Strength.Value;
-        m_defense = cm.Defense.Value;
-        m_magicPower = cm.MagicPower.Value;
-        m_magicResist = cm.MagicResist.Value;
+        m_hp = character.MaxHP.Value;
+        m_ap = character.MaxAP.Value;
+        m_strength = character.Strength.Value;
+        m_defense = character.Defense.Value;
+        m_magicPower = character.MagicPower.Value;
+        m_magicResist = character.MagicResist.Value;
 
-        m_actionTimer = (1000 - cm.Speed.Value) / 100f;
+        m_actionTimer = (1000 - character.Speed.Value) / 100f;
+        m_maxActionCount = character.MaxActionCount;
     }
 
     void SetParam(Parameters param)
@@ -152,7 +155,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     {
         if (state is BattleCharacterState.Wait || state is BattleCharacterState.Standby)
         {
-            if (m_actionCount < 3)//ここの3は蓄積できる行動回数
+            if (m_actionCount < m_maxActionCount)
             {
                 m_currentTimer += Time.deltaTime;
             }
