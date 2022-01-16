@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class PartyManager : MonoBehaviour
 {
@@ -12,4 +13,19 @@ public class PartyManager : MonoBehaviour
     public List<GameObject> CharacterParty  => m_characterParty;
 
     public List<GameObject> EnemyParty => m_enemyParty;
+
+    IntReactiveProperty m_characterCount = new IntReactiveProperty();
+    public IReadOnlyReactiveProperty<int> CharacterCount => m_characterCount;
+    void Awake()
+    {
+        m_characterCount.Value = m_characterParty.Count;
+
+        Observable.EveryUpdate().Subscribe(_ => ChengeCount())
+            .AddTo(this);
+    }
+
+    void ChengeCount()
+    {
+        m_characterCount.Value = m_characterParty.Count;
+    }
 }

@@ -19,6 +19,9 @@ public class Character : CharacterParameter, ITakableDamage
     protected Rigidbody m_rigidbody;
     protected CapsuleCollider m_capsuleCollider;
 
+    BoolReactiveProperty m_isContact = new BoolReactiveProperty(false);
+    public IReadOnlyReactiveProperty<bool> IsContact => m_isContact;
+
     void Awake()
     {
         m_myTransform = transform;
@@ -135,6 +138,27 @@ public class Character : CharacterParameter, ITakableDamage
         Speed.Value += baseParameter;
         Luck.Value++;
         SkillPoint.Value += baseParameter;
+    }
+
+    public void GetSkill(SkillData skillData)
+    {
+        if (skillData.attackType == SkillData.AttackType.physicalAttack)
+        {
+            m_hsl.SkillDatas.Add(skillData);
+        }
+        else if (skillData.attackType == SkillData.AttackType.magicAttack)
+        {
+            m_hsl.MagicDatas.Add(skillData);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy") && !m_isContact.HasValue)
+        {
+            m_isContact.Value = true;
+            NewBattleManager.Instance.SetBattle(gameObject, other.gameObject);
+        }
     }
 }
 
