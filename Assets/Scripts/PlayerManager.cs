@@ -76,13 +76,11 @@ public class PlayerManager : Character
     }
     void CheckDead()
     {
-        //m_capsuleCollider.isTrigger = true;
         m_bcsm.IsDead = true;
         m_isDead.Value = true;
     }
     void Alive()
     {
-        //m_capsuleCollider.isTrigger = false;
         m_bcsm.IsDead = false;
         m_isDead.Value = false;
     }
