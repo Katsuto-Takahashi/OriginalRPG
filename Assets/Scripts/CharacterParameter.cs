@@ -19,7 +19,7 @@ public class CharacterParameter : MonoBehaviour
     IntReactiveProperty m_maxHp = new IntReactiveProperty();
     /// <summary>キャラクターの最大HP</summary>
     public IReactiveProperty<int> MaxHP => m_maxHp;
-    
+
     [SerializeField]
     IntReactiveProperty m_ap = new IntReactiveProperty();
     /// <summary>キャラクターの現在AP</summary>
@@ -88,11 +88,14 @@ public class CharacterParameter : MonoBehaviour
 
     /// <summary>レベル補正</summary>
     [SerializeField]
-    [Tooltip("レベル補正")]
     protected float m_levelCorrection = 4.8f;
 
     /// <summary>キャラクター補正</summary>
     [SerializeField]
-    [Tooltip("キャラクター補正")]
     protected float m_charaCorrection = 0.07f;
+
+    [SerializeField]
+    int m_maxActionCount = 3;
+    /// <summary>蓄積可能な行動回数</summary>
+    public int MaxActionCount { get => m_maxActionCount; }
 }
