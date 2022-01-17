@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
 using UniRx;
 
-[RequireComponent(typeof(MovementCharacterStateMachine), typeof(BattleCharacterStateMachine))]
+//[RequireComponent(typeof(MovementCharacterStateMachine), typeof(BattleCharacterStateMachine))]
 public class PlayerManager : Character
 {
     BoolReactiveProperty m_isDead = new BoolReactiveProperty(false);
     public IReadOnlyReactiveProperty<bool> IsDead => m_isDead;
 
-    BattleCharacterStateMachine m_bcsm;
-    MovementCharacterStateMachine m_mcsm;
+    //BattleCharacterStateMachine m_bcsm;
+    //MovementCharacterStateMachine m_mcsm;
 
     protected override void SetUp()
     {
-        m_mcsm = GetComponent<MovementCharacterStateMachine>();
-        m_bcsm = GetComponent<BattleCharacterStateMachine>();
+        //m_mcsm = GetComponent<MovementCharacterStateMachine>();
+        //m_bcsm = GetComponent<BattleCharacterStateMachine>();
 
         HP.DistinctUntilChanged().Subscribe(hp => CheckHP(hp));
         AP.DistinctUntilChanged().Subscribe(ap => CheckAP(ap));

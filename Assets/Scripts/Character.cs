@@ -4,7 +4,8 @@ using UnityEngine;
 using System;
 using UniRx;
 
-[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
+[RequireComponent(typeof(Animator), typeof(Rigidbody), typeof(CapsuleCollider))]
+[RequireComponent(typeof(MovementCharacterStateMachine), typeof(BattleCharacterStateMachine))]
 public class Character : CharacterParameter, ITakableDamage
 {
     /// <summary>自分のTransform</summary>
@@ -19,6 +20,11 @@ public class Character : CharacterParameter, ITakableDamage
     protected Rigidbody m_rigidbody;
     protected CapsuleCollider m_capsuleCollider;
 
+    protected BattleCharacterStateMachine m_bcsm;
+    protected MovementCharacterStateMachine m_mcsm;
+
+    public BattleCharacterStateMachine BCSM { get => m_bcsm; set => m_bcsm = value; }
+
     BoolReactiveProperty m_isContact = new BoolReactiveProperty(false);
     public IReadOnlyReactiveProperty<bool> IsContact => m_isContact;
 
@@ -30,6 +36,8 @@ public class Character : CharacterParameter, ITakableDamage
         m_animator = GetComponentInChildren<Animator>();
         m_rigidbody = GetComponent<Rigidbody>();
         m_capsuleCollider = GetComponent<CapsuleCollider>();
+        m_mcsm = GetComponent<MovementCharacterStateMachine>();
+        m_bcsm = GetComponent<BattleCharacterStateMachine>();
     }
 
     void Start()
