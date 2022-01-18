@@ -27,6 +27,9 @@ public class Character : CharacterParameter, ITakableDamage
 
     BoolReactiveProperty m_isContact = new BoolReactiveProperty(false);
     public IReadOnlyReactiveProperty<bool> IsContact => m_isContact;
+    
+    BoolReactiveProperty m_levelUP = new BoolReactiveProperty(false);
+    public IReadOnlyReactiveProperty<bool> LevelUP => m_levelUP;
 
     void Awake()
     {
@@ -87,6 +90,7 @@ public class Character : CharacterParameter, ITakableDamage
 
     void LevelUp()
     {
+        m_levelUP.Value = true;
         Level.Value++;
         CalculateNextExp(Level.Value);
         ParameterUp(Level.Value);
@@ -162,7 +166,7 @@ public class Character : CharacterParameter, ITakableDamage
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy") && !m_isContact.HasValue)
+        if (other.gameObject.CompareTag("Enemy") && !m_isContact.Value)
         {
             m_isContact.Value = true;
             NewBattleManager.Instance.SetBattle(gameObject, other.gameObject);

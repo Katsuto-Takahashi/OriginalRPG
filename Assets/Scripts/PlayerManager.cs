@@ -4,9 +4,6 @@ using UniRx;
 //[RequireComponent(typeof(MovementCharacterStateMachine), typeof(BattleCharacterStateMachine))]
 public class PlayerManager : Character
 {
-    BoolReactiveProperty m_isDead = new BoolReactiveProperty(false);
-    public IReadOnlyReactiveProperty<bool> IsDead => m_isDead;
-
     //BattleCharacterStateMachine m_bcsm;
     //MovementCharacterStateMachine m_mcsm;
 
@@ -77,12 +74,10 @@ public class PlayerManager : Character
     void CheckDead()
     {
         m_bcsm.IsDead = true;
-        m_isDead.Value = true;
     }
     void Alive()
     {
         m_bcsm.IsDead = false;
-        m_isDead.Value = false;
     }
     void CheckAP(int ap)
     {
