@@ -36,6 +36,14 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     List<GameObject> m_secondDrop = new List<GameObject>();
     int m_getExperiencePoint = 0;
 
+    bool m_isContact = false;
+    bool m_isBattle = false;
+    int m_enemyParty = 0;
+    int m_enemyID = 0;
+    Vector3 m_contactPosition;
+    float m_distsnce = 0f;
+    Transform m_charaTransform;
+
     enum BattleResults
     {
         Win,
@@ -43,6 +51,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         Escape
     }
     BattleResults m_battleResults = BattleResults.Escape;
+
     void Start()
     {
         m_partyManager.CharacterCount.DistinctUntilChanged().Subscribe(_ => PartyNum());
@@ -62,26 +71,27 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     {
         for (int i = 0; i < num; i++)
         {
-            //m_gameObject = Instantiate(m_partyManager.EnemyParty[m_contactEnemy.EnemyID - 1], new Vector3((m_contactEnemy.ContactPosition + m_contactEnemy.PlayerTransform.forward * 3).x + i, m_contactEnemy.ContactPosition.y, (m_contactEnemy.ContactPosition + m_contactEnemy.PlayerTransform.forward * 3).z + i), Quaternion.identity);
+            m_instantiateEnemy = Instantiate(m_partyManager.EnemyParty[m_enemyID - 1], new Vector3((m_contactPosition + m_charaTransform.forward * 3).x + i, m_contactPosition.y, (m_contactPosition + m_charaTransform.forward * 3).z + i), Quaternion.identity);
             m_enemyObjects.Add(m_instantiateEnemy);
             var em = m_enemyObjects[i].GetComponent<EnemyManager>();
+            var ep = em.EnemyParameters;
             if (num > 1)
             {
-                m_enemyObjects[i].name = em.EnemyParameters.EnemyCharacterName + $"{i + 1}";
+                m_enemyObjects[i].name = ep.EnemyCharacterName + $"{i + 1}";
             }
             else
             {
-                m_enemyObjects[i].name = em.EnemyParameters.EnemyCharacterName;
+                m_enemyObjects[i].name = ep.EnemyCharacterName;
             }
             m_enemyList.Add(em);
             var ebsm = m_enemyObjects[i].GetComponent<BCharacterStateMachine>();
             ebsm.enabled = true;
-            ebsm.m_actionTimer = Timer(em.EnemyParameters.Speed);
+            ebsm.m_actionTimer = Timer(ep.Speed);
             m_battleEnemyList.AddEnemyList(m_enemyObjects[i]);
-            m_firstDrop.Add(m_enemyList[i].EnemyParameters.FirstDropItem);
-            m_secondDrop.Add(m_enemyList[i].EnemyParameters.SecondDropItem);
-            m_getExperiencePoint += m_enemyList[i].EnemyParameters.ExperiencePoint;
-            //m_enemyParty[i].transform.LookAt(m_contactEnemy.ContactPosition);
+            m_firstDrop.Add(ep.FirstDropItem);
+            m_secondDrop.Add(ep.SecondDropItem);
+            m_getExperiencePoint += ep.ExperiencePoint;
+            m_enemyObjects[i].transform.LookAt(m_contactPosition);
         }
         m_battleEnemyList.ChengeBool();
         m_isCreated = true;
@@ -104,16 +114,11 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             var cpm = m_partyManager.CharacterParty[i].GetComponent<Character>();
             m_characterList.Add(cpm);
         }
-        //if (m_contactEnemy.EnemyParty < 2)
-        {
-            CreateEnemy(1);
-        }
-        //else if (m_contactEnemy.EnemyParty > 1)
-        {
-            //randam = Random.Range(1, m_contactEnemy.EnemyParty + 1);
-            Debug.Log($"出現数{randam}体");
-            CreateEnemy(randam);
-        }
+
+        randam = Random.Range(1, m_enemyParty + 1);
+        Debug.Log($"出現数{randam}体");
+        CreateEnemy(randam);
+
         //敵がボスの時はにげれないようにする
 
         StartCoroutine(ChengeActiveUI());
@@ -158,27 +163,29 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         {
             m_battleResults = BattleResults.Lose;
             //m_contactEnemy.IsBattle = false;
+            m_finish = true;
         }
         else if (enemyDeadCount == m_enemyObjects.Count)
         {
             m_battleResults = BattleResults.Win;
             //m_contactEnemy.IsBattle = false;
+            m_finish = true;
         }
     }
     void TargetCharacters()
     {
         for (int n = 0; n < m_enemyObjects.Count; n++)
         {
-            for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
+            for (int i = 0; i < m_characterList.Count; i++)
             {
-                m_enemyObjects[n].GetComponent<BCharacterStateMachine>().m_targetCharacters.Add(m_partyManager.CharacterParty[i]);
+                m_enemyObjects[n].GetComponent<BCharacterStateMachine>().m_targetCharacters.Add(m_characterList[i].gameObject);
             }
         }
-        for (int n = 0; n < m_partyManager.CharacterParty.Count; n++)
+        for (int n = 0; n < m_characterList.Count; n++)
         {
             for (int i = 0; i < m_enemyObjects.Count; i++)
             {
-                m_partyManager.CharacterParty[n].GetComponent<BCharacterStateMachine>().m_targetCharacters.Add(m_enemyObjects[i]);
+                m_characterList[n].GetComponent<BCharacterStateMachine>().m_targetCharacters.Add(m_enemyObjects[i]);
             }
         }
     }
@@ -200,7 +207,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
                 e.m_battle = true;
             }
         }
-        m_isChangeState = true;
+        //m_isChangeState = true;
     }
 
     public int Damage(GameObject attacker, GameObject defender, SkillData skillData)
@@ -291,7 +298,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         }
         StartCoroutine(BattleData());
 
-        m_finish = true;
+        //m_finish = true;
     }
     IEnumerator ChengeActiveUI()
     {
@@ -314,58 +321,19 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     }
     IEnumerator BattleUpdate()
     {
-        bool battleNow = true;
         m_battleResults = BattleResults.Escape;
-        //if (m_contactEnemy.IsContact && !m_isCreated)
-        {
-            BattleStanby();
-            TargetCharacters();
-        }
-        //if (!m_isChangeState)
-        //{
-        //    StateChange();
-        //}
+
+        BattleStanby();
+        TargetCharacters();
 
         WinnerChack();
 
-        while (battleNow)
-        {
-            //if (m_contactEnemy.IsBattle)
-            //{
-            //    if (m_isChangeState && m_isCreated)
-            //    {
-            //        WinnerChack();
-            //    }
-            //}
-            //else
-            {
-                m_isChangeState = false;
-                //m_contactEnemy.DeleteField();
-                //if (!m_finish)
-                //{
-                //    FinishBattle();
-                //}
-                //battleNow = m_contactEnemy.IsBattle;
-            }
-            yield return null;
-        }
-
+        yield return new WaitUntil(() => m_finish);
         FinishBattle();
 
-        //if (m_contactEnemy.EnemyParty == 0)
-        {
-            DestryEnemy(1);
-        }
-        //else if (m_contactEnemy.EnemyParty > 0)
-        {
-            DestryEnemy(randam);
-        }
-        m_isCreated = false;
+        DestryEnemy(randam);
+
         m_finish = false;
-        //for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
-        //{
-        //    m_partyManager.CharacterParty[i].GetComponent<BCharacterStateMachine>().ChangeIdle();
-        //}
     }
     IEnumerator BattleData()
     {
@@ -388,8 +356,8 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             for (int i = 0; i < m_characterList.Count; i++)
             {
                 m_characterList[i].GetExp(m_getExperiencePoint);
-                //StartCoroutine(m_battleInformationUI.GetExpUI(m_getExperiencePoint, m_characterList[i].CharacterName, m_characterList[i].Level, m_characterList[i].LevelUP));
-                //m_characterList[i].LevelUP = false;
+                StartCoroutine(m_battleInformationUI.GetExpUI(m_getExperiencePoint, m_characterList[i].Name.Value, m_characterList[i].Level.Value, m_characterList[i].LevelUP.Value));
+                //m_characterList[i].LevelUP.Value = false;
             }
         }
         else if (m_battleResults == BattleResults.Lose)
@@ -401,9 +369,9 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
 
     public void SetBattle(GameObject character, GameObject enemy)
     {
-        //Contact(character, enemy);
+        Contact(character, enemy);
     }
-    /*
+
     void Contact(GameObject character, GameObject enemy)
     {
         m_charaTransform = character.transform;
@@ -414,11 +382,12 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         m_enemyID = em.EnemyCharacterID;
         m_isBattle = true;
         Destroy(enemy);
+        ContactUpdate(character.GetComponent<Character>());
     }
 
-    void ContactUpdate()
+    void ContactUpdate(Character character)
     {
-        if (IsContact)
+        if (character.IsContact.HasValue)
         {
             while (m_isBattle)
             {
@@ -426,57 +395,20 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
                 if (Mathf.Sqrt(m_distsnce) > 15f)
                 {
                     m_isBattle = false;
-                    DeleteField();
+                    DeleteField(character);
                 }
             }
         }
     }
     void CreateField(Vector3 contactPos)
     {
-        //m_battleFeildPrefab.transform.position = enemyPos;
-        m_battleFeild = Instantiate(m_battleFeildPrefab, contactPos, Quaternion.identity);
-        m_battleFeild.transform.position = contactPos;
+        m_instantiateBattleFeild = Instantiate(m_battleFeildPrefab, contactPos, Quaternion.identity);
     }
-    public void DeleteField()
+    public void DeleteField(Character character)
     {
-        Destroy(m_battleFeild);
-        IsContact = false;
+        Destroy(m_instantiateBattleFeild);
         m_contactPosition = Vector3.zero;
         m_distsnce = 0f;
     }
-    */
-}
 
-public class ContactManager
-{
-    [SerializeField]
-    GameObject m_battleFeildPrefab = null;
-    GameObject m_instantiateBattleFeild;
-    bool m_isContact = false;
-    bool m_isBattle = false;
-    int m_enemyParty;
-    int m_enemyID;
-    Vector3 m_contactPosition;
-    float m_distsnce;
-    Transform m_PlayerTransform;
-
-    /// <summary>接敵時のPosition</summary>
-    public Vector3 ContactPosition { get => m_contactPosition; }
-
-    /// <summary>接敵した敵のID</summary>
-    public int EnemyID { get => m_enemyID; }
-
-    /// <summary>接敵した敵のパーティ構成</summary>
-    public int EnemyParty { get => m_enemyParty; }
-
-    /// <summary>バトル中かどうか</summary>
-    public bool IsBattle { get => m_isBattle; set => m_isBattle = value; }
-
-    /// <summary>接敵したかどうか</summary>
-    public bool IsContact { get => m_isContact; set => m_isContact = value; }
-
-    /// <summary>接敵時のPlayerのTransform</summary>
-    public Transform PlayerTransform { get => m_PlayerTransform; }
-    /// <summary>中心からの距離</summary>
-    public float Distsnce { get => m_distsnce; set => m_distsnce = value; }
 }
