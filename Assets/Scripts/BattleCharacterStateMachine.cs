@@ -35,6 +35,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     float m_currentTimer;
     /// <summary>行動の対象</summary>
     List<GameObject> m_targets = new List<GameObject>();
+    public List<GameObject> Targets { get => m_targets; set => m_targets = value; }
     /// <summary>行動の対象</summary>
     GameObject m_target;
     /// <summary>行動回数</summary>

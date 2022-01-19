@@ -17,6 +17,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
+                else if (!owner.m_isBattle)
+                {
+                    StateMachine.Dispatch((int)ActEvent.NoBattle);
+                }
                 if (owner.m_actionCount > 0)
                 {
                     StateMachine.Dispatch((int)ActEvent.Standby);
@@ -40,14 +44,18 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
+                else if (!owner.m_isBattle)
+                {
+                    StateMachine.Dispatch((int)ActEvent.NoBattle);
+                }
                 else if (owner.m_distance > 0)
                 {
                     StateMachine.Dispatch((int)ActEvent.Move);
                 }
-                else
-                {
-                    StateMachine.Dispatch((int)ActEvent.BattleAction);
-                }
+                //else
+                //{
+                //    StateMachine.Dispatch((int)ActEvent.BattleAction);
+                //}
             }
 
             protected override void OnExit(State nextState)
@@ -74,6 +82,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
+                else if (!owner.m_isBattle)
+                {
+                    StateMachine.Dispatch((int)ActEvent.NoBattle);
+                }
                 else if (true)
                 {
                     StateMachine.Dispatch((int)ActEvent.Wait);
@@ -92,7 +104,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                     //target.y = 0f;
                     //owner.transform.position = new Vector3(owner.transform.position.x, 0f, owner.transform.position.z);
                     //owner.transform.LookAt(target);
-                    StateMachine.Dispatch((int)ActEvent.BattleAction);
+                    //StateMachine.Dispatch((int)ActEvent.BattleAction);
                 }
             }
 
@@ -138,6 +150,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 if (owner.m_isDead)
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
+                }
+                else if (!owner.m_isBattle)
+                {
+                    StateMachine.Dispatch((int)ActEvent.NoBattle);
                 }
                 else
                 {
