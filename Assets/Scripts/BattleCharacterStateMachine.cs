@@ -13,6 +13,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         Move,
         BattleAction,
         ActionEnd,
+        Bind,
         NoBattle,
         Dead
     }
@@ -21,13 +22,22 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
     /// <summary>戦闘中かどうか</summary>
     bool m_isBattle = false;
+    /// <summary>戦闘中かのフラグ</summary>
     public bool IsBattle { get => m_isBattle; set => m_isBattle = value; }
+    /// <summary>死亡しているかどうか</summary>
     bool m_isDead = false;
+    /// <summary>死亡しているかのフラグ</summary>
     public bool IsDead { get => m_isDead; set => m_isDead = value; }
+
     /// <summary>入力による動きを止めるかどうか</summary>
     BoolReactiveProperty m_stop = new BoolReactiveProperty(false);
     /// <summary>入力による動きを止めるかのフラグ</summary>
     public IReactiveProperty<bool> Stop => m_stop;
+
+    /// <summary>バインドされているかどうか</summary>
+    bool m_isBind = false;
+    /// <summary>バインドされているかのフラグ</summary>
+    public bool IsBind { get => m_isBind; set => m_isBind = value; }
 
     /// <summary>対象との距離</summary>
     float m_distance;
@@ -35,9 +45,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     float m_currentTimer;
     /// <summary>行動の対象</summary>
     List<GameObject> m_targets = new List<GameObject>();
+    /// <summary>行動の対象のList</summary>
     public List<GameObject> Targets { get => m_targets; set => m_targets = value; }
-    /// <summary>行動の対象</summary>
-    GameObject m_target;
+    /// <summary>対象のPosition</summary>
+    Vector3 m_targetPosition;
     /// <summary>行動回数</summary>
     int m_actionCount;
     /// <summary>蓄積可能な行動回数</summary>
@@ -52,10 +63,13 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     int m_nowAP;
     /// <summary>最大のAP</summary>
     int m_ap;
-
+    /// <summary>物理攻撃力</summary>
     int m_strength;
+    /// <summary>物理防御力</summary>
     int m_defense;
+    /// <summary>魔法攻撃力</summary>
     int m_magicPower;
+    /// <summary>魔法防御力</summary>
     int m_magicResist;
 
 
@@ -81,6 +95,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         m_stateMachine.AddAnyTransition<BattleCharacterState.Move>((int)ActEvent.Move);
         m_stateMachine.AddAnyTransition<BattleCharacterState.BattleAction>((int)ActEvent.BattleAction);
         m_stateMachine.AddAnyTransition<BattleCharacterState.ActionEnd>((int)ActEvent.ActionEnd);
+        m_stateMachine.AddAnyTransition<BattleCharacterState.Bind>((int)ActEvent.Bind);
         m_stateMachine.AddAnyTransition<BattleCharacterState.NoBattle>((int)ActEvent.NoBattle);
         m_stateMachine.AddAnyTransition<BattleCharacterState.Dead>((int)ActEvent.Dead);
         

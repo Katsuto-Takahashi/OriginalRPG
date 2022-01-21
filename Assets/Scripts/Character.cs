@@ -23,13 +23,13 @@ public class Character : CharacterParameter, ITakableDamage
     protected BattleCharacterStateMachine m_bcsm;
     protected MovementCharacterStateMachine m_mcsm;
 
-    public BattleCharacterStateMachine BCSM { get => m_bcsm; set => m_bcsm = value; }
+    public BattleCharacterStateMachine BCSM => m_bcsm;
 
     BoolReactiveProperty m_isContact = new BoolReactiveProperty(false);
     public IReadOnlyReactiveProperty<bool> IsContact => m_isContact;
     
     BoolReactiveProperty m_levelUP = new BoolReactiveProperty(false);
-    public IReadOnlyReactiveProperty<bool> LevelUP => m_levelUP;
+    public IReactiveProperty<bool> LevelUP => m_levelUP;
 
     void Awake()
     {

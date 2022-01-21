@@ -17,6 +17,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
+                else if (owner.m_isBind)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Bind);
+                }
                 else if (!owner.m_isBattle)
                 {
                     StateMachine.Dispatch((int)ActEvent.NoBattle);
@@ -44,6 +48,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
+                else if (owner.m_isBind)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Bind);
+                }
                 else if (!owner.m_isBattle)
                 {
                     StateMachine.Dispatch((int)ActEvent.NoBattle);
@@ -52,10 +60,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Move);
                 }
-                //else
-                //{
-                //    StateMachine.Dispatch((int)ActEvent.BattleAction);
-                //}
+                else
+                {
+                    StateMachine.Dispatch((int)ActEvent.BattleAction);
+                }
             }
 
             protected override void OnExit(State nextState)
@@ -82,6 +90,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
+                else if (owner.m_isBind)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Bind);
+                }
                 else if (!owner.m_isBattle)
                 {
                     StateMachine.Dispatch((int)ActEvent.NoBattle);
@@ -104,7 +116,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                     //target.y = 0f;
                     //owner.transform.position = new Vector3(owner.transform.position.x, 0f, owner.transform.position.z);
                     //owner.transform.LookAt(target);
-                    //StateMachine.Dispatch((int)ActEvent.BattleAction);
+                    StateMachine.Dispatch((int)ActEvent.BattleAction);
                 }
             }
 
@@ -151,6 +163,10 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
                 }
+                else if (owner.m_isBind)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Bind);
+                }
                 else if (!owner.m_isBattle)
                 {
                     StateMachine.Dispatch((int)ActEvent.NoBattle);
@@ -163,6 +179,47 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnExit(State nextState)
             {
+            }
+        }
+
+        public class Bind : State
+        {
+            protected override void OnEnter(State prevState)
+            {
+                Debug.Log("Bind");
+                owner.m_stop.Value = true;
+                owner.PlayAnimation("");
+            }
+
+            protected override void OnUpdate()
+            {
+                if (owner.m_isBind)
+                {
+                    if (owner.m_isDead)
+                    {
+                        StateMachine.Dispatch((int)ActEvent.Dead);
+                    }
+                    else if (!owner.m_isBattle)
+                    {
+                        StateMachine.Dispatch((int)ActEvent.NoBattle);
+                    }
+                }
+                else
+                {
+                    if (owner.m_isBattle)
+                    {
+                        StateMachine.Dispatch((int)ActEvent.Wait);
+                    }
+                    else
+                    {
+                        StateMachine.Dispatch((int)ActEvent.NoBattle);
+                    }
+                }
+            }
+
+            protected override void OnExit(State nextState)
+            {
+                owner.m_stop.Value = false;
             }
         }
 
