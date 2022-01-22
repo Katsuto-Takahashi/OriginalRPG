@@ -354,7 +354,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             {
                 m_characterList[i].GetExp(m_getExperiencePoint);
                 StartCoroutine(m_battleInformationUI.GetExpUI(m_getExperiencePoint, m_characterList[i].Name.Value, m_characterList[i].Level.Value, m_characterList[i].LevelUP.Value));
-                //m_characterList[i].LevelUP.Value = false;
+                m_characterList[i].LevelUP.Value = false;
             }
         }
         else if (m_battleResults == BattleResults.Lose)
@@ -364,22 +364,22 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         m_getExperiencePoint = 0;
     }
 
-    public void SetBattle(GameObject character, GameObject enemy)
+    public void SetBattle(Character character, GameObject enemy)
     {
         Contact(character, enemy);
     }
 
-    void Contact(GameObject character, GameObject enemy)
+    void Contact(Character character, GameObject enemy)
     {
-        m_charaTransform = character.transform;
+        m_charaTransform = character.gameObject.transform;
         m_contactPosition = enemy.transform.position;
         CreateField(m_contactPosition);
-        var em = enemy.GetComponent<EnemyManager>().EnemyParameters;
+        var em = enemy.GetComponentInParent<EnemyManager>().EnemyParameters;
         m_enemyParty = em.EnemyPartyNumber;
         m_enemyID = em.EnemyCharacterID;
         m_isBattle = true;
-        Destroy(enemy);
-        StartCoroutine(ContactUpdate(character.GetComponent<Character>()));
+        Destroy(enemy.transform.parent.gameObject);
+        StartCoroutine(ContactUpdate(character));
     }
 
     IEnumerator ContactUpdate(Character character)
