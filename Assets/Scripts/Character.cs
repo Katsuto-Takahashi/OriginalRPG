@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UniRx;
 
-[RequireComponent(typeof(Animator), typeof(Rigidbody), typeof(CapsuleCollider))]
+[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider), typeof(HasSkillList))]
 [RequireComponent(typeof(MovementCharacterStateMachine), typeof(BattleCharacterStateMachine))]
 public class Character : CharacterParameter, ITakableDamage
 {
@@ -15,13 +15,12 @@ public class Character : CharacterParameter, ITakableDamage
     [Tooltip("移動に必要なパラメーター")]
     protected Parameters m_param = new Parameters();
 
-    protected HasSkillList m_hsl;
     protected Animator m_animator;
     protected Rigidbody m_rigidbody;
     protected CapsuleCollider m_capsuleCollider;
-
-    protected BattleCharacterStateMachine m_bcsm;
+    protected HasSkillList m_hsl;
     protected MovementCharacterStateMachine m_mcsm;
+    protected BattleCharacterStateMachine m_bcsm;
 
     public BattleCharacterStateMachine BCSM => m_bcsm;
 
@@ -169,7 +168,7 @@ public class Character : CharacterParameter, ITakableDamage
         if (other.gameObject.CompareTag("Enemy") && !m_isContact.Value)
         {
             m_isContact.Value = true;
-            NewBattleManager.Instance.SetBattle(gameObject, other.gameObject);
+            NewBattleManager.Instance.SetBattle(this, other.gameObject);
         }
     }
 }

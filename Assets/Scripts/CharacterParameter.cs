@@ -95,6 +95,7 @@ public class CharacterParameter : MonoBehaviour
     protected float m_charaCorrection = 0.07f;
 
     [SerializeField]
+    [Range(1,5)]
     int m_maxActionCount = 3;
     /// <summary>蓄積可能な行動回数</summary>
     public int MaxActionCount { get => m_maxActionCount; }
