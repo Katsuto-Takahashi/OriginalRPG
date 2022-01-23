@@ -4,7 +4,7 @@ using UnityEngine;
 using UniRx;
 
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider), typeof(HasSkillList))]
-//[RequireComponent(typeof(MovementEnemyStateMachine), typeof(BattleEnemyStateMachine))]
+[RequireComponent(typeof(MovementEnemyStateMachine), typeof(BattleEnemyStateMachine))]
 public class Enemy : EnemyParameter, ITakableDamage
 {
     /// <summary>自分のTransform</summary>
@@ -19,7 +19,7 @@ public class Enemy : EnemyParameter, ITakableDamage
     protected CapsuleCollider m_capsuleCollider;
     //protected SphereCollider m_sphereCollider;
     protected HasSkillList m_hsl;
-    //protected MovementEnemyStateMachine m_mesm;
+    protected MovementEnemyStateMachine m_mesm;
     protected BattleEnemyStateMachine m_besm;
 
     public BattleEnemyStateMachine BESM => m_besm;
@@ -32,7 +32,7 @@ public class Enemy : EnemyParameter, ITakableDamage
         m_animator = GetComponentInChildren<Animator>();
         m_rigidbody = GetComponent<Rigidbody>();
         m_capsuleCollider = GetComponent<CapsuleCollider>();
-        //m_mesm = GetComponent<MovementEnemyStateMachine>();
+        m_mesm = GetComponent<MovementEnemyStateMachine>();
         m_besm = GetComponent<BattleEnemyStateMachine>();
     }
 
