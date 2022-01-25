@@ -7396,7 +7396,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503088778}
-  m_LocalRotation: {x: -0.07785924, y: 0.018757978, z: -0.0014649564, w: -0.99678683}
+  m_LocalRotation: {x: -0.07785923, y: 0.01875798, z: -0.0014649568, w: -0.9967869}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7935,7 +7935,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 613256439}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.21257357, y: 2.5, z: -5.646}
+  m_LocalPosition: {x: 0.21257362, y: 2.5, z: -5.646}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1338258604}
@@ -9814,7 +9814,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883370005}
-  m_LocalRotation: {x: -0.059763253, y: 0.018781502, z: -0.0011246065, w: -0.9980353}
+  m_LocalRotation: {x: -0.059763253, y: 0.01878151, z: -0.0011246068, w: -0.9980353}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -10675,8 +10675,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.07785922, y: -0.018757977, z: 0.0014651897, w: 0.99678683}
-  m_LocalPosition: {x: 0.21257357, y: 2.5, z: -5.646}
+  m_LocalRotation: {x: 0.07785922, y: -0.01875798, z: 0.00146519, w: 0.99678683}
+  m_LocalPosition: {x: 0.21257362, y: 2.5, z: -5.646}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -12897,7 +12897,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338258602}
-  m_LocalRotation: {x: -0.095977396, y: 0.018728273, z: -0.0018062954, w: -0.9952057}
+  m_LocalRotation: {x: -0.095977396, y: 0.018728277, z: -0.0018062955, w: -0.9952057}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -14084,6 +14084,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_name:
     value: 
+  m_id:
+    value: 1
   m_hp:
     value: 1
   m_maxHp:
@@ -14104,6 +14106,24 @@ MonoBehaviour:
     value: 1
   m_speed:
     value: 1
+  firstDropItem: {fileID: 0}
+  secondDropItem: {fileID: 0}
+  dropRate: 0
+  experiencePoint: 1
+  enemyPartyNumber: 1
+  attackAttributeResistance:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  attackTypeResistance:
+  - 0
+  - 0
   m_maxActionCount: 2
 --- !u!114 &1515395682
 MonoBehaviour:
