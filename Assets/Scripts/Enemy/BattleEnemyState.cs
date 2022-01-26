@@ -102,10 +102,10 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.NoBattle);
                 }
-                //else if (true)
-                //{
-                //    StateMachine.Dispatch((int)ActEvent.Wait);
-                //}
+                else if (true)
+                {
+                    StateMachine.Dispatch((int)ActEvent.Wait);
+                }
                 if (owner.m_distance > owner.m_normalSkill[0].AttackRange)
                 {
                     Vector3 target = owner.m_targetPosition;

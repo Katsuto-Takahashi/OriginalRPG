@@ -197,11 +197,11 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         }
         for (int i = 0; i < m_enemyObjects.Count; i++)
         {
-            var e = m_enemyObjects[i]?.GetComponent<BCharacterStateMachine>();
+            var e = m_enemyObjects[i]?.GetComponent<BattleEnemyStateMachine>();
             if (e != null)
             {
                 //e.m_firstAction = true;
-                e.m_battle = true;
+                //e.m_battle = true;
             }
         }
         //m_isChangeState = true;
@@ -290,7 +290,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         }
         for (int i = 0; i < m_enemyObjects.Count; i++)
         {
-            m_enemyObjects[i].GetComponent<BCharacterStateMachine>().m_battle = false;
+            //m_enemyObjects[i].GetComponent<BattleEnemyStateMachine>().m_battle = false;
         }
         StartCoroutine(BattleData());
 

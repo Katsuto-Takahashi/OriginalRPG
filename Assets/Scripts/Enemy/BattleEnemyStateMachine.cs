@@ -32,9 +32,9 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
     /// <summary>死亡しているかのフラグ</summary>
     public bool IsDead { get => m_isDead; set => m_isDead = value; }
 
-    /// <summary>入力による動きを止めるかどうか</summary>
+    /// <summary>動きを止めるかどうか</summary>
     BoolReactiveProperty m_stop = new BoolReactiveProperty(false);
-    /// <summary>入力による動きを止めるかのフラグ</summary>
+    /// <summary>動きを止めるかのフラグ</summary>
     public IReactiveProperty<bool> Stop => m_stop;
 
     /// <summary>バインドされているかどうか</summary>

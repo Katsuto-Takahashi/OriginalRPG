@@ -27,7 +27,6 @@ public class PlayerManager : Character
         MagicResist.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
         Speed.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
 
-
         m_bcsm.Stop.DistinctUntilChanged().Subscribe(s => StopMove(s));
 
         m_mcsm.SetUp(m_animator, m_rigidbody, m_capsuleCollider, m_myTransform, m_param);
