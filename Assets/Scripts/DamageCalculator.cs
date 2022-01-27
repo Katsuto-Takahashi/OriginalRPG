@@ -29,7 +29,7 @@ public class DamageCalculator : MonoBehaviour
         return (int)criticalDamege;
     }
     
-    int DecideEnemyDamage(SkillData skillData, int damage, EnemyParameters enemy)
+    int DecideEnemyDamage(SkillData skillData, int damage, Enemy enemy)
     {
         if (damage <= 0)
         {
@@ -76,7 +76,7 @@ public class DamageCalculator : MonoBehaviour
     /// <param name="defender">攻撃される側の能力</param>
     /// <param name="critical">クリティカルかどうか</param>
     /// <returns>敵へのダメージ</returns>
-    public int EnemyDamage(SkillData skillData, EnemyParameters enemy, int attacker, int defender, bool critical)
+    public int EnemyDamage(SkillData skillData, Enemy enemy, int attacker, int defender, bool critical)
     {
         int damage;
         if (critical)
