@@ -109,6 +109,10 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     }
     void BattleStanby()
     {
+        characterDeadCount = 0;
+        enemyDeadCount = 0;
+        m_battleResults = BattleResults.Escape;
+
         for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
         {
             var cpm = m_partyManager.CharacterParty[i].GetComponent<Character>();
@@ -141,22 +145,17 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     }
     void WinnerChack()
     {
-        characterDeadCount = 0;
-        enemyDeadCount = 0;
-        for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
+        characterDeadCount = m_characterList.Count;
+        enemyDeadCount = m_enemyList.Count;
+        for (int i = 0; i < m_characterList.Count; i++)
         {
-            m_characterList[i].HP.Where(h => h < 1).DistinctUntilChanged().Subscribe(_ => characterDeadCount++).AddTo(m_characterList[i]);
-            m_characterList[i].HP.Where(h => h > 0).DistinctUntilChanged().Subscribe(_ => characterDeadCount--).AddTo(m_characterList[i]);
+            m_characterList[i].HP.DistinctUntilChanged().Where(h => h < 1).Subscribe(_ => characterDeadCount++).AddTo(m_characterList[i]);
+            m_characterList[i].HP.DistinctUntilChanged().Where(h => h > 0).Subscribe(_ => characterDeadCount--).AddTo(m_characterList[i]);
         }
-        for (int i = 0; i < m_enemyObjects.Count; i++)
+        for (int i = 0; i < m_enemyList.Count; i++)
         {
-            m_characterList[i].HP.Where(h => h < 1).DistinctUntilChanged().Subscribe(_ => enemyDeadCount++).AddTo(m_characterList[i]);
-            m_characterList[i].HP.Where(h => h > 0).DistinctUntilChanged().Subscribe(_ => enemyDeadCount--).AddTo(m_characterList[i]);
-            //if (m_enemyList[i].IsDeadState == true)
-            //{
-            //    m_enemyObjects[i].GetComponent<BCharacterStateMachine>().ChangeDead();
-            //    enemyDeadCount++;
-            //}
+            m_enemyList[i].HP.DistinctUntilChanged().Where(h => h < 1).Subscribe(_ => enemyDeadCount++).AddTo(m_enemyList[i]);
+            m_enemyList[i].HP.DistinctUntilChanged().Where(h => h > 0).Subscribe(_ => enemyDeadCount--).AddTo(m_enemyList[i]);
         }
     }
 
@@ -200,13 +199,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         for (int i = 0; i < m_enemyObjects.Count; i++)
         {
             m_enemyList[i].BESM.IsBattle = true;
-            //if (e != null)
-            //{
-                //e.m_firstAction = true;
-                //e.m_battle = true;
-            //}
         }
-        //m_isChangeState = true;
     }
 
     public int Damage(GameObject attacker, GameObject defender, SkillData skillData)
@@ -284,9 +277,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         for (int i = 0; i < m_characterList.Count; i++)
         {
             m_characterList[i].BCSM.IsBattle = false;
-            //var cbsm = m_partyManager.CharacterParty[i].GetComponent<BCharacterStateMachine>();
             m_characterList[i].BCSM.Targets.Clear();
-            //cbsm.m_battle = false;
             //cbsm.m_open = false;
             //cbsm.m_battlePanel.SetActive(false);
         }
@@ -294,11 +285,8 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         {
             m_enemyList[i].BESM.IsBattle = false;
             m_enemyList[i].BESM.Targets.Clear();
-            //m_enemyObjects[i].GetComponent<BattleEnemyStateMachine>().m_battle = false;
         }
         StartCoroutine(BattleData());
-
-        //m_finish = true;
     }
     IEnumerator ChengeActiveUI()
     {
@@ -322,16 +310,19 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     IEnumerator BattleUpdate()
     {
         yield return new WaitUntil(() => m_isBattle);
-        m_battleResults = BattleResults.Escape;
 
         BattleStanby();
         TargetCharacters();
         StateChange();
         WinnerChack();
 
-        yield return new WaitUntil(() => m_finish);
+        while (!m_finish)
+        {
+            DeadCheck();
+            yield return null;
+        }
+        //yield return new WaitUntil(() => m_finish);
         FinishBattle();
-
         DestryEnemy(randam);
 
         m_finish = false;
