@@ -78,6 +78,8 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
     int m_magicPower;
     /// <summary>魔法防御力</summary>
     int m_magicResist;
+    /// <summary>賢さ</summary>
+    int m_intelligence;
 
 
     /// <summary>移動速度</summary>

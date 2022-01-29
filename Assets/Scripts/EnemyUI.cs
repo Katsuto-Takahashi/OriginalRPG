@@ -7,16 +7,16 @@ public class EnemyUI : MonoBehaviour
 {
     private RectTransform m_rectTransform;
     private Text m_text;
-    private EnemyManager m_enemyManager;
+    private Enemy m_enemyManager;
 
     void Start()
     {
         m_rectTransform = GetComponent<RectTransform>();
         m_text = GetComponentInChildren<Text>();
-        m_enemyManager = GetComponentInParent<EnemyManager>();
+        m_enemyManager = GetComponentInParent<Enemy>();
         if (m_text.text == "")
         {
-            m_text.text = m_enemyManager.EnemyParameters.EnemyCharacterName;
+            m_text.text = m_enemyManager.Name.Value;
         }
     }
 
@@ -28,11 +28,11 @@ public class EnemyUI : MonoBehaviour
 
     void ChangeColor()
     {
-        if (m_enemyManager.HP / (float)m_enemyManager.EnemyParameters.MaxHP < 0.7f)
+        if (m_enemyManager.HP.Value / (float)m_enemyManager.MaxHP.Value < 0.7f)
         {
-            if (m_enemyManager.HP / (float)m_enemyManager.EnemyParameters.MaxHP < 0.35f)
+            if (m_enemyManager.HP.Value / (float)m_enemyManager.MaxHP.Value < 0.35f)
             {
-                if (m_enemyManager.HP <= 0)
+                if (m_enemyManager.HP.Value <= 0)
                 {
                     m_text.color = new Color(0, 0, 0);
                 }
