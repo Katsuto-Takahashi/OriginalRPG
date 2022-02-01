@@ -22,7 +22,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
                 {
                     if (true)//動く
                     {
-                        if (Input.GetButton("R1button"))
+                        if (owner.m_targetObject != null)
                         {
                             StateMachine.Dispatch((int)ActEvent.Run);
                         }
@@ -311,7 +311,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
-                owner.PlayAnimation("Idle");
+                owner.PlayAnimation("Stop");
             }
             protected override void OnUpdate()
             {

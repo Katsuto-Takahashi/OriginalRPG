@@ -23,6 +23,9 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
     Animator m_animator;
     Rigidbody m_rigidbody;
     CapsuleCollider m_capsuleCollider;
+    SphereCollider m_sphereCollider;
+    GameObject m_targetObject;
+    LayerMask m_targetLayer;
 
     /// <summary>transfom</summary>
     Transform m_myTransform;
@@ -101,6 +104,22 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         if (state is MovementEnemyState.Jump) return;
 
         if (IsSlope()) m_currentVelocity.y = m_gravityScale * Physics.gravity.y;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == m_targetLayer)
+        {
+            m_targetObject = other.gameObject;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == m_targetLayer)
+        {
+            m_targetObject = null;
+        }
     }
 
     bool IsGround()
