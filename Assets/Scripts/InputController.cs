@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
+    public enum InputType
+    {
+        up,
+        down,
+        normal
+    }
     private string[] inputButtonName;
     private string[] inputStickName;
     private string[] inputTrigerName;
@@ -15,24 +21,4 @@ public class InputController : MonoBehaviour
         inputTrigerName = new string[] { "L2trigger", "R2trigger" };
         //InputControllerName = new string[][] { inputButtonName, inputStickName, inputTrigerName };
     }
-
-void Update()
-    {
-        
-    }
-    public string this[int index]
-    {
-        get { return inputButtonName[index]; }
-        private set { inputButtonName[index] = value; }
-    }
-    //public string this[int index]
-    //{
-    //    get { return inputStickName[index]; }
-    //    private set { inputStickName[index] = value; }
-    //}
-    //public string this[int index]
-    //{
-    //    get { return inputTrigerName[index]; }
-    //    private set { inputTrigerName[index] = value; }
-    //}
 }
