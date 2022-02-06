@@ -35,13 +35,11 @@ public enum NodeState
 
 public class BTAction : Node
 {
-    int a = 0;
     public override NodeState Result()
     {
         return Act();
     }
 
-    //実行してほしいこと
     /// <summary>実行内容</summary>
     /// <returns>baseはFailure</returns>
     protected virtual NodeState Act()
@@ -52,13 +50,16 @@ public class BTAction : Node
 
 public class BTConditional : Node
 {
-    protected bool check = false;//条件
     public override NodeState Result()
     {
-        //条件判断
-        if (!check) return NodeState.Failure;
+        return Check();
+    }
 
-        return NodeState.Success;
+    /// <summary>条件判定</summary>
+    /// <returns>baseはFailure</returns>
+    protected virtual NodeState Check()
+    {
+        return NodeState.Failure;
     }
 }
 

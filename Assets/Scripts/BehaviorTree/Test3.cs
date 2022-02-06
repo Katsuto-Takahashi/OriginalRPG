@@ -21,6 +21,6 @@ public class CountDownAction : BTAction
     {
         m_count--;
         Debug.Log(m_count);
-        return NodeState.Success;
+        return NodeState.Failure;
     }
 }

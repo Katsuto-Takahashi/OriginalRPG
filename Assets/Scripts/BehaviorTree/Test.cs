@@ -22,6 +22,6 @@ public class CountUpAction : BTAction
     {
         m_count++;
         Debug.Log(m_count);
-        return NodeState.Failure;
+        return NodeState.Success;
     }
 }
