@@ -5,7 +5,7 @@ using UnityEngine;
 public class Test3 : MonoBehaviour, IGetNode
 {
     [SerializeReference, SubclassSelector]
-    Node m_countDownAction = new CountDownAction();
+    BTAction m_countDownAction = new CountDownAction();
     public Node GetNode()
     {
         return m_countDownAction;

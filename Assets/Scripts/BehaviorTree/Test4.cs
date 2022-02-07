@@ -5,7 +5,7 @@ using UnityEngine;
 public class Test4 : MonoBehaviour, IGetNode
 {
     [SerializeReference, SubclassSelector]
-    Node m_checker = new BTChecker();
+    BTChecker m_checker = new BTChecker();
     public Node GetNode()
     {
         return m_checker;
