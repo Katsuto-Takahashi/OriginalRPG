@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sequence : BTSequence
+public class Inverter : BTInverter
 {
     List<Node> m_child = new List<Node>();
     void SetChild()
     {
-        Debug.Log("Sequenceの子をセット");
+        Debug.Log("Inverterの子をセット");
         m_child = m_childNodes;
         for (int i = 0; i < m_child.Count; i++)
         {

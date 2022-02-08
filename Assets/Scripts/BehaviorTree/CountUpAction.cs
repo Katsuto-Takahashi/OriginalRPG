@@ -2,18 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test : MonoBehaviour//, IGetNode
-{
-    //[SerializeReference, SubclassSelector]
-    //CountUpAction m_countUpAction = new CountUpAction();
-    //public Node GetNode()
-    //{
-    //    return m_countUpAction;
-    //}
-}
-
 [System.Serializable]
-public class CountUpAction : BTAction, IGetNode
+public class CountUpAction : BTAction
 {
     [SerializeField]
     int m_count = 10;

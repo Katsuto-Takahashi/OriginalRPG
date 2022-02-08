@@ -77,23 +77,12 @@ public class BTConditional : Node
     }
 }
 
-//[System.Serializable]
 public class BTSelector : Node
 {
-    //[SerializeField]
     protected List<Node> m_childNodes = new List<Node>();
     public List<Node> ChildNodes => m_childNodes;
 
-    //public BTSelector(List<Node> childNodes)
-    //{
-    //    m_childNodes = childNodes;
-    //}
-    public BTSelector()
-    {
-        m_childNodes = ChildNode;
-    }
-
-    public BTSelector Add()
+    public BTSelector AddChild()
     {
         m_childNodes = ChildNode;
         return this;
@@ -129,16 +118,7 @@ public class BTSequence : Node
     protected List<Node> m_childNodes = new List<Node>();
     public List<Node> ChildNodes => m_childNodes;
 
-    //public BTSelector(List<Node> childNodes)
-    //{
-    //    m_childNodes = childNodes;
-    //}
-    public BTSequence()
-    {
-        m_childNodes = ChildNode;
-    }
-
-    public BTSequence Add()
+    public BTSequence AddChild()
     {
         m_childNodes = ChildNode;
         return this;
@@ -179,25 +159,19 @@ public class BTSequence : Node
 [System.Serializable]
 public class BTRepeater : Node
 {
-    protected List<Node> m_child = new List<Node>();
-    public List<Node> Child => m_child;
+    protected List<Node> m_childNodes = new List<Node>();
+    public List<Node> ChildNodes => m_childNodes;
 
-    public BTRepeater()
+    public BTRepeater AddChild()
     {
-        m_child = ChildNode;
+        m_childNodes = ChildNode;
+        return this;
     }
-    //public BTRepeater(Node child)
-    //{
-    //    m_child = child;
-    //}
-
-    Node m_node;
 
     public override NodeState Result()
     {
-        m_node = m_child[0];
-        //m_child.Clear();
-        //m_child.Add(m_node);
+        var m_node = m_childNodes[0];
+
         if (m_currentState == NodeState.Running)
         {
             switch (m_node.Result())
@@ -224,19 +198,20 @@ public class BTRepeater : Node
 
 public class BTInverter: Node
 {
-    protected Node m_child;
-    public Node Child => m_child;
+    protected List<Node> m_childNodes = new List<Node>();
+    public List<Node> ChildNodes => m_childNodes;
 
-    public BTInverter(Node child)
+    public BTInverter AddChild()
     {
-        m_child = child;
+        m_childNodes = ChildNode;
+        return this;
     }
 
     public override NodeState Result()
     {
-        //if (m_currentState == NodeState.Running)
-        //{
-        switch (m_child.Result())
+        var child = m_childNodes[0];
+
+        switch (child.Result())
         {
             case NodeState.Running:
                 m_currentState = NodeState.Running;
@@ -250,11 +225,6 @@ public class BTInverter: Node
             default:
                 return CurrentState;
         }
-        //}
-        //else
-        //{
-        //    return m_currentState;
-        //}
     }
 }
 

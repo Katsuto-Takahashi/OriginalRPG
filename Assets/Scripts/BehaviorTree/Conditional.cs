@@ -2,17 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test4 : MonoBehaviour, IGetNode
-{
-    [SerializeReference, SubclassSelector]
-    BTChecker m_checker = new BTChecker();
-    public Node GetNode()
-    {
-        return m_checker;
-    }
-}
 [System.Serializable]
-public class BTChecker : BTConditional
+public class Conditional : BTConditional
 {
     [SerializeField]
     bool m_check = false;
@@ -26,5 +17,10 @@ public class BTChecker : BTConditional
         Debug.Log($"判定結果{m_check}");
         if (m_check) return NodeState.Success;
         return NodeState.Failure;
+    }
+
+    public override Node GetNode()
+    {
+        return this;
     }
 }

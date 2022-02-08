@@ -2,28 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Selector : BTSelector, IGetNode
+public class Selector : BTSelector
 {
-    //[SerializeReference, SubclassSelector]
-    //BTSelector selector;
-
-    List<Node> action = new List<Node>();
+    List<Node> m_child = new List<Node>();
     void SetChild()
     {
-        Debug.Log("selectorの子をセット");
-        //for (int i = 0; i < transform.childCount; i++)
-        //{
-        //    action.Add(transform.GetChild(i).GetComponent<IGetNode>().GetNode());
-        //}
-        action = m_childNodes;
+        Debug.Log("Selectorの子をセット");
+        m_child = m_childNodes;
+        for (int i = 0; i < m_child.Count; i++)
+        {
+            m_child[i].GetNode();
+        }
     }
 
     public override Node GetNode()
     {
-        new BTSelector();
+        AddChild();
         SetChild();
-        //return this;// = new BTSelector(action);
-        return Add();
+        return this;
     }
 }

@@ -2,15 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test3 : MonoBehaviour, IGetNode
-{
-    [SerializeReference, SubclassSelector]
-    BTAction m_countDownAction = new CountDownAction();
-    public Node GetNode()
-    {
-        return m_countDownAction;
-    }
-}
 [System.Serializable]
 public class CountDownAction : BTAction
 {
@@ -22,5 +13,10 @@ public class CountDownAction : BTAction
         m_count--;
         Debug.Log(m_count);
         return NodeState.Failure;
+    }
+
+    public override Node GetNode()
+    {
+        return this;
     }
 }
