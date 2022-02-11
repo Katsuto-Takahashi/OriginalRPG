@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BehaviorTree;
 using State = StateMachine<MovementEnemyStateMachine>.State;
 
 public partial class MovementEnemyStateMachine : MonoBehaviour
@@ -26,6 +27,8 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
     SphereCollider m_sphereCollider;
     GameObject m_targetObject;
     LayerMask m_targetLayer;
+    [SerializeReference, SubclassSelector]
+    Node m_childNode;
 
     /// <summary>transfom</summary>
     Transform m_myTransform;
@@ -68,6 +71,8 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         m_stateMachine.AddAnyTransition<MovementEnemyState.Fly>((int)ActEvent.Fly);
         m_stateMachine.AddAnyTransition<MovementEnemyState.Stop>((int)ActEvent.Stop);
         m_stateMachine.AddAnyTransition<MovementEnemyState.Dead>((int)ActEvent.Dead);
+
+        m_childNode.GetNode();
 
         m_stateMachine.Start<MovementEnemyState.Idle>();
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using BehaviorTree;
 using State = StateMachine<BattleEnemyStateMachine>.State;
 
 public partial class BattleEnemyStateMachine : MonoBehaviour
@@ -21,6 +22,8 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
     }
 
     Animator m_animator;
+    [SerializeReference, SubclassSelector]
+    Node m_childNode;
 
     /// <summary>戦闘中かどうか</summary>
     bool m_isBattle = false;
@@ -107,6 +110,8 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
         m_stateMachine.AddAnyTransition<BattleEnemyState.Bind>((int)ActEvent.Bind);
         m_stateMachine.AddAnyTransition<BattleEnemyState.NoBattle>((int)ActEvent.NoBattle);
         m_stateMachine.AddAnyTransition<BattleEnemyState.Dead>((int)ActEvent.Dead);
+
+        m_childNode.GetNode();
 
         m_stateMachine.Start<BattleEnemyState.NoBattle>();
     }

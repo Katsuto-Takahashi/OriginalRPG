@@ -10,6 +10,7 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("Wait");
+                owner.m_childNode.Result();
             }
             protected override void OnUpdate()
             {
