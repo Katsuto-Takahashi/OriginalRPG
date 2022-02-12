@@ -12,7 +12,7 @@ public class Enemy : EnemyParameter, ITakableDamage
 
     [SerializeField]
     [Tooltip("移動に必要なパラメーター")]
-    protected Parameter m_param = new Parameter();
+    protected MoveParameters m_param = new MoveParameters();
 
     protected Animator m_animator;
     protected Rigidbody m_rigidbody;

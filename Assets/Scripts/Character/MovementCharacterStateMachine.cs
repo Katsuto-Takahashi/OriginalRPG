@@ -70,7 +70,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         m_stateMachine.Start<MovementCharacterState.Idle>();
     }
 
-    public void SetUp(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, Transform setTransform, Parameters setParam)
+    public void SetUp(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, Transform setTransform, MoveParameters setParam)
     {
         SetParam(setAnimator, setRigidbody, setCollider, setTransform, setParam);
         SetState();
@@ -91,7 +91,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         ApplyRotation();
     }
 
-    void SetParam(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, Transform setTransform, Parameters setParam)
+    void SetParam(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, Transform setTransform, MoveParameters setParam)
     {
         m_animator = setAnimator;
         m_rigidbody = setRigidbody;

@@ -13,7 +13,7 @@ public class Character : CharacterParameter, ITakableDamage
 
     [SerializeField]
     [Tooltip("移動に必要なパラメーター")]
-    protected Parameters m_param = new Parameters();
+    protected MoveParameters m_param = new MoveParameters();
 
     protected Animator m_animator;
     protected Rigidbody m_rigidbody;

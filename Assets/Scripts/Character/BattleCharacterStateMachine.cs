@@ -102,7 +102,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         m_stateMachine.Start<BattleCharacterState.NoBattle>();
     }
 
-    public void SetUp(Animator animator, HasSkillList  hasSkill, Parameters param)
+    public void SetUp(Animator animator, HasSkillList  hasSkill, MoveParameters param)
     {
         SetAnim(animator);
         SetParam(param);
@@ -143,7 +143,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         m_maxActionCount = character.MaxActionCount;
     }
 
-    void SetParam(Parameters param)
+    void SetParam(MoveParameters param)
     {
         m_moveSpeed = (param.WalkingSpeed + param.RunningSpeed) / 2f;
     }
