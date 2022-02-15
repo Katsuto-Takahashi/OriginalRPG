@@ -180,76 +180,76 @@ public class BattleManager : MonoBehaviour
         m_isChangeState = true;
     }
 
-    public int Damage(GameObject attacker, GameObject defender, SkillData skillData)
-    {
-        return DamageCalculate(attacker, defender, skillData);
-    }
+    //public int Damage(GameObject attacker, GameObject defender, SkillData skillData)
+    //{
+    //    return DamageCalculate(attacker, defender, skillData);
+    //}
 
-    int DamageCalculate(GameObject attacker, GameObject defender, SkillData skillData)
-    {
-        int damage = 0;
-        if (attacker.CompareTag("Player"))
-        {
-            var parameterManager = attacker.GetComponent<CharacterParameterManager>();
-            var enemyParameter = defender.GetComponent<EnemyManager>().EnemyParameters;
-            if (skillData.attackType == SkillData.AttackType.physicalAttack)
-            {
-                if (Random.Range(0, 200) > parameterManager.Luck)
-                {
-                    damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, parameterManager.Strength, enemyParameter.Defense, m_battleInformationUI.Critical);
-                }
-                else
-                {
-                    m_battleInformationUI.Critical = true;
-                    damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter,  parameterManager.Strength, enemyParameter.Defense, m_battleInformationUI.Critical);
-                }
-            }
-            else if (skillData.attackType == SkillData.AttackType.magicAttack)
-            {
-                if (Random.Range(0, 200) > parameterManager.Luck)
-                {
-                    damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, parameterManager.MagicPower, enemyParameter.MagicResist, m_battleInformationUI.Critical);
-                }
-                else
-                {
-                    m_battleInformationUI.Critical = true;
-                    damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, parameterManager.MagicPower, enemyParameter.MagicResist, m_battleInformationUI.Critical);
-                }
-            }
-            StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, defender.name, m_battleInformationUI.Critical));
-        }
-        else if (attacker.CompareTag("Enemy"))
-        {
-            var enemyParameter = attacker.GetComponent<EnemyManager>().EnemyParameters;
-            var parameterManager = defender.GetComponent<CharacterParameterManager>();
-            if (skillData.attackType == SkillData.AttackType.physicalAttack)
-            {
-                if (Random.Range(0, 200) > enemyParameter.Luck)
-                {
-                    damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.Strength, parameterManager.Defense, m_battleInformationUI.Critical);
-                }
-                else
-                {
-                    m_battleInformationUI.Critical = true;
-                    damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.Strength, parameterManager.Defense, m_battleInformationUI.Critical);
-                }
-            }
-            else if (skillData.attackType == SkillData.AttackType.magicAttack)
-            {
-                if (Random.Range(0, 200) > enemyParameter.Luck)
-                {
-                    damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.MagicPower, parameterManager.MagicResist, m_battleInformationUI.Critical);
-                }
-                else
-                {
-                    m_battleInformationUI.Critical = true;
-                    damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.MagicPower, parameterManager.MagicResist, m_battleInformationUI.Critical);
-                }
-            }
-            StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, parameterManager.CharacterName, m_battleInformationUI.Critical));
-        }
-        return damage;
-    }
+    //int DamageCalculate(GameObject attacker, GameObject defender, SkillData skillData)
+    //{
+    //    int damage = 0;
+    //    if (attacker.CompareTag("Player"))
+    //    {
+    //        var characterParameter = attacker.GetComponent<Character>();
+    //        var enemyParameter = defender.GetComponent<EnemyManager>().EnemyParameters;
+    //        if (skillData.attackType == SkillData.AttackType.physicalAttack)
+    //        {
+    //            if (Random.Range(0, 200) > characterParameter.Luck.Value)
+    //            {
+    //                damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.Strength.Value, enemyParameter.Defense, m_battleInformationUI.Critical);
+    //            }
+    //            else
+    //            {
+    //                m_battleInformationUI.Critical = true;
+    //                damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter,  characterParameter.Strength.Value, enemyParameter.Defense, m_battleInformationUI.Critical);
+    //            }
+    //        }
+    //        else if (skillData.attackType == SkillData.AttackType.magicAttack)
+    //        {
+    //            if (Random.Range(0, 200) > characterParameter.Luck.Value)
+    //            {
+    //                damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.MagicPower.Value, enemyParameter.MagicResist, m_battleInformationUI.Critical);
+    //            }
+    //            else
+    //            {
+    //                m_battleInformationUI.Critical = true;
+    //                damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.MagicPower.Value, enemyParameter.MagicResist, m_battleInformationUI.Critical);
+    //            }
+    //        }
+    //        StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, defender.name, m_battleInformationUI.Critical));
+    //    }
+    //    else if (attacker.CompareTag("Enemy"))
+    //    {
+    //        var enemyParameter = attacker.GetComponent<EnemyManager>().EnemyParameters;
+    //        var characterParameter = defender.GetComponent<Character>();
+    //        if (skillData.attackType == SkillData.AttackType.physicalAttack)
+    //        {
+    //            if (Random.Range(0, 200) > enemyParameter.Luck)
+    //            {
+    //                damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.Strength, characterParameter.Defense.Value, m_battleInformationUI.Critical);
+    //            }
+    //            else
+    //            {
+    //                m_battleInformationUI.Critical = true;
+    //                damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.Strength, characterParameter.Defense.Value, m_battleInformationUI.Critical);
+    //            }
+    //        }
+    //        else if (skillData.attackType == SkillData.AttackType.magicAttack)
+    //        {
+    //            if (Random.Range(0, 200) > enemyParameter.Luck)
+    //            {
+    //                damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.MagicPower, characterParameter.MagicResist.Value, m_battleInformationUI.Critical);
+    //            }
+    //            else
+    //            {
+    //                m_battleInformationUI.Critical = true;
+    //                damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.MagicPower, characterParameter.MagicResist.Value, m_battleInformationUI.Critical);
+    //            }
+    //        }
+    //        StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, characterParameter.Name.Value, m_battleInformationUI.Critical));
+    //    }
+    //    return damage;
+    //}
     void FinishBattle()
     {
         for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)

@@ -31,7 +31,7 @@ public partial class BCharacterStateMachine : MonoBehaviour
 
     [SerializeField] Animator animator = null;
     [SerializeField] HasSkillList hasSkillList = null;
-    BattleManager battleManager;
+    NewBattleManager battleManager;
     void OnEnable()
     {
         m_characterActionCount = 0;
@@ -39,7 +39,7 @@ public partial class BCharacterStateMachine : MonoBehaviour
     }
     void Start()
     {
-        battleManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<BattleManager>();
+        battleManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<NewBattleManager>();
         //animator = GetComponent<Animator>();
         //hasSkillList = GetComponent<HasSkillList>();
     }

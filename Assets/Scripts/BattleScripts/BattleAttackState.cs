@@ -49,7 +49,7 @@ public partial class BCharacterStateMachine : MonoBehaviour
                 }
                 else if (owner.CompareTag("Enemy"))
                 {
-                    owner.m_targetCharacters[owner.m_targetNumber].GetComponent<CharacterParameterManager>().TakeDamage(owner.battleManager.Damage(owner.gameObject, owner.m_targetCharacters[owner.m_targetNumber], owner.hasSkillList.NormalSkill[0]));
+                    owner.m_targetCharacters[owner.m_targetNumber].GetComponent<Character>().TakeDamage(owner.battleManager.Damage(owner.gameObject, owner.m_targetCharacters[owner.m_targetNumber], owner.hasSkillList.NormalSkill[0]));
                 }
                 owner.ChangeState(owner.battleIdleState);
             }
