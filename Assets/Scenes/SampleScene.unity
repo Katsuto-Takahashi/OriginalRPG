@@ -16618,7 +16618,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1880077231
 Transform:
   m_ObjectHideFlags: 0
@@ -16650,7 +16650,7 @@ MonoBehaviour:
   m_name:
     value: 
   m_id:
-    value: 1
+    value: 10
   m_hp:
     value: 1
   m_maxHp:
@@ -16678,6 +16678,7 @@ MonoBehaviour:
   dropRate: 0
   experiencePoint: 1
   enemyPartyNumber: 1
+  m_maxActionCount: 3
   attackAttributeResistance:
   - 1
   - 1
@@ -16691,7 +16692,6 @@ MonoBehaviour:
   attackTypeResistance:
   - 1
   - 1
-  m_maxActionCount: 3
   m_param:
     m_rotatingSpeed: 50
     m_walkingSpeed: 10
@@ -16724,7 +16724,16 @@ MonoBehaviour:
     00000000:
       type: {class: Selector, ns: , asm: Assembly-CSharp}
       data:
+        m_childNode:
+        - id: 1
+        - id: 2
+    00000001:
+      type: {class: CountUpAction, ns: , asm: Assembly-CSharp}
+      data:
         m_childNode: []
+        m_count: 10
+    00000002:
+      type: {class: , ns: , asm: }
 --- !u!114 &1880077234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16744,7 +16753,11 @@ MonoBehaviour:
     00000000:
       type: {class: Selector, ns: , asm: Assembly-CSharp}
       data:
-        m_childNode: []
+        m_childNode:
+        - id: 1
+        - id: 1
+    00000001:
+      type: {class: , ns: , asm: }
 --- !u!114 &1880077235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17276,27 +17289,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_name:
-    value: 
+    value: Player
   m_hp:
-    value: 1
+    value: 5
   m_maxHp:
-    value: 1
+    value: 5
   m_ap:
-    value: 1
+    value: 5
   m_maxAp:
-    value: 1
+    value: 5
   m_strength:
-    value: 1
+    value: 5
   m_defense:
-    value: 1
+    value: 5
   m_magicPower:
-    value: 1
+    value: 5
   m_magicResist:
-    value: 1
+    value: 5
   m_luck:
     value: 1
   m_speed:
-    value: 1
+    value: 5
   m_level:
     value: 1
   m_skillPoint:
@@ -17444,35 +17457,21 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Repeater, ns: , asm: Assembly-CSharp}
-      data:
-        m_childNode:
-        - id: 1
-    00000001:
       type: {class: Selector, ns: , asm: Assembly-CSharp}
       data:
         m_childNode:
+        - id: 1
         - id: 2
-        - id: 3
+    00000001:
+      type: {class: CountDownAction, ns: , asm: Assembly-CSharp}
+      data:
+        m_childNode: []
+        m_count: 10
     00000002:
-      type: {class: Conditional, ns: , asm: Assembly-CSharp}
+      type: {class: CountUpAction, ns: , asm: Assembly-CSharp}
       data:
         m_childNode: []
-        m_check: 0
-    00000003:
-      type: {class: Sequence, ns: , asm: Assembly-CSharp}
-      data:
-        m_childNode:
-        - id: 4
-    00000004:
-      type: {class: Inverter, ns: , asm: Assembly-CSharp}
-      data:
-        m_childNode:
-        - id: 5
-    00000005:
-      type: {class: BTAction, ns: BehaviorTree, asm: Assembly-CSharp}
-      data:
-        m_childNode: []
+        m_count: 10
 --- !u!4 &1969100514
 Transform:
   m_ObjectHideFlags: 0
