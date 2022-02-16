@@ -57,7 +57,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
     /// <summary>坂のレイヤー</summary>
     LayerMask m_slopeLayer;
 
-    void Start()
+    void SetState()
     {
         m_stateMachine = new StateMachine<MovementEnemyStateMachine>(this);
 
@@ -77,7 +77,30 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         m_stateMachine.Start<MovementEnemyState.Idle>();
     }
 
-    void Update()
+    void SetPram(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, Transform setTransform, MoveParameters setParam)
+    {
+        m_animator = setAnimator;
+        m_rigidbody = setRigidbody;
+        m_capsuleCollider = setCollider;
+        m_myTransform = setTransform;
+        m_rotatingSpeed = setParam.RotatingSpeed;
+        m_walkingSpeed = setParam.WalkingSpeed;
+        m_runningSpeed = setParam.RunningSpeed;
+        m_jumpingPower = setParam.JumpingPower;
+        m_gravityScale = setParam.GravityScale;
+        m_isGroundLength = setParam.IsGroundLength;
+        m_groundLayer = setParam.GroundLayer;
+        m_slopeLayer = setParam.SlopeLayer;
+        m_movingSpeed = m_walkingSpeed;
+    }
+
+    public void SetUP(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, Transform setTransform, MoveParameters setParam)
+    {
+        SetState();
+        SetPram(setAnimator, setRigidbody, setCollider, setTransform, setParam);
+    }
+
+    public void OnUpdate()
     {
         m_stateMachine.Update();
 
@@ -86,7 +109,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         ApplyGravity(m_stateMachine.CurrentSate);
     }
 
-    void FixedUpdate()
+    public void OnFixedUpdate()
     {
         ApplyMovement();
         ApplyRotation();

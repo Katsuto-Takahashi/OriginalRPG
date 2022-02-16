@@ -98,7 +98,7 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
     /// <summary>魔法</summary>
     List<SkillData> m_magicDatas = new List<SkillData>();
 
-    void Start()
+    void SetState()
     {
         m_stateMachine = new StateMachine<BattleEnemyStateMachine>(this);
 
@@ -116,7 +116,17 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
         m_stateMachine.Start<BattleEnemyState.NoBattle>();
     }
 
-    void Update()
+    void SetParam()
+    {
+
+    }
+
+    public void SetUP()
+    {
+        SetState();
+    }
+
+    public void OnUpdate()
     {
         Timer(m_stateMachine.CurrentSate);
     }

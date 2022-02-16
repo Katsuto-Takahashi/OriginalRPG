@@ -98,6 +98,12 @@ public class EnemyParameter : MonoBehaviour
     /// <summary>パーティー構成</summary>
     public int EnemyPartyNumber => enemyPartyNumber;
 
+    [SerializeField]
+    [Range(1, 5)]
+    int m_maxActionCount = 3;
+    /// <summary>蓄積可能な行動回数</summary>
+    public int MaxActionCount => m_maxActionCount;
+
     public enum AttackAttributesResistance
     {
         non,
@@ -122,10 +128,4 @@ public class EnemyParameter : MonoBehaviour
     [EnumIndex(typeof(AttackTypeResistance))]
     /// <summary>攻撃されるタイプ</summary>
     public float[] attackTypeResistance = new float[2];
-
-    [SerializeField]
-    [Range(1, 5)]
-    int m_maxActionCount = 3;
-    /// <summary>蓄積可能な行動回数</summary>
-    public int MaxActionCount => m_maxActionCount;
 }
