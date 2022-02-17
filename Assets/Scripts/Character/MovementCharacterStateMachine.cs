@@ -50,9 +50,9 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     LayerMask m_slopeLayer;
 
     /// <summary>操作可能かどうか</summary>
-    bool m_notOperation = false;
+    bool m_canOperation = false;
     /// <summary>操作可能かのフラグ</summary>
-    public bool NotOperation { get => m_notOperation; set => m_notOperation = value; }
+    public bool CanOperation { get => m_canOperation; set => m_canOperation = value; }
 
     void SetState()
     {

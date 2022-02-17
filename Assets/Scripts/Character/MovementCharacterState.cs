@@ -14,7 +14,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnUpdate()
             {
-                if (owner.m_notOperation)
+                if (!owner.m_canOperation)
                 {
                     StateMachine.Dispatch((int)ActEvent.Stop);
                 }
@@ -51,7 +51,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnUpdate()
             {
-                if (owner.m_notOperation)
+                if (!owner.m_canOperation)
                 {
                     StateMachine.Dispatch((int)ActEvent.Stop);
                 }
@@ -96,7 +96,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnUpdate()
             {
-                if (owner.m_notOperation)
+                if (!owner.m_canOperation)
                 {
                     StateMachine.Dispatch((int)ActEvent.Stop);
                 }
@@ -190,11 +190,11 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                     {
                         if (Mathf.Abs(owner.m_currentVelocity.x) > 0.1f)
                         {
-                            owner.m_currentVelocity.x *= 0.99f;
+                            owner.m_currentVelocity.x = Mathf.MoveTowards(owner.m_currentVelocity.x, 0f, Time.deltaTime);
                         }
                         if (Mathf.Abs(owner.m_currentVelocity.z) > 0.1f)
                         {
-                            owner.m_currentVelocity.z *= 0.99f;
+                            owner.m_currentVelocity.z = Mathf.MoveTowards(owner.m_currentVelocity.z, 0f, Time.deltaTime); ;
                         }
                     }
                 }
@@ -240,7 +240,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
             }
             protected override void OnUpdate()
             {
-                if (!owner.m_notOperation)
+                if (owner.m_canOperation)
                 {
                     StateMachine.Dispatch((int)ActEvent.Idle);
                 }
