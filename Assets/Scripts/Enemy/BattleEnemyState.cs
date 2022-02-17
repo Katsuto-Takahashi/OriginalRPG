@@ -10,7 +10,6 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("Wait");
-                owner.m_childNode.Result();
             }
             protected override void OnUpdate()
             {
@@ -42,6 +41,7 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
             {
                 Debug.Log("Standby");
                 //賢さによって行動を選択する
+                owner.m_childNode.Result();
                 owner.m_targetIndex = Random.Range(0, owner.m_targets.Count);
                 owner.m_targetPosition = owner.m_targets[owner.m_targetIndex].transform.position;
                 owner.m_distance = (owner.m_targetPosition.x - owner.transform.position.x) * (owner.m_targetPosition.x - owner.transform.position.x) + (owner.m_targetPosition.z - owner.transform.position.z) * (owner.m_targetPosition.z - owner.transform.position.z);

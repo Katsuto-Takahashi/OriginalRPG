@@ -96,8 +96,8 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
 
     public void SetUP(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, Transform setTransform, MoveParameters setParam)
     {
-        SetState();
         SetPram(setAnimator, setRigidbody, setCollider, setTransform, setParam);
+        SetState();
     }
 
     public void OnUpdate()
