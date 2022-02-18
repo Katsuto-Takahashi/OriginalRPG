@@ -111,23 +111,37 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
         m_stateMachine.AddAnyTransition<BattleEnemyState.NoBattle>((int)ActEvent.NoBattle);
         m_stateMachine.AddAnyTransition<BattleEnemyState.Dead>((int)ActEvent.Dead);
 
-        m_childNode.GetNode();
-
         m_stateMachine.Start<BattleEnemyState.NoBattle>();
     }
 
-    void SetParam()
+    void SetParam(Enemy enemy)
     {
+        m_nowHP = enemy.HP.Value;
+        m_hp = enemy.MaxHP.Value;
+        m_nowAP = enemy.AP.Value;
+        m_ap = enemy.MaxAP.Value;
+        m_strength = enemy.Strength.Value;
+        m_defense = enemy.Defense.Value;
+        m_magicPower = enemy.MagicPower.Value;
+        m_magicResist = enemy.MagicResist.Value;
+        m_intelligence = enemy.Intelligence.Value;
+    }
 
+    public void Parameter(Enemy enemy)
+    {
+        SetParam(enemy);
     }
 
     public void SetUP()
     {
+        m_childNode.GetNode();
         SetState();
     }
 
     public void OnUpdate()
     {
+        m_stateMachine.Update();
+
         Timer(m_stateMachine.CurrentSate);
     }
 
