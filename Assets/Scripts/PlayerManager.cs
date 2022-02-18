@@ -56,7 +56,7 @@ public class PlayerManager : Character
 
     void StopMove(bool stop)
     {
-        m_mcsm.NotOperation = stop;
+        m_mcsm.CanOperation = !stop;
     }
 
     void CheckHP(int hp)
