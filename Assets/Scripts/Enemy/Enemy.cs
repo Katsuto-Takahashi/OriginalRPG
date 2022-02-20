@@ -17,7 +17,7 @@ public class Enemy : EnemyParameter, ITakableDamage
     protected Animator m_animator;
     protected Rigidbody m_rigidbody;
     protected CapsuleCollider m_capsuleCollider;
-    //protected SphereCollider m_sphereCollider;
+    protected SphereCollider m_sphereCollider;
     protected HasSkillList m_hsl;
     protected MovementEnemyStateMachine m_mesm;
     protected BattleEnemyStateMachine m_besm;
@@ -32,6 +32,7 @@ public class Enemy : EnemyParameter, ITakableDamage
         m_animator = GetComponentInChildren<Animator>();
         m_rigidbody = GetComponent<Rigidbody>();
         m_capsuleCollider = GetComponent<CapsuleCollider>();
+        m_sphereCollider = GetComponentInChildren<SphereCollider>();
         m_mesm = GetComponent<MovementEnemyStateMachine>();
         m_besm = GetComponent<BattleEnemyStateMachine>();
     }

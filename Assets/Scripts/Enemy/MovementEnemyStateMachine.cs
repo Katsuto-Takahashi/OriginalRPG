@@ -26,6 +26,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
     CapsuleCollider m_capsuleCollider;
     SphereCollider m_sphereCollider;
     GameObject m_targetObject;
+    public GameObject TargetObject => m_targetObject;
     LayerMask m_targetLayer;
     [SerializeReference, SubclassSelector]
     Node m_childNode;
@@ -72,16 +73,15 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         m_stateMachine.AddAnyTransition<MovementEnemyState.Stop>((int)ActEvent.Stop);
         m_stateMachine.AddAnyTransition<MovementEnemyState.Dead>((int)ActEvent.Dead);
 
-        m_childNode.GetNode();
-
         m_stateMachine.Start<MovementEnemyState.Idle>();
     }
 
-    void SetPram(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, Transform setTransform, MoveParameters setParam)
+    void SetPram(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, SphereCollider setSphere, Transform setTransform, MoveParameters setParam)
     {
         m_animator = setAnimator;
         m_rigidbody = setRigidbody;
         m_capsuleCollider = setCollider;
+        m_sphereCollider = setSphere;
         m_myTransform = setTransform;
         m_rotatingSpeed = setParam.RotatingSpeed;
         m_walkingSpeed = setParam.WalkingSpeed;
@@ -94,9 +94,10 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         m_movingSpeed = m_walkingSpeed;
     }
 
-    public void SetUP(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, Transform setTransform, MoveParameters setParam)
+    public void SetUP(Animator setAnimator, Rigidbody setRigidbody, CapsuleCollider setCollider, SphereCollider setSphere, Transform setTransform, MoveParameters setParam)
     {
-        SetPram(setAnimator, setRigidbody, setCollider, setTransform, setParam);
+        SetPram(setAnimator, setRigidbody, setCollider, setSphere, setTransform, setParam);
+        m_childNode.GetNode();
         SetState();
     }
 
@@ -186,5 +187,12 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
     void PlayAnimation(string stateName, float transitionDuration = 0.1f)
     {
         AnimationController.Instance.PlayAnimation(m_animator, stateName, transitionDuration);
+    }
+
+    public bool TestBool()
+    {
+        bool tb = IsGround();
+        Debug.Log(tb);
+        return tb;
     }
 }

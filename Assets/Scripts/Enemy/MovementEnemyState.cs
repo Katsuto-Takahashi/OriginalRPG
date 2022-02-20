@@ -9,35 +9,38 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("Idleになったで");
                 owner.PlayAnimation("Idle");
                 owner.m_currentVelocity = Vector3.zero;
-                owner.m_childNode.Result();
+                //owner.m_childNode.Result();
             }
             protected override void OnUpdate()
             {
-                if (true)//
-                {
-                    StateMachine.Dispatch((int)ActEvent.Stop);
-                }
-                else if (owner.IsGround() || owner.IsSlope())
-                {
-                    if (true)//動く
-                    {
-                        if (owner.m_targetObject != null)
-                        {
-                            StateMachine.Dispatch((int)ActEvent.Run);
-                        }
-                        StateMachine.Dispatch((int)ActEvent.Walk);
-                    }
-                    if (Input.GetButtonDown("L1button"))
-                    {
-                        StateMachine.Dispatch((int)ActEvent.Jump);
-                    }
-                }
-                else
-                {
-                    StateMachine.Dispatch((int)ActEvent.Fall);
-                }
+                if (owner.m_childNode.Result() == BehaviorTree.NodeState.Failure) Debug.Log("Failureだったで");
+                if (owner.m_childNode.Result() == BehaviorTree.NodeState.Success) Debug.Log("Successだったで");
+                //if (true)//
+                //{
+                //    StateMachine.Dispatch((int)ActEvent.Stop);
+                //}
+                //else if (owner.IsGround() || owner.IsSlope())
+                //{
+                //    if (true)//動く
+                //    {
+                //        if (owner.m_targetObject != null)
+                //        {
+                //            StateMachine.Dispatch((int)ActEvent.Run);
+                //        }
+                //        StateMachine.Dispatch((int)ActEvent.Walk);
+                //    }
+                //    if (Input.GetButtonDown("L1button"))
+                //    {
+                //        StateMachine.Dispatch((int)ActEvent.Jump);
+                //    }
+                //}
+                //else
+                //{
+                //    StateMachine.Dispatch((int)ActEvent.Fall);
+                //}
             }
             protected override void OnExit(State nextState)
             {
