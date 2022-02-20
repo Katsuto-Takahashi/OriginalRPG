@@ -19,7 +19,7 @@ public class SlimeManager : Enemy
         Speed.DistinctUntilChanged().Subscribe(_ => m_besm.Parameter(this));
         Intelligence.DistinctUntilChanged().Subscribe(_ => m_besm.Parameter(this));
 
-        m_mesm.SetUP(m_animator, m_rigidbody, m_capsuleCollider, m_myTransform, m_param);
+        m_mesm.SetUP(m_animator, m_rigidbody, m_capsuleCollider, m_sphereCollider, m_myTransform, m_param);
         m_besm.SetUP();
     }
 
