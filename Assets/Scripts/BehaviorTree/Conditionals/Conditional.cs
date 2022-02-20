@@ -7,17 +7,12 @@ using BehaviorTree;
 public class Conditional : BTConditional
 {
     [SerializeField]
-    bool m_check = false;
-    public void C(bool cc)
-    {
-        m_check = cc;
-    }
+    MovementEnemyStateMachine m_mesm;
 
     protected override NodeState Check()
     {
-        Debug.Log($"判定結果{m_check}");
-        if (m_check) return NodeState.Success;
-        return NodeState.Failure;
+        if (m_mesm.TargetObject == null) return NodeState.Failure;
+        return NodeState.Success;
     }
 
     public override Node GetNode()
