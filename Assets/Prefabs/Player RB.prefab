@@ -618,6 +618,7 @@ GameObject:
   - component: {fileID: 3558055783207864879}
   - component: {fileID: 1292316701}
   - component: {fileID: 4427875281528703633}
+  - component: {fileID: 8714583306839372076}
   m_Layer: 0
   m_Name: Player RB
   m_TagString: Player
@@ -744,14 +745,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: aaaa
   maxHP: 10
-  nowHP: 9
+  nowHP: 10
   maxAP: 5
-  nowAP: 2
+  nowAP: 5
   strength: 5
   defense: 3
   magicPower: 1
   magicResist: 1
-  luck: 0
+  luck: 1
   speed: 3
   level: 1
   exp: 0
@@ -766,6 +767,7 @@ MonoBehaviour:
   isPoisonState: 0
   isNumbnessState: 0
   isDeadState: 0
+  m_UIDisplay: {fileID: 0}
 --- !u!114 &4427875281528703633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -778,11 +780,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a0cbbe1620602944871f3a75c783830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_battlePanel: {fileID: 0}
+  playerControllerCC: {fileID: 0}
+  playerControllerRB: {fileID: 7704331951887087944}
+  m_moveSpeed: 10
+  m_open: 0
   m_actionTimer: 0
   m_battle: 0
-  m_currentPosition: {x: 0, y: 0, z: 0}
+  m_action: 0
   m_targetCharacters: []
+  m_targetNumber: 0
   m_firstAction: 0
+  animator: {fileID: 125937426805837962}
+  hasSkillList: {fileID: 8714583306839372076}
+--- !u!114 &8714583306839372076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125937426796454412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 844fb6f2508cee94db89c7876b66e409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_normalSkill:
+  - {fileID: 11400000, guid: 408cb59764b74164ea227dc67d4a20ae, type: 2}
+  - {fileID: 11400000, guid: 1a2597fbf442d354ab3c6a9a48b6db6b, type: 2}
+  m_skillDatas:
+  - {fileID: 11400000, guid: 42eeb142ed4157e49a80bc3700562496, type: 2}
 --- !u!1 &125937426796454414
 GameObject:
   m_ObjectHideFlags: 0

@@ -140,7 +140,7 @@ RectTransform:
   m_GameObject: {fileID: 1321525135}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
+  m_LocalScale: {x: 0.0025, y: 0.002, z: 0.002}
   m_Children: []
   m_Father: {fileID: 983047801}
   m_RootOrder: 0
@@ -178,9 +178,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 301805bed872aa8439db2ef17ac93c60, type: 3}
     m_FontSize: 300
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 300
@@ -190,7 +190,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: ' '
 --- !u!114 &721529583831186460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 3, y: -3}
+  m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!1 &6721649483532619620
 GameObject:
@@ -550,7 +550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949dc92067dd67849a45a2459011f22a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyParameters: {fileID: 11400000, guid: fd531f6f155176e409cdacd172ef365d, type: 2}
+  m_enemyParameters: {fileID: 11400000, guid: fd531f6f155176e409cdacd172ef365d, type: 2}
   isPoisonState: 0
   isNumbnessState: 0
   isDeadState: 0

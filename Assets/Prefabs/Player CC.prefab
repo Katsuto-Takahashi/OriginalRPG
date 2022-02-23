@@ -617,6 +617,7 @@ GameObject:
   - component: {fileID: 3558055783207864879}
   - component: {fileID: 1394153791}
   - component: {fileID: 1330677598}
+  - component: {fileID: 1729603097}
   m_Layer: 0
   m_Name: Player CC
   m_TagString: Player
@@ -725,17 +726,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3544f889b4482ef479a2b39dfb22b049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: "\u30E6\u30CB\u30C6\u30A3C"
-  maxHP: 10
-  nowHP: 8
-  maxAP: 3
+  characterName: "\u30E6\u30CB\u30C6\u30A3"
+  maxHP: 150
+  nowHP: 150
+  maxAP: 1
   nowAP: 1
-  strength: 5
-  defense: 3
+  strength: 100
+  defense: 30
   magicPower: 1
   magicResist: 1
-  luck: 0
-  speed: 3
+  luck: 10
+  speed: 50
   level: 1
   exp: 0
   characterTotalExp: 0
@@ -749,6 +750,7 @@ MonoBehaviour:
   isPoisonState: 0
   isNumbnessState: 0
   isDeadState: 0
+  m_UIDisplay: {fileID: 0}
 --- !u!114 &1330677598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,11 +763,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a0cbbe1620602944871f3a75c783830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_battlePanel: {fileID: 0}
+  playerControllerCC: {fileID: 2042998374}
+  playerControllerRB: {fileID: 0}
+  m_moveSpeed: 10
+  m_open: 0
   m_actionTimer: 0
   m_battle: 0
-  m_currentPosition: {x: 0, y: 0, z: 0}
+  m_action: 0
   m_targetCharacters: []
+  m_targetNumber: 0
   m_firstAction: 0
+  animator: {fileID: 125937426805837962}
+  hasSkillList: {fileID: 1729603097}
+--- !u!114 &1729603097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125937426796454412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 844fb6f2508cee94db89c7876b66e409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_normalSkill:
+  - {fileID: 11400000, guid: 408cb59764b74164ea227dc67d4a20ae, type: 2}
+  - {fileID: 11400000, guid: 1a2597fbf442d354ab3c6a9a48b6db6b, type: 2}
+  m_skillDatas:
+  - {fileID: 11400000, guid: 42eeb142ed4157e49a80bc3700562496, type: 2}
 --- !u!1 &125937426796454414
 GameObject:
   m_ObjectHideFlags: 0
@@ -1297,7 +1324,18 @@ SkinnedMeshRenderer:
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 4300008, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
   m_Bones: []
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   m_RootBone: {fileID: 0}
   m_AABB:
     m_Center: {x: 0, y: 1.3662745, z: 0.0315425}
@@ -3908,7 +3946,14 @@ SkinnedMeshRenderer:
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 4300010, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
   m_Bones: []
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   m_RootBone: {fileID: 0}
   m_AABB:
     m_Center: {x: 0, y: 1.3556354, z: 0.0608415}
@@ -4370,7 +4415,14 @@ SkinnedMeshRenderer:
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 4300012, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
   m_Bones: []
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   m_RootBone: {fileID: 0}
   m_AABB:
     m_Center: {x: 0, y: 1.3495715, z: 0.06277}
