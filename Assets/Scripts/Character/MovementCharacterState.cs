@@ -166,8 +166,6 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
-                //owner.m_currentVelocity.x = 0f;
-                //owner.m_currentVelocity.z = 0f;
                 owner.PlayAnimation("Fall");
             }
             protected override void OnUpdate()

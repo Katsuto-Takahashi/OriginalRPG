@@ -81,6 +81,8 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         m_stateMachine.Update();
 
         m_moveForward = Camera.main.transform.TransformDirection(m_inputDirection);
+        m_moveForward.y = 0.0f;
+        //m_moveForward.Normalize();
 
         ApplyGravity(m_stateMachine.CurrentSate);
     }
