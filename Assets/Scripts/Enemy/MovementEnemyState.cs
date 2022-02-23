@@ -10,13 +10,21 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("Idleになったで");
+                //if (prevState is not Stop)
+                //{
                 owner.PlayAnimation("Idle");
+                //}
                 owner.m_currentVelocity = Vector3.zero;
                 //owner.m_childNode.Result();
             }
             protected override void OnUpdate()
             {
-                if (owner.m_childNode.Result() == BehaviorTree.NodeState.Failure) Debug.Log("Failureだったで");
+                if (owner.m_childNode.Result() == BehaviorTree.NodeState.Failure)
+                {
+                    Debug.Log("Failureだったで");
+                    //return;
+                    StateMachine.Dispatch((int)ActEvent.Idle);
+                }
                 if (owner.m_childNode.Result() == BehaviorTree.NodeState.Success) Debug.Log("Successだったで");
                 //if (true)//
                 //{
