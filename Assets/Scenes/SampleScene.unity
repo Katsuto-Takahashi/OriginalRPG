@@ -6892,7 +6892,7 @@ GameObject:
   - component: {fileID: 440375022}
   m_Layer: 0
   m_Name: Serch
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7249,7 +7249,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503088778}
-  m_LocalRotation: {x: -0.045030653, y: 0.018796327, z: -0.00084719947, w: -0.99880844}
+  m_LocalRotation: {x: -0.04503065, y: 0.01879633, z: -0.00084719755, w: -0.99880844}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7680,7 +7680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &613256440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9617,7 +9617,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883370005}
-  m_LocalRotation: {x: -0.026903396, y: 0.018808601, z: -0.0005062419, w: -0.999461}
+  m_LocalRotation: {x: -0.026903398, y: 0.018808635, z: -0.0005062434, w: -0.999461}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -10269,7 +10269,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.045030657, y: -0.018796338, z: 0.0008474211, w: 0.99880844}
+  m_LocalRotation: {x: 0.04503065, y: -0.018796345, z: 0.0008474213, w: 0.99880844}
   m_LocalPosition: {x: 0.32544935, y: 2.5, z: -8.643875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -10283,7 +10283,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
   m_Name: 
@@ -10316,7 +10316,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24da0fefed88c6342b62f059c34b3d55, type: 3}
   m_Name: 
@@ -12481,7 +12481,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338258602}
-  m_LocalRotation: {x: -0.063191004, y: 0.018777825, z: -0.0011893176, w: -0.99782413}
+  m_LocalRotation: {x: -0.06319101, y: 0.018777827, z: -0.0011893164, w: -0.99782413}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -16012,13 +16012,7 @@ MonoBehaviour:
     00000000:
       type: {class: Selector, ns: , asm: Assembly-CSharp}
       data:
-        m_childNode:
-        - id: 1
-    00000001:
-      type: {class: CountUpAction, ns: , asm: Assembly-CSharp}
-      data:
         m_childNode: []
-        m_count: 10
 --- !u!114 &1880077234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16036,21 +16030,10 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Sequence, ns: , asm: Assembly-CSharp}
-      data:
-        m_childNode:
-        - id: 1
-        - id: 2
-    00000001:
       type: {class: Conditional, ns: , asm: Assembly-CSharp}
       data:
         m_childNode: []
-        m_check: 1
-    00000002:
-      type: {class: Conditional, ns: , asm: Assembly-CSharp}
-      data:
-        m_childNode: []
-        m_check: 0
+        m_mesm: {fileID: 1880077234}
 --- !u!114 &1880077235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16720,27 +16703,7 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Selector, ns: , asm: Assembly-CSharp}
-      data:
-        m_childNode:
-        - id: 1
-        - id: 2
-    00000001:
-      type: {class: Conditional, ns: , asm: Assembly-CSharp}
-      data:
-        m_childNode:
-        - id: 3
-        m_check: 0
-    00000002:
-      type: {class: CountUpAction, ns: , asm: Assembly-CSharp}
-      data:
-        m_childNode: []
-        m_count: 10
-    00000003:
-      type: {class: Conditional, ns: , asm: Assembly-CSharp}
-      data:
-        m_childNode: []
-        m_check: 0
+      type: {class: , ns: , asm: }
 --- !u!4 &1969100514
 Transform:
   m_ObjectHideFlags: 0
