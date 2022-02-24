@@ -21,4 +21,9 @@ public class InputController : MonoBehaviour
         inputTrigerName = new string[] { "L2trigger", "R2trigger" };
         //InputControllerName = new string[][] { inputButtonName, inputStickName, inputTrigerName };
     }
+
+    public bool LeftStickDown()
+    {
+        return Input.GetButtonDown("");
+    }
 }
