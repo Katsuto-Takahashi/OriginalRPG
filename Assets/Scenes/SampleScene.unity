@@ -7249,7 +7249,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503088778}
-  m_LocalRotation: {x: -0.04503065, y: 0.01879633, z: -0.00084719755, w: -0.99880844}
+  m_LocalRotation: {x: -0.045030653, y: 0.018796327, z: -0.0008471974, w: -0.99880844}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9617,7 +9617,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883370005}
-  m_LocalRotation: {x: -0.026903398, y: 0.018808635, z: -0.0005062434, w: -0.999461}
+  m_LocalRotation: {x: -0.026903398, y: 0.018808601, z: -0.00050624245, w: -0.999461}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -10269,7 +10269,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.04503065, y: -0.018796345, z: 0.0008474213, w: 0.99880844}
+  m_LocalRotation: {x: 0.045030657, y: -0.018796338, z: 0.0008474211, w: 0.99880844}
   m_LocalPosition: {x: 0.32544935, y: 2.5, z: -8.643875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -12481,7 +12481,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338258602}
-  m_LocalRotation: {x: -0.06319101, y: 0.018777827, z: -0.0011893164, w: -0.99782413}
+  m_LocalRotation: {x: -0.063191004, y: 0.018777825, z: -0.0011893162, w: -0.99782413}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13274,7 +13274,6 @@ GameObject:
   - component: {fileID: 1509466357}
   - component: {fileID: 1509466356}
   - component: {fileID: 1509466360}
-  - component: {fileID: 1509466359}
   - component: {fileID: 1509466358}
   m_Layer: 0
   m_Name: Manager
@@ -13363,22 +13362,6 @@ MonoBehaviour:
   m_battleInformationUIObject: {fileID: 149291164}
   m_battleFeildPrefab: {fileID: 1209401978525203268, guid: 32307c74b822f1d4daf2eac8e138af95,
     type: 3}
---- !u!114 &1509466359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1509466353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97e2b588550968a419e04c2963c90d5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cpm: {fileID: 1729603100}
-  hp: 0
-  sceneLoader: {fileID: 1509466360}
-  name: SampleScene
 --- !u!114 &1509466360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15100,18 +15083,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c39476fd70e62fb41a392bd2b22d99f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1729603100 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1394153791, guid: f8e4aa4c9327e5647903c61a5fd1880c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1394153789}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3544f889b4482ef479a2b39dfb22b049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1734269776
