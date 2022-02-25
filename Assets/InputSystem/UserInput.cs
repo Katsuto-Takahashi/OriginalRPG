@@ -261,7 +261,7 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Open"",
+                    ""name"": ""Menu"",
                     ""type"": ""Button"",
                     ""id"": ""ac9dfae6-c0e7-4fd3-aa6a-af216500b38e"",
                     ""expectedControlType"": ""Button"",
@@ -322,7 +322,7 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Open"",
+                    ""action"": ""Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -333,7 +333,7 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Open"",
+                    ""action"": ""Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -355,7 +355,7 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
         m_Command = asset.FindActionMap("Command", throwIfNotFound: true);
         m_Command_Move = m_Command.FindAction("Move", throwIfNotFound: true);
         m_Command_Decide = m_Command.FindAction("Decide", throwIfNotFound: true);
-        m_Command_Open = m_Command.FindAction("Open", throwIfNotFound: true);
+        m_Command_Menu = m_Command.FindAction("Menu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -507,14 +507,14 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
     private ICommandActions m_CommandActionsCallbackInterface;
     private readonly InputAction m_Command_Move;
     private readonly InputAction m_Command_Decide;
-    private readonly InputAction m_Command_Open;
+    private readonly InputAction m_Command_Menu;
     public struct CommandActions
     {
         private @UserInput m_Wrapper;
         public CommandActions(@UserInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Command_Move;
         public InputAction @Decide => m_Wrapper.m_Command_Decide;
-        public InputAction @Open => m_Wrapper.m_Command_Open;
+        public InputAction @Menu => m_Wrapper.m_Command_Menu;
         public InputActionMap Get() { return m_Wrapper.m_Command; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -530,9 +530,9 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
                 @Decide.started -= m_Wrapper.m_CommandActionsCallbackInterface.OnDecide;
                 @Decide.performed -= m_Wrapper.m_CommandActionsCallbackInterface.OnDecide;
                 @Decide.canceled -= m_Wrapper.m_CommandActionsCallbackInterface.OnDecide;
-                @Open.started -= m_Wrapper.m_CommandActionsCallbackInterface.OnOpen;
-                @Open.performed -= m_Wrapper.m_CommandActionsCallbackInterface.OnOpen;
-                @Open.canceled -= m_Wrapper.m_CommandActionsCallbackInterface.OnOpen;
+                @Menu.started -= m_Wrapper.m_CommandActionsCallbackInterface.OnMenu;
+                @Menu.performed -= m_Wrapper.m_CommandActionsCallbackInterface.OnMenu;
+                @Menu.canceled -= m_Wrapper.m_CommandActionsCallbackInterface.OnMenu;
             }
             m_Wrapper.m_CommandActionsCallbackInterface = instance;
             if (instance != null)
@@ -543,9 +543,9 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
                 @Decide.started += instance.OnDecide;
                 @Decide.performed += instance.OnDecide;
                 @Decide.canceled += instance.OnDecide;
-                @Open.started += instance.OnOpen;
-                @Open.performed += instance.OnOpen;
-                @Open.canceled += instance.OnOpen;
+                @Menu.started += instance.OnMenu;
+                @Menu.performed += instance.OnMenu;
+                @Menu.canceled += instance.OnMenu;
             }
         }
     }
@@ -565,6 +565,6 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnDecide(InputAction.CallbackContext context);
-        void OnOpen(InputAction.CallbackContext context);
+        void OnMenu(InputAction.CallbackContext context);
     }
 }

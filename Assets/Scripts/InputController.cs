@@ -64,8 +64,8 @@ public class InputController : SingletonMonoBehaviour<InputController>
         return m_input.Command.Decide.WasPressedThisFrame();
     }
 
-    public bool Open()
+    public bool Menu()
     {
-        return m_input.Command.Open.WasPressedThisFrame();
+        return m_input.Command.Menu.WasPressedThisFrame();
     }
 }
