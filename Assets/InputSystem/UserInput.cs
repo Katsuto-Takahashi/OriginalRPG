@@ -318,7 +318,7 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""257830ca-e51b-471f-a5a5-c3af1d6b7653"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
