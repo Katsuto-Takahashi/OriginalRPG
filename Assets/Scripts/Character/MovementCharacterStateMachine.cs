@@ -122,9 +122,9 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         m_myTransform.rotation = Quaternion.Slerp(transform.rotation, m_targetRotation, Time.deltaTime * m_rotatingSpeed);
     }
 
-    public void UserInput(float h, float v)
+    public void UserInput(Vector2 move)
     {
-        m_inputDirection = Vector3.forward * v + Vector3.right * h;
+        m_inputDirection = Vector3.forward * move.y + Vector3.right * move.x;
     }
 
     bool IsGround()

@@ -14,7 +14,7 @@ public class MenuDisplay : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Optionsbutton"))
+        if (InputController.Instance.Open())
         {
             if (m_menuDisplay)
             {

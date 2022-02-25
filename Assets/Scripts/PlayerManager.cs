@@ -49,9 +49,7 @@ public class PlayerManager : Character
 
     void ApplyGetAxis()
     {
-        float h = Input.GetAxis("Lstick_h");
-        float v = Input.GetAxis("Lstick_v");
-        m_mcsm.UserInput(h, v);
+        m_mcsm.UserInput(InputController.Instance.Move());
     }
 
     void StopMove(bool stop)

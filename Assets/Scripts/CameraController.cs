@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Rstickbutton"))
+        if (InputController.Instance.Reset())
         {
             ResetCameraDirection(m_resetLookPosition.position);
         }

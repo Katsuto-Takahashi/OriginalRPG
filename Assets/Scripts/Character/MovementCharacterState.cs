@@ -22,13 +22,13 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                 {
                     if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                     {
-                        if (Input.GetButton("R1button"))
+                        if (InputController.Instance.Run())
                         {
                             StateMachine.Dispatch((int)ActEvent.Run);
                         }
                         StateMachine.Dispatch((int)ActEvent.Walk);
                     }
-                    if (Input.GetButtonDown("L1button"))
+                    if (InputController.Instance.Jump())
                     {
                         StateMachine.Dispatch((int)ActEvent.Jump);
                     }
@@ -57,13 +57,13 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                 }
                 else if (owner.IsGround() || owner.IsSlope())
                 {
-                    if (Input.GetButtonDown("L1button"))
+                    if (InputController.Instance.Jump())
                     {
                         StateMachine.Dispatch((int)ActEvent.Jump);
                     }
                     if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                     {
-                        if (Input.GetButton("R1button"))
+                        if (InputController.Instance.Run())
                         {
                             StateMachine.Dispatch((int)ActEvent.Run);
                         }
@@ -104,11 +104,11 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                 {
                     if (owner.IsGround() || owner.IsSlope())
                     {
-                        if (Input.GetButtonDown("L1button"))
+                        if (InputController.Instance.Jump())
                         {
                             StateMachine.Dispatch((int)ActEvent.Jump);
                         }
-                        if (Input.GetButtonUp("R1button"))
+                        if (!InputController.Instance.Run())
                         {
                             StateMachine.Dispatch((int)ActEvent.Walk);
                         }
@@ -218,7 +218,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                 }
                 else if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                 {
-                    if (Input.GetButton("R1button"))
+                    if (InputController.Instance.Run())
                     {
                         StateMachine.Dispatch((int)ActEvent.Run);
                     }

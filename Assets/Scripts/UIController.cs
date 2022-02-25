@@ -58,17 +58,17 @@ public class UIController : MonoBehaviour
 
     protected virtual void OnUpdate()
     {
-        float v = Input.GetAxisRaw("Dpad_v");
-        float h = Input.GetAxisRaw("Dpad_h");
+        float v = InputController.Instance.CommandMove().y;
+        float h = InputController.Instance.CommandMove().x;
         CommandMove(v, h);
-        if (Input.GetButtonDown("Circlebutton"))
+        if (InputController.Instance.Decide())
         {
             OnUI();
         }
-        else if (Input.GetButtonDown("×button"))
-        {
-            OnUIPanelReturnChanged();
-        }
+        //else if (Input.GetButtonDown("×button"))
+        //{
+        //    OnUIPanelReturnChanged();
+        //}
     }
 
     /// <summary>Dpadでのコマンド操作</summary>
