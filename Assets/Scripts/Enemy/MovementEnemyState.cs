@@ -10,10 +10,10 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("Idleになったで");
-                //if (prevState is not Stop)
-                //{
-                owner.PlayAnimation("Idle");
-                //}
+                if (!(prevState is Idle))
+                {
+                    owner.PlayAnimation("Idle");
+                }
                 owner.m_currentVelocity = Vector3.zero;
                 //owner.m_childNode.Result();
             }
