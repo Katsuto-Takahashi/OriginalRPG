@@ -189,6 +189,15 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""7a3d2081-7a45-4195-b991-1ef3cf58c6b8"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -235,6 +244,72 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
                     ""action"": ""Reset"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02e78caa-cfff-4032-9199-7efce3c43a7a"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""67fa3213-c16c-4a7d-b4ee-d5e099138227"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": ""ScaleVector2,NormalizeVector2"",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""1932a4e9-8861-47ba-9c53-217ed23542fe"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""b3f58f1c-fe78-4f7c-9965-65f4d8d3e76c"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""dd854fa9-575c-4d4c-9606-0c7d330d7b5b"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""1f72930e-f38f-4d25-bb82-ed3c8b2fda7a"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -338,6 +413,45 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Option"",
+            ""id"": ""f45580a7-678e-4134-a9cf-aa5b9bb4257c"",
+            ""actions"": [
+                {
+                    ""name"": ""Button"",
+                    ""type"": ""Button"",
+                    ""id"": ""ba9bef05-e7e5-4935-8810-4dc05f9c1cc0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""be013517-2551-4c6b-bde8-d029cac45dc2"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1295548d-bea4-4fd7-b1a8-56a0a8f1b697"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -351,11 +465,15 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
         m_Camra = asset.FindActionMap("Camra", throwIfNotFound: true);
         m_Camra_Move = m_Camra.FindAction("Move", throwIfNotFound: true);
         m_Camra_Reset = m_Camra.FindAction("Reset", throwIfNotFound: true);
+        m_Camra_Zoom = m_Camra.FindAction("Zoom", throwIfNotFound: true);
         // Command
         m_Command = asset.FindActionMap("Command", throwIfNotFound: true);
         m_Command_Move = m_Command.FindAction("Move", throwIfNotFound: true);
         m_Command_Decide = m_Command.FindAction("Decide", throwIfNotFound: true);
         m_Command_Menu = m_Command.FindAction("Menu", throwIfNotFound: true);
+        // Option
+        m_Option = asset.FindActionMap("Option", throwIfNotFound: true);
+        m_Option_Button = m_Option.FindAction("Button", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -466,12 +584,14 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
     private ICamraActions m_CamraActionsCallbackInterface;
     private readonly InputAction m_Camra_Move;
     private readonly InputAction m_Camra_Reset;
+    private readonly InputAction m_Camra_Zoom;
     public struct CamraActions
     {
         private @UserInput m_Wrapper;
         public CamraActions(@UserInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Camra_Move;
         public InputAction @Reset => m_Wrapper.m_Camra_Reset;
+        public InputAction @Zoom => m_Wrapper.m_Camra_Zoom;
         public InputActionMap Get() { return m_Wrapper.m_Camra; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -487,6 +607,9 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
                 @Reset.started -= m_Wrapper.m_CamraActionsCallbackInterface.OnReset;
                 @Reset.performed -= m_Wrapper.m_CamraActionsCallbackInterface.OnReset;
                 @Reset.canceled -= m_Wrapper.m_CamraActionsCallbackInterface.OnReset;
+                @Zoom.started -= m_Wrapper.m_CamraActionsCallbackInterface.OnZoom;
+                @Zoom.performed -= m_Wrapper.m_CamraActionsCallbackInterface.OnZoom;
+                @Zoom.canceled -= m_Wrapper.m_CamraActionsCallbackInterface.OnZoom;
             }
             m_Wrapper.m_CamraActionsCallbackInterface = instance;
             if (instance != null)
@@ -497,6 +620,9 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
                 @Reset.started += instance.OnReset;
                 @Reset.performed += instance.OnReset;
                 @Reset.canceled += instance.OnReset;
+                @Zoom.started += instance.OnZoom;
+                @Zoom.performed += instance.OnZoom;
+                @Zoom.canceled += instance.OnZoom;
             }
         }
     }
@@ -550,6 +676,39 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
         }
     }
     public CommandActions @Command => new CommandActions(this);
+
+    // Option
+    private readonly InputActionMap m_Option;
+    private IOptionActions m_OptionActionsCallbackInterface;
+    private readonly InputAction m_Option_Button;
+    public struct OptionActions
+    {
+        private @UserInput m_Wrapper;
+        public OptionActions(@UserInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Button => m_Wrapper.m_Option_Button;
+        public InputActionMap Get() { return m_Wrapper.m_Option; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(OptionActions set) { return set.Get(); }
+        public void SetCallbacks(IOptionActions instance)
+        {
+            if (m_Wrapper.m_OptionActionsCallbackInterface != null)
+            {
+                @Button.started -= m_Wrapper.m_OptionActionsCallbackInterface.OnButton;
+                @Button.performed -= m_Wrapper.m_OptionActionsCallbackInterface.OnButton;
+                @Button.canceled -= m_Wrapper.m_OptionActionsCallbackInterface.OnButton;
+            }
+            m_Wrapper.m_OptionActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Button.started += instance.OnButton;
+                @Button.performed += instance.OnButton;
+                @Button.canceled += instance.OnButton;
+            }
+        }
+    }
+    public OptionActions @Option => new OptionActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -560,11 +719,16 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnReset(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
     }
     public interface ICommandActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnDecide(InputAction.CallbackContext context);
         void OnMenu(InputAction.CallbackContext context);
+    }
+    public interface IOptionActions
+    {
+        void OnButton(InputAction.CallbackContext context);
     }
 }
