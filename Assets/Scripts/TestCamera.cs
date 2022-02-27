@@ -200,36 +200,38 @@ public class TestCamera : MonoBehaviour
     {
         if (enableInput)
         {
-            if (Input.GetKey(KeyCode.LeftAlt))
+            if (InputController.Instance.Option())
             {
-                dolly += Input.GetAxis("Mouse ScrollWheel") * 0.2f;
-                dolly += (Input.GetAxis("L2trigger") - Input.GetAxis("R2trigger")) * 0.1f;
-                Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
-                Debug.Log(Input.GetAxis("L2trigger") - Input.GetAxis("R2trigger"));
+                dolly += InputController.Instance.Zoom() * 0.1f;
+                //dolly += Input.GetAxis("Mouse ScrollWheel") * 0.2f;
+                //dolly += (Input.GetAxis("L2trigger") - Input.GetAxis("R2trigger")) * 0.1f;
+                Debug.Log(InputController.Instance.Zoom() * 0.1f);
+                //Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
+                //Debug.Log(Input.GetAxis("L2trigger") - Input.GetAxis("R2trigger"));
                 dolly = Mathf.Clamp(dolly, 0.1f, 0.99f);
             }
-            else if (Input.GetKey(KeyCode.LeftControl))
-            {
-                distance *= 1.0f - Input.GetAxis("Mouse ScrollWheel");
-                distance *= 1.0f + Input.GetAxis("L2trigger") - Input.GetAxis("R2trigger");
-                distance = Mathf.Clamp(distance, 0.01f, 1000.0f);
-            }
+            //else if (Input.GetKey(KeyCode.LeftControl))
+            //{
+            //    distance *= 1.0f - Input.GetAxis("Mouse ScrollWheel");
+            //    distance *= 1.0f + Input.GetAxis("L2trigger") - Input.GetAxis("R2trigger");
+            //    distance = Mathf.Clamp(distance, 0.01f, 1000.0f);
+            //}
 
-            if (Input.GetMouseButton(0))
-            {
-                rotation.x -= Input.GetAxis("Mouse Y") * inputSpeed;
-                rotation.x = Mathf.Clamp(rotation.x, -89.9f, 89.9f);
-                rotation.y -= Input.GetAxis("Mouse X") * inputSpeed;
-            }
-            if (Input.GetMouseButton(1))
-            {
-                freeLookRotation.x -= Input.GetAxis("Mouse Y") * inputSpeed * 0.2f;
-                freeLookRotation.y += Input.GetAxis("Mouse X") * inputSpeed * 0.2f;
-            }
-            if (Input.GetMouseButtonDown(2))
-            {
-                freeLookRotation = Vector3.zero;
-            }
+            //if (Input.GetMouseButton(0))
+            //{
+            //    rotation.x -= Input.GetAxis("Mouse Y") * inputSpeed;
+            //    rotation.x = Mathf.Clamp(rotation.x, -89.9f, 89.9f);
+            //    rotation.y -= Input.GetAxis("Mouse X") * inputSpeed;
+            //}
+            //if (Input.GetMouseButton(1))
+            //{
+            //    freeLookRotation.x -= Input.GetAxis("Mouse Y") * inputSpeed * 0.2f;
+            //    freeLookRotation.y += Input.GetAxis("Mouse X") * inputSpeed * 0.2f;
+            //}
+            //if (Input.GetMouseButtonDown(2))
+            //{
+            //    freeLookRotation = Vector3.zero;
+            //}
         }
     }
 

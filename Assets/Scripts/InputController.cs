@@ -6,13 +6,6 @@ public class InputController : SingletonMonoBehaviour<InputController>
 {
     UserInput m_input;
 
-    public enum InputType
-    {
-        up,
-        down,
-        normal
-    }
-
     void OnEnable()
     {
         m_input = new UserInput();
@@ -54,6 +47,11 @@ public class InputController : SingletonMonoBehaviour<InputController>
         return m_input.Camra.Reset.WasPressedThisFrame();
     }
 
+    public float Zoom()
+    {
+        return m_input.Camra.Zoom.ReadValue<Vector2>().normalized.y;
+    }
+
     public Vector2 CommandMove()
     {
         return m_input.Command.Move.ReadValue<Vector2>();
@@ -67,5 +65,10 @@ public class InputController : SingletonMonoBehaviour<InputController>
     public bool Menu()
     {
         return m_input.Command.Menu.WasPressedThisFrame();
+    }
+
+    public bool Option()
+    {
+        return m_input.Option.Button.IsPressed();
     }
 }
