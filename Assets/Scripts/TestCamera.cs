@@ -6,10 +6,10 @@ using UniRx;
 public class TestCamera : MonoBehaviour
 {
     [SerializeField]
-    Transform target;
+    Transform m_target;
 
     [SerializeField]
-    bool enableInput = true;
+    bool m_enableInput = true;
 
     enum SimulateType
     {
@@ -20,94 +20,94 @@ public class TestCamera : MonoBehaviour
     SimulateType m_type = SimulateType.Update;
 
     [SerializeField]
-    bool enableDollyZoom = true;
+    bool m_enableDollyZoom = true;
 
     [SerializeField]
-    bool enableWallDetection = true;
+    bool m_enableWallDetection = true;
 
     [SerializeField]
-    bool enableFixedPoint = false;
+    bool m_enableFixedPoint = false;
 
     [SerializeField]
-    float inputSpeed = 4.0f;
+    float m_inputSpeed = 4.0f;
 
     [SerializeField]
-    Vector3 freeLookRotation;
+    Vector3 m_freeLookRotation;
 
     [SerializeField]
-    float height;
+    float m_height;
 
     [SerializeField]
-    float distance = 8.0f;
+    float m_distance = 8.0f;
 
     [SerializeField]
-    Vector3 rotation;
-
-    [SerializeField]
-    [Range(0.01f, 100.0f)]
-    float positionDamping = 16.0f;
+    Vector3 m_rotation;
 
     [SerializeField]
     [Range(0.01f, 100.0f)]
-    float rotationDamping = 16.0f;
+    float m_positionDamping = 16.0f;
+
+    [SerializeField]
+    [Range(0.01f, 100.0f)]
+    float m_rotationDamping = 16.0f;
 
     [SerializeField]
     [Range(0.1f, 0.99f)]
-    float dolly = 0.34f;
+    float m_dolly = 0.34f;
 
     [SerializeField]
-    float noise = 0.0f;
+    float m_noise = 0.0f;
 
     [SerializeField]
-    float noiseZ = 0.0f;
+    float m_noiseZ = 0.0f;
 
     [SerializeField]
-    float noiseSpeed = 1.0f;
+    float m_noiseSpeed = 1.0f;
 
     [SerializeField]
-    Vector3 vibration = Vector3.zero;
+    Vector3 m_vibration = Vector3.zero;
 
     [SerializeField]
-    float wallDetectionDistance = 0.3f;
+    float m_wallDetectionDistance = 0.3f;
 
     [SerializeField]
-    LayerMask wallDetectionMask = 1;
+    LayerMask m_wallDetectionMask = default;
 
-    Camera cam;
-    float targetDistance;
-    Vector3 targetPosition;
-    Vector3 targetRotation;
-    Vector3 targetFree;
-    float targetHeight;
-    float targetDolly;
+    Camera m_cam;
+    float m_targetDistance;
+    Vector3 m_targetPosition;
+    Vector3 m_targetRotation;
+    Vector3 m_targetFree;
+    float m_targetHeight;
+    float m_targetDolly;
 
     void Start()
     {
-        cam = GetComponent<Camera>();
+        m_cam = GetComponent<Camera>();
 
-        targetDistance = distance;
-        targetRotation = rotation;
-        targetFree = freeLookRotation;
-        targetHeight = height;
-        targetDolly = dolly;
+        m_targetDistance = m_distance;
+        m_targetRotation = m_rotation;
+        m_targetFree = m_freeLookRotation;
+        m_targetHeight = m_height;
+        m_targetDolly = m_dolly;
 
-        var dollyDist = targetDistance;
+        var dollyDist = m_targetDistance;
 
-        if (enableDollyZoom)
+        if (m_enableDollyZoom)
         {
-            var dollyFoV = GetDollyFoV(Mathf.Pow(1.0f / targetDolly, 2.0f), targetDistance);
-            dollyDist = GetDollyDistance(dollyFoV, targetDistance);
-            cam.fieldOfView = dollyFoV;
+            var dollyFoV = DollyFoV(Mathf.Pow(1.0f / m_targetDolly, 2.0f), m_targetDistance);
+            dollyDist = DollyDistance(dollyFoV, m_targetDistance);
+            m_cam.fieldOfView = dollyFoV;
         }
-        if (target == null) return;
+        if (m_target == null) return;
 
-        var pos = target.position + Vector3.up * targetHeight;
+        var pos = m_target.position + Vector3.up * m_targetHeight;
         var offset = Vector3.zero;
 
-        offset.x += Mathf.Sin(targetRotation.y * Mathf.Deg2Rad) * Mathf.Cos(targetRotation.x * Mathf.Deg2Rad) * dollyDist;
-        offset.z += -Mathf.Cos(targetRotation.y * Mathf.Deg2Rad) * Mathf.Cos(targetRotation.x * Mathf.Deg2Rad) * dollyDist;
-        offset.y += Mathf.Sin(targetRotation.x * Mathf.Deg2Rad) * dollyDist;
-        targetPosition = pos + offset;
+        offset.x += Mathf.Sin(m_targetRotation.y * Mathf.Deg2Rad) * Mathf.Cos(m_targetRotation.x * Mathf.Deg2Rad) * dollyDist;
+        offset.z += -Mathf.Cos(m_targetRotation.y * Mathf.Deg2Rad) * Mathf.Cos(m_targetRotation.x * Mathf.Deg2Rad) * dollyDist;
+        offset.y += Mathf.Sin(m_targetRotation.x * Mathf.Deg2Rad) * dollyDist;
+        m_targetPosition = pos + offset;
 
         if (m_type == SimulateType.Update) Observable.EveryUpdate().Subscribe(_ => OnUpdate()).AddTo(this);
         else Observable.EveryFixedUpdate().Subscribe(_ => OnFixedUpdate()).AddTo(this);
@@ -127,78 +127,78 @@ public class TestCamera : MonoBehaviour
     {
         ApplyInput();
 
-        var posDampRate = Mathf.Clamp01(deltaTime * 100.0f / positionDamping);
-        var rotDampRate = Mathf.Clamp01(deltaTime * 100.0f / rotationDamping);
+        var posDampRate = Mathf.Clamp01(deltaTime * 100.0f / m_positionDamping);
+        var rotDampRate = Mathf.Clamp01(deltaTime * 100.0f / m_rotationDamping);
 
-        targetDistance = Mathf.Lerp(targetDistance, distance, posDampRate);
-        targetRotation = Vector3.Lerp(targetRotation, rotation, rotDampRate);
-        targetFree = Vector3.Lerp(targetFree, freeLookRotation, rotDampRate);
-        targetHeight = Mathf.Lerp(targetHeight, height, posDampRate);
-        targetDolly = Mathf.Lerp(targetDolly, dolly, posDampRate);
+        m_targetDistance = Mathf.Lerp(m_targetDistance, m_distance, posDampRate);
+        m_targetRotation = Vector3.Lerp(m_targetRotation, m_rotation, rotDampRate);
+        m_targetFree = Vector3.Lerp(m_targetFree, m_freeLookRotation, rotDampRate);
+        m_targetHeight = Mathf.Lerp(m_targetHeight, m_height, posDampRate);
+        m_targetDolly = Mathf.Lerp(m_targetDolly, m_dolly, posDampRate);
 
-        if (Mathf.Abs(targetDolly - dolly) > 0.005f)
+        if (Mathf.Abs(m_targetDolly - m_dolly) > 0.005f)
         {
-            targetDistance = distance;
+            m_targetDistance = m_distance;
         }
 
-        var dollyDist = targetDistance;
-        if (enableDollyZoom)
+        var dollyDist = m_targetDistance;
+        if (m_enableDollyZoom)
         {
-            var dollyFoV = GetDollyFoV(Mathf.Pow(1.0f / targetDolly, 2.0f), targetDistance);
-            dollyDist = GetDollyDistance(dollyFoV, targetDistance);
-            cam.fieldOfView = dollyFoV;
+            var dollyFoV = DollyFoV(Mathf.Pow(1.0f / m_targetDolly, 2.0f), m_targetDistance);
+            dollyDist = DollyDistance(dollyFoV, m_targetDistance);
+            m_cam.fieldOfView = dollyFoV;
         }
 
         //if (target == null) return;
 
-        var pos = target.position + Vector3.up * targetHeight;
+        var pos = m_target.position + Vector3.up * m_targetHeight;
 
-        if (enableWallDetection)
+        if (m_enableWallDetection)
         {
             RaycastHit hit;
-            var dir = (targetPosition - pos).normalized;
-            if (Physics.SphereCast(pos, wallDetectionDistance, dir, out hit, dollyDist, wallDetectionMask))
+            var dir = (m_targetPosition - pos).normalized;
+            if (Physics.SphereCast(pos, m_wallDetectionDistance, dir, out hit, dollyDist, m_wallDetectionMask))
             {
                 dollyDist = hit.distance;
             }
         }
 
         var offset = Vector3.zero;
-        offset.x += Mathf.Sin(targetRotation.y * Mathf.Deg2Rad) * Mathf.Cos(targetRotation.x * Mathf.Deg2Rad) * dollyDist;
-        offset.z += -Mathf.Cos(targetRotation.y * Mathf.Deg2Rad) * Mathf.Cos(targetRotation.x * Mathf.Deg2Rad) * dollyDist;
-        offset.y += Mathf.Sin(targetRotation.x * Mathf.Deg2Rad) * dollyDist;
+        offset.x += Mathf.Sin(m_targetRotation.y * Mathf.Deg2Rad) * Mathf.Cos(m_targetRotation.x * Mathf.Deg2Rad) * dollyDist;
+        offset.z += -Mathf.Cos(m_targetRotation.y * Mathf.Deg2Rad) * Mathf.Cos(m_targetRotation.x * Mathf.Deg2Rad) * dollyDist;
+        offset.y += Mathf.Sin(m_targetRotation.x * Mathf.Deg2Rad) * dollyDist;
 
-        if (Mathf.Abs(targetDolly - dolly) > 0.005f)
+        if (Mathf.Abs(m_targetDolly - m_dolly) > 0.005f)
         {
-            targetPosition = offset + pos;
+            m_targetPosition = offset + pos;
         }
         else
         {
-            targetPosition = Vector3.Lerp(targetPosition, offset + pos, posDampRate);
+            m_targetPosition = Vector3.Lerp(m_targetPosition, offset + pos, posDampRate);
         }
 
-        if (!enableFixedPoint) cam.transform.position = targetPosition;
-        cam.transform.LookAt(pos, Quaternion.Euler(0.0f, 0.0f, targetRotation.z) * Vector3.up);
-        cam.transform.Rotate(targetFree);
+        if (!m_enableFixedPoint) m_cam.transform.position = m_targetPosition;
+        m_cam.transform.LookAt(pos, Quaternion.Euler(0.0f, 0.0f, m_targetRotation.z) * Vector3.up);
+        m_cam.transform.Rotate(m_targetFree);
 
-        if (noise > 0.0f || noiseZ > 0.0f)
+        if (m_noise > 0.0f || m_noiseZ > 0.0f)
         {
             var rotNoise = Vector3.zero;
-            rotNoise.x = (Mathf.PerlinNoise(Time.time * noiseSpeed, 0.0f) - 0.5f) * noise;
-            rotNoise.y = (Mathf.PerlinNoise(Time.time * noiseSpeed, 0.4f) - 0.5f) * noise;
-            rotNoise.z = (Mathf.PerlinNoise(Time.time * noiseSpeed, 0.8f) - 0.5f) * noiseZ;
-            cam.transform.Rotate(rotNoise);
+            rotNoise.x = (Mathf.PerlinNoise(Time.time * m_noiseSpeed, 0.0f) - 0.5f) * m_noise;
+            rotNoise.y = (Mathf.PerlinNoise(Time.time * m_noiseSpeed, 0.4f) - 0.5f) * m_noise;
+            rotNoise.z = (Mathf.PerlinNoise(Time.time * m_noiseSpeed, 0.8f) - 0.5f) * m_noiseZ;
+            m_cam.transform.Rotate(rotNoise);
         }
 
-        if (vibration.sqrMagnitude > 0.0f)
+        if (m_vibration.sqrMagnitude > 0.0f)
         {
-            cam.transform.Rotate(new Vector3(Random.Range(-1.0f, 1.0f) * vibration.x, Random.Range(-1.0f, 1.0f) * vibration.y, Random.Range(-1.0f, 1.0f) * vibration.z));
+            m_cam.transform.Rotate(new Vector3(Random.Range(-1.0f, 1.0f) * m_vibration.x, Random.Range(-1.0f, 1.0f) * m_vibration.y, Random.Range(-1.0f, 1.0f) * m_vibration.z));
         }
     }
 
     void ApplyInput()
     {
-        if (enableInput)
+        if (m_enableInput)
         {
 
             //if (InputController.Instance.Option())
@@ -214,19 +214,19 @@ public class TestCamera : MonoBehaviour
             //else
             if (InputController.Instance.Option())
             {
-                distance *= 1.0f - InputController.Instance.Zoom();
+                m_distance *= 1.0f - InputController.Instance.Zoom();
                 //distance *= 1.0f - Input.GetAxis("Mouse ScrollWheel");
                 //distance *= 1.0f + Input.GetAxis("L2trigger") - Input.GetAxis("R2trigger");
-                distance = Mathf.Clamp(distance, 0.01f, 1000.0f);
+                m_distance = Mathf.Clamp(m_distance, 0.01f, 1000.0f);
             }
 
             //if (Input.GetMouseButton(0))
             {
                 Vector2 inputValue = InputController.Instance.CameraMove();
                 inputValue.Normalize();
-                rotation.x -= inputValue.y * inputSpeed;
-                rotation.x = Mathf.Clamp(rotation.x, -89.9f, 89.9f);
-                rotation.y -= inputValue.x * inputSpeed;
+                m_rotation.x -= inputValue.y * m_inputSpeed;
+                m_rotation.x = Mathf.Clamp(m_rotation.x, -89.9f, 89.9f);
+                m_rotation.y -= inputValue.x * m_inputSpeed;
             }
             //if (Input.GetMouseButton(1))
             //{
@@ -245,17 +245,17 @@ public class TestCamera : MonoBehaviour
 
     }
 
-    float GetDollyDistance(float fov, float distance)
+    float DollyDistance(float fov, float distance)
     {
         return distance / (2.0f * Mathf.Tan(fov * 0.5f * Mathf.Deg2Rad));
     }
 
-    float GetFrustumHeight(float distance, float fov)
+    float FrustumHeight(float distance, float fov)
     {
         return 2.0f * distance * Mathf.Tan(fov * 0.5f * Mathf.Deg2Rad);
     }
 
-    float GetDollyFoV(float dolly, float distance)
+    float DollyFoV(float dolly, float distance)
     {
         return 2.0f * Mathf.Atan(distance * 0.5f / dolly) * Mathf.Rad2Deg;
     }
