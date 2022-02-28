@@ -21,11 +21,8 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
             {
                 if (owner.m_childNode.Result() == BehaviorTree.NodeState.Failure)
                 {
-                    Debug.Log("Failureだったで");
-                    //return;
                     StateMachine.Dispatch((int)ActEvent.Idle);
                 }
-                if (owner.m_childNode.Result() == BehaviorTree.NodeState.Success) Debug.Log("Successだったで");
                 //if (true)//
                 //{
                 //    StateMachine.Dispatch((int)ActEvent.Stop);
@@ -59,6 +56,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("Walkになったで");
                 owner.PlayAnimation("Walk");
             }
             protected override void OnUpdate()
@@ -103,6 +101,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("Runになったで");
                 owner.m_movingSpeed = owner.m_runningSpeed;
                 owner.PlayAnimation("Run");
             }
@@ -149,6 +148,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("Chaseになったで");
                 owner.m_movingSpeed = owner.m_runningSpeed;
                 owner.PlayAnimation("Run");
             }
@@ -195,6 +195,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("Jumpになったで");
                 owner.m_currentVelocity = Vector3.up * owner.m_jumpingPower;
                 owner.PlayAnimation("Jump");
             }
@@ -224,6 +225,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("Fallになったで");
                 //owner.m_currentVelocity.x = 0f;
                 //owner.m_currentVelocity.z = 0f;
                 owner.PlayAnimation("Fall");
@@ -266,6 +268,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("Landになったで");
                 owner.PlayAnimation("Land");
                 owner.m_currentVelocity.x = 0f;
                 owner.m_currentVelocity.z = 0f;
@@ -294,6 +297,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("Flyになったで");
                 owner.m_currentVelocity = Vector3.up * owner.m_jumpingPower;
                 owner.PlayAnimation("Jump");
             }
@@ -323,6 +327,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("Stopになったで");
                 owner.PlayAnimation("Stop");
             }
             protected override void OnUpdate()

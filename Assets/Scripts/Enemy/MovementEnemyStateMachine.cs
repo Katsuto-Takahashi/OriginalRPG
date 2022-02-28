@@ -7,7 +7,7 @@ using State = StateMachine<MovementEnemyStateMachine>.State;
 public partial class MovementEnemyStateMachine : MonoBehaviour
 {
     StateMachine<MovementEnemyStateMachine> m_stateMachine;
-    enum ActEvent : byte
+    public enum ActEvent : byte
     {
         Idle,
         Walk,
@@ -189,10 +189,8 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         AnimationController.Instance.PlayAnimation(m_animator, stateName, transitionDuration);
     }
 
-    public bool TestBool()
+    public void Chenge(ActEvent actEvent)
     {
-        bool tb = IsGround();
-        Debug.Log(tb);
-        return tb;
+        m_stateMachine.Dispatch((int)actEvent);
     }
 }
