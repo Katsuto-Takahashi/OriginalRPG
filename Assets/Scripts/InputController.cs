@@ -6,9 +6,14 @@ public class InputController : SingletonMonoBehaviour<InputController>
 {
     UserInput m_input;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        m_input = new UserInput();
+    }
+
     void OnEnable()
     {
-        m_input = new UserInput();
         m_input.Enable();
     }
 
