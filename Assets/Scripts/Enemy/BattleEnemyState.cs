@@ -111,16 +111,14 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
                 if (owner.m_distance > owner.m_normalSkill[0].AttackRange)
                 {
                     Vector3 target = owner.m_targetPosition;
-                    target.y = 0f;
-                    owner.transform.position = new Vector3(owner.transform.position.x, 0f, owner.transform.position.z);
+                    target.y = owner.transform.position.y;
                     owner.transform.LookAt(target);
                     owner.transform.position = Vector3.MoveTowards(owner.transform.position, owner.m_targetPosition, owner.m_moveSpeed * Time.deltaTime);
                 }
                 else
                 {
                     Vector3 target = owner.m_targetPosition;
-                    target.y = 0f;
-                    owner.transform.position = new Vector3(owner.transform.position.x, 0f, owner.transform.position.z);
+                    target.y = owner.transform.position.y;
                     owner.transform.LookAt(target);
                     StateMachine.Dispatch((int)ActEvent.BattleAction);
                 }

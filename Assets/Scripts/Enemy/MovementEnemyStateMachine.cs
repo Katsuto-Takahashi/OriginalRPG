@@ -189,8 +189,8 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         AnimationController.Instance.PlayAnimation(m_animator, stateName, transitionDuration);
     }
 
-    public void Chenge(ActEvent actEvent)
+    public void Chenge(int actEvent)
     {
-        m_stateMachine.Dispatch((int)actEvent);
+        m_stateMachine.Dispatch(actEvent);
     }
 }
