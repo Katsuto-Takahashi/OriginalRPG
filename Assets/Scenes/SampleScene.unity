@@ -6912,10 +6912,10 @@ RectTransform:
   m_Father: {fileID: 1725226553}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 49.99997, y: -127.499985}
-  m_SizeDelta: {x: 90, y: 25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &438717139
 MonoBehaviour:
@@ -10594,10 +10594,10 @@ RectTransform:
   m_Father: {fileID: 1725226553}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 49.99997, y: -22.499985}
-  m_SizeDelta: {x: 90, y: 25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &989476303
 MonoBehaviour:
@@ -11816,10 +11816,10 @@ RectTransform:
   m_Father: {fileID: 1725226553}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 49.99997, y: -57.499985}
-  m_SizeDelta: {x: 90, y: 25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1232121036
 MonoBehaviour:
@@ -12327,7 +12327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e367417a33d446e449015c7c335f76b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_menu: {fileID: 649963452}
+  m_menu: {fileID: 1725226552}
 --- !u!1001 &1305223167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14239,10 +14239,10 @@ RectTransform:
   m_Father: {fileID: 1725226553}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 49.99997, y: -92.499985}
-  m_SizeDelta: {x: 90, y: 25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1638313938
 MonoBehaviour:
@@ -15148,7 +15148,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1725226553
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15202,7 +15202,7 @@ MonoBehaviour:
     - {fileID: 0}
   - m_commandPanelList:
     - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 649963452}
   m_special: 0
 --- !u!114 &1725226555
 MonoBehaviour:
