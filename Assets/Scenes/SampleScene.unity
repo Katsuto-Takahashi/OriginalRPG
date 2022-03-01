@@ -10538,26 +10538,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24da0fefed88c6342b62f059c34b3d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1946191168}
-  enableInput: 1
+  m_target: {fileID: 0}
+  m_enableInput: 1
   m_type: 0
-  enableDollyZoom: 1
-  enableWallDetection: 1
-  enableFixedPoint: 0
-  inputSpeed: 4
-  freeLookRotation: {x: 0, y: 0, z: 0}
-  height: 1.3
-  distance: 8
-  rotation: {x: 0, y: 0, z: 0}
-  positionDamping: 16
-  rotationDamping: 16
-  dolly: 0.34
-  noise: 0
-  noiseZ: 0
-  noiseSpeed: 1
-  vibration: {x: 0, y: 0, z: 0}
-  wallDetectionDistance: 0.3
-  wallDetectionMask:
+  m_enableDollyZoom: 1
+  m_enableWallDetection: 1
+  m_enableFixedPoint: 0
+  m_inputSpeed: 4
+  m_freeLookRotation: {x: 0, y: 0, z: 0}
+  m_height: 0
+  m_distance: 8
+  m_rotation: {x: 0, y: 0, z: 0}
+  m_positionDamping: 16
+  m_rotationDamping: 16
+  m_dolly: 0.34
+  m_noise: 0
+  m_noiseZ: 0
+  m_noiseSpeed: 1
+  m_vibration: {x: 0, y: 0, z: 0}
+  m_wallDetectionDistance: 0.3
+  m_wallDetectionMask:
     serializedVersion: 2
     m_Bits: 1
 --- !u!1 &989476301
@@ -16277,10 +16277,22 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
+      type: {class: Sequence, ns: , asm: Assembly-CSharp}
+      data:
+        m_childNode:
+        - id: 1
+        - id: 2
+    00000001:
       type: {class: Conditional, ns: , asm: Assembly-CSharp}
       data:
         m_childNode: []
         m_mesm: {fileID: 1880077234}
+    00000002:
+      type: {class: ChengeState, ns: , asm: Assembly-CSharp}
+      data:
+        m_childNode: []
+        m_mesm: {fileID: 1880077234}
+        m_state: 1
 --- !u!114 &1880077235
 MonoBehaviour:
   m_ObjectHideFlags: 0
