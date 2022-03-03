@@ -29,7 +29,7 @@ public class TestCamera : MonoBehaviour
     bool m_enableFixedPoint = false;
 
     [SerializeField]
-    float m_inputSpeed = 4.0f;
+    float m_inputSpeed = 1.0f;
 
     [SerializeField]
     Vector3 m_freeLookRotation;
@@ -41,7 +41,7 @@ public class TestCamera : MonoBehaviour
     float m_distance = 8.0f;
 
     [SerializeField]
-    Vector3 m_rotation;
+    Vector3 m_rotation = new Vector3(15.0f, 0.0f, 0.0f);
 
     [SerializeField]
     [Range(0.01f, 100.0f)]
