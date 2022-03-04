@@ -91,7 +91,8 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             m_firstDrop.Add(em.FirstDropItem);
             m_secondDrop.Add(em.SecondDropItem);
             m_getExperiencePoint += em.ExperiencePoint;
-            m_enemyObjects[i].transform.LookAt(m_contactPosition);
+            m_enemyList[i].MESM.SetLookPosition(m_contactPosition);
+            //em.transform.LookAt(m_contactPosition);
         }
         m_battleEnemyList.ChengeBool();
         m_isCreated = true;
@@ -122,6 +123,11 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         randam = Random.Range(1, m_enemyParty + 1);
         Debug.Log($"出現数{randam}体");
         CreateEnemy(randam);
+
+        //for (int i = 0; i < m_enemyObjects.Count; i++)
+        //{
+        //    m_enemyObjects[i].transform.LookAt(m_contactPosition);
+        //}
 
         //敵がボスの時はにげれないようにする
 
@@ -313,6 +319,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
 
         BattleStanby();
         TargetCharacters();
+        yield return null;
         StateChange();
         WinnerChack();
 
