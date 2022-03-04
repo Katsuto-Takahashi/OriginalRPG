@@ -23,6 +23,7 @@ public class Enemy : EnemyParameter, ITakableDamage
     protected BattleEnemyStateMachine m_besm;
 
     public BattleEnemyStateMachine BESM => m_besm;
+    public MovementEnemyStateMachine MESM => m_mesm;
 
     void Awake()
     {

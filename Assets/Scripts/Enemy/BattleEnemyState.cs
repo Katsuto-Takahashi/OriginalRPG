@@ -43,6 +43,8 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
                 //賢さによって行動を選択する
                 owner.m_childNode.Result();
                 owner.m_targetIndex = Random.Range(0, owner.m_targets.Count);
+                owner.m_targetObject = owner.m_targets[owner.m_targetIndex];
+                owner.m_look.Value = true;
                 owner.m_targetPosition = owner.m_targets[owner.m_targetIndex].transform.position;
                 owner.m_distance = (owner.m_targetPosition.x - owner.transform.position.x) * (owner.m_targetPosition.x - owner.transform.position.x) + (owner.m_targetPosition.z - owner.transform.position.z) * (owner.m_targetPosition.z - owner.transform.position.z);
             }
@@ -91,6 +93,7 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
 
             protected override void OnUpdate()
             {
+                owner.m_targetPosition = owner.m_targets[owner.m_targetIndex].transform.position;
                 owner.m_distance = (owner.m_targetPosition.x - owner.transform.position.x) * (owner.m_targetPosition.x - owner.transform.position.x) + (owner.m_targetPosition.z - owner.transform.position.z) * (owner.m_targetPosition.z - owner.transform.position.z);
                 if (owner.m_isDead)
                 {
@@ -104,10 +107,10 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.NoBattle);
                 }
-                else if (true)
-                {
-                    StateMachine.Dispatch((int)ActEvent.Wait);
-                }
+                //else if (true)
+                //{
+                //    StateMachine.Dispatch((int)ActEvent.Wait);
+                //}
                 if (owner.m_distance > owner.m_normalSkill[0].AttackRange)
                 {
                     Vector3 target = owner.m_targetPosition;
@@ -138,6 +141,7 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log($"{owner.name}BattleAction");
+                owner.PlayAnimation("Attack");
             }
 
             protected override void OnUpdate()
@@ -159,6 +163,8 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
             {
                 Debug.Log($"{owner.name}ActionEnd");
                 owner.m_stop.Value = false;
+                owner.m_targetObject = null;
+                owner.m_look.Value = false;
             }
 
             protected override void OnUpdate()

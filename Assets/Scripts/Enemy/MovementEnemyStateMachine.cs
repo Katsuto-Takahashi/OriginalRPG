@@ -26,10 +26,18 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
     CapsuleCollider m_capsuleCollider;
     SphereCollider m_sphereCollider;
     GameObject m_targetObject;
+
     public GameObject TargetObject => m_targetObject;
+    Vector3 m_lookAtPosition;
     LayerMask m_targetLayer;
+
     [SerializeReference, SubclassSelector]
     Node m_childNode;
+
+    /// <summary>動けるかどうか</summary>
+    bool m_canMove = false;
+    /// <summary>動けるかのフラグ</summary>
+    public bool CanMove { get => m_canMove; set => m_canMove = value; }
 
     /// <summary>transfom</summary>
     Transform m_myTransform;
@@ -107,6 +115,25 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
 
         //m_moveForward = Camera.main.transform.TransformDirection(m_inputDirection);
 
+        if (m_targetObject != null)
+        {
+            m_lookAtPosition = m_targetObject.transform.position;
+            m_moveForward = m_lookAtPosition - m_myTransform.position;
+            m_moveForward.y = 0.0f;
+        }
+        else
+        {
+            if (m_lookAtPosition.sqrMagnitude > 0.1f)
+            {
+                m_moveForward = m_lookAtPosition - m_myTransform.position;
+                m_moveForward.y = 0.0f;
+            }
+            if (m_moveForward.sqrMagnitude < 0.1f)
+            {
+                m_moveForward = Vector3.zero;
+            }
+        }
+
         ApplyGravity(m_stateMachine.CurrentSate);
     }
 
@@ -132,7 +159,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
     {
         if (state is MovementEnemyState.Jump) return;
 
-        if (IsSlope()) m_currentVelocity.y = m_gravityScale * Physics.gravity.y;
+        if (IsGround() || IsSlope()) m_currentVelocity.y = m_gravityScale * Physics.gravity.y;
     }
 
     void OnTriggerEnter(Collider other)
@@ -189,8 +216,24 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         AnimationController.Instance.PlayAnimation(m_animator, stateName, transitionDuration);
     }
 
-    public void Chenge(int actEvent)
+    //後に変更予定
+    public void StateChenge(int actEvent)
     {
         m_stateMachine.Dispatch(actEvent);
+    }
+
+    public void Chenge(ActEvent actEvent)
+    {
+        m_stateMachine.Dispatch((int)actEvent);
+    }
+
+    public void SetTarget(GameObject go)
+    {
+        m_targetObject = go;
+    }
+
+    public void SetLookPosition(Vector3 pos)
+    {
+        m_lookAtPosition = pos;
     }
 }

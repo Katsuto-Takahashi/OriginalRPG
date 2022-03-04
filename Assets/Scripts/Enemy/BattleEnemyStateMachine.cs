@@ -45,15 +45,30 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
     /// <summary>バインドされているかのフラグ</summary>
     public bool IsBind { get => m_isBind; set => m_isBind = value; }
 
+    /// <summary>動かすかどうか</summary>
+    BoolReactiveProperty m_move = new BoolReactiveProperty(false);
+    /// <summary>動かすかのフラグ</summary>
+    public IReactiveProperty<bool> Move  => m_move;
+
+    /// <summary>注目するかどうか</summary>
+    BoolReactiveProperty m_look = new BoolReactiveProperty(false);
+    /// <summary>注目するかのフラグ</summary>
+    public IReactiveProperty<bool> Look  => m_look;
+
     /// <summary>対象との距離</summary>
     float m_distance;
     /// <summary>現在の待機時間</summary>
     float m_currentTimer;
 
-    /// <summary>行動の対象</summary>
+    /// <summary>行動の対象List</summary>
     List<GameObject> m_targets = new List<GameObject>();
     /// <summary>行動の対象List</summary>
     public List<GameObject> Targets { get => m_targets; set => m_targets = value; }
+
+    /// <summary>行動の対象</summary>
+    GameObject m_targetObject;
+    /// <summary>行動の対象</summary>
+    public GameObject TargetObject => m_targetObject;
 
     /// <summary>対象のIndex</summary>
     int m_targetIndex;
@@ -125,6 +140,9 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
         m_magicPower = enemy.MagicPower.Value;
         m_magicResist = enemy.MagicResist.Value;
         m_intelligence = enemy.Intelligence.Value;
+
+        m_actionTimer = (1000 - enemy.Speed.Value) / 100f;
+        m_maxActionCount = enemy.MaxActionCount;
     }
 
     public void Parameter(Enemy enemy)
@@ -132,10 +150,13 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
         SetParam(enemy);
     }
 
-    public void SetUP()
+    public void SetUP(Animator animator, HasSkillList hasSkill, MoveParameters param)
     {
+        m_animator = animator;
         m_childNode.GetNode();
         SetState();
+        SetSkill(hasSkill);
+        SetParam(param);
     }
 
     public void OnUpdate()
@@ -161,6 +182,32 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
         }
     }
 
+    void SetParam(MoveParameters param)
+    {
+        m_moveSpeed = (param.WalkingSpeed + param.RunningSpeed) / 2f;
+    }
+
+    void SetSkill(HasSkillList hasSkill)
+    {
+        for (int i = 0; i < hasSkill.NormalSkill.Count; i++)
+        {
+            m_normalSkill.Add(hasSkill.NormalSkill[i]);
+        }
+        GetSkill(hasSkill);
+    }
+
+    void GetSkill(HasSkillList hasSkill)
+    {
+        for (int i = 0; i < hasSkill.SkillDatas.Count; i++)
+        {
+            m_skillDatas.Add(hasSkill.SkillDatas[i]);
+        }
+        for (int i = 0; i < hasSkill.MagicDatas.Count; i++)
+        {
+            m_magicDatas.Add(hasSkill.MagicDatas[i]);
+        }
+    }
+
     bool FinishedAnimation(int layer = 0)
     {
         return AnimationController.Instance.FinishedAnimation(m_animator, layer);
@@ -169,5 +216,11 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
     void PlayAnimation(string stateName, float transitionDuration = 0.1f)
     {
         AnimationController.Instance.PlayAnimation(m_animator, stateName, transitionDuration);
+    }
+
+    //後に変更予定
+    public void StateChenge(int actEvent)
+    {
+        m_stateMachine.Dispatch(actEvent);
     }
 }
