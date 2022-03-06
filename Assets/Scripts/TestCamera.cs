@@ -200,6 +200,11 @@ public class TestCamera : MonoBehaviour
     {
         if (m_enableInput)
         {
+            Vector2 inputValue = InputController.Instance.CameraMove();
+            inputValue.Normalize();
+            m_rotation.x -= inputValue.y * m_inputSpeed;
+            m_rotation.x = Mathf.Clamp(m_rotation.x, -89.9f, 89.9f);
+            m_rotation.y -= inputValue.x * m_inputSpeed;
 
             //if (InputController.Instance.Option())
             //{
@@ -214,19 +219,19 @@ public class TestCamera : MonoBehaviour
             //else
             if (InputController.Instance.Option())
             {
-                m_distance *= 1.0f - InputController.Instance.Zoom();
+                float zoom = 0.0f;
+                if (InputController.Instance.Zoom() > 0.0f)
+                {
+                    zoom = InputController.Instance.Zoom() / InputController.Instance.Zoom();
+                }
+                else if (InputController.Instance.Zoom() < 0.0f)
+                {
+                    zoom = -InputController.Instance.Zoom() / InputController.Instance.Zoom();
+                }
+                m_distance *= 1.0f - zoom;
                 //distance *= 1.0f - Input.GetAxis("Mouse ScrollWheel");
                 //distance *= 1.0f + Input.GetAxis("L2trigger") - Input.GetAxis("R2trigger");
                 m_distance = Mathf.Clamp(m_distance, 0.01f, 1000.0f);
-            }
-
-            //if (Input.GetMouseButton(0))
-            {
-                Vector2 inputValue = InputController.Instance.CameraMove();
-                inputValue.Normalize();
-                m_rotation.x -= inputValue.y * m_inputSpeed;
-                m_rotation.x = Mathf.Clamp(m_rotation.x, -89.9f, 89.9f);
-                m_rotation.y -= inputValue.x * m_inputSpeed;
             }
             //if (Input.GetMouseButton(1))
             //{
