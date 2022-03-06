@@ -27,7 +27,7 @@ public class ChengeState : BTAction
 
     protected override NodeState Act()
     {
-        m_mesm.Chenge((int)m_state);
+        m_mesm.StateChenge((int)m_state);
         return NodeState.Success;
     }
 
