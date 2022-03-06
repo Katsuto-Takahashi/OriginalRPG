@@ -24,6 +24,8 @@ public class Character : CharacterParameter, ITakableDamage
 
     public BattleCharacterStateMachine BCSM => m_bcsm;
 
+    public MovementCharacterStateMachine MCSM => m_mcsm;
+
     BoolReactiveProperty m_isContact = new BoolReactiveProperty(false);
     public IReadOnlyReactiveProperty<bool> IsContact => m_isContact;
     
