@@ -21,9 +21,9 @@ public class TargetUI : UIController
     }
     protected override void CommandSelectedAction()
     {
-        var player = GameObject.FindGameObjectWithTag("Player").GetComponent<BCharacterStateMachine>();
-        player.m_targetNumber = m_selectedCommandNumber;
-        player.m_action = true;
+        //var player = GameObject.FindGameObjectWithTag("Player").GetComponent<BCharacterStateMachine>();
+        //player.m_targetNumber = m_selectedCommandNumber;
+        //player.m_action = true;
         GoToZero();
         gameObject.SetActive(false);
     }
