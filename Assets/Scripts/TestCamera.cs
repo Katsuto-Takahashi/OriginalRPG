@@ -17,7 +17,7 @@ public class TestCamera : MonoBehaviour
         FixedUpdate
     }
     [SerializeField]
-    SimulateType m_type = SimulateType.Update;
+    SimulateType m_simulateType = SimulateType.Update;
 
     [SerializeField]
     bool m_enableDollyZoom = true;
@@ -109,7 +109,7 @@ public class TestCamera : MonoBehaviour
         offset.y += Mathf.Sin(m_targetRotation.x * Mathf.Deg2Rad) * dollyDist;
         m_targetPosition = pos + offset;
 
-        if (m_type == SimulateType.Update) Observable.EveryUpdate().Subscribe(_ => OnUpdate()).AddTo(this);
+        if (m_simulateType == SimulateType.Update) Observable.EveryUpdate().Subscribe(_ => OnUpdate()).AddTo(this);
         else Observable.EveryFixedUpdate().Subscribe(_ => OnFixedUpdate()).AddTo(this);
     }
 
