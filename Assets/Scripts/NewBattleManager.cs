@@ -74,7 +74,6 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             m_instantiateEnemy = Instantiate(m_partyManager.EnemyParty[m_enemyID - 1], new Vector3((m_contactPosition + m_charaTransform.forward * 3).x + i, m_contactPosition.y, (m_contactPosition + m_charaTransform.forward * 3).z + i), Quaternion.identity);
             m_enemyObjects.Add(m_instantiateEnemy);
             var em = m_enemyObjects[i].GetComponent<Enemy>();
-            //var ep = em.EnemyParameters;
             if (num > 1)
             {
                 m_enemyObjects[i].name = em.Name.Value + $"{i + 1}";
@@ -84,9 +83,6 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
                 m_enemyObjects[i].name = em.Name.Value;
             }
             m_enemyList.Add(em);
-            var ebsm = m_enemyList[i].BESM;
-            //ebsm.enabled = true;
-            //ebsm.m_actionTimer = Timer(ep.Speed);
             m_battleEnemyList.AddEnemyList(m_enemyObjects[i]);
             m_firstDrop.Add(em.FirstDropItem);
             m_secondDrop.Add(em.SecondDropItem);
@@ -124,11 +120,6 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         Debug.Log($"出現数{randam}体");
         CreateEnemy(randam);
 
-        //for (int i = 0; i < m_enemyObjects.Count; i++)
-        //{
-        //    m_enemyObjects[i].transform.LookAt(m_contactPosition);
-        //}
-
         //敵がボスの時はにげれないようにする
 
         StartCoroutine(ChengeActiveUI());
@@ -145,10 +136,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             m_enemyObjects[i].GetComponentInChildren<EnemyUI>().ChangeName(emn);
         }
     }
-    float Timer(int speed)
-    {
-        return (1000 - speed) / 100f;
-    }
+
     void WinnerChack()
     {
         characterDeadCount = m_characterList.Count;
@@ -331,7 +319,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         //yield return new WaitUntil(() => m_finish);
         FinishBattle();
         DestryEnemy(randam);
-
+        DeleteField();
         m_finish = false;
     }
     IEnumerator BattleData()
@@ -395,7 +383,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
                 {
                     m_isBattle = false;
                     m_finish = true;
-                    DeleteField(character);
+                    DeleteField();
                 }
                 yield return null;
             }
@@ -405,7 +393,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     {
         m_instantiateBattleFeild = Instantiate(m_battleFeildPrefab, contactPos, Quaternion.identity);
     }
-    public void DeleteField(Character character)
+    public void DeleteField()
     {
         Destroy(m_instantiateBattleFeild);
         m_contactPosition = Vector3.zero;
