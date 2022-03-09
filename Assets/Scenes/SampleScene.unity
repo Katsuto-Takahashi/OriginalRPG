@@ -5248,7 +5248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_target: {fileID: 1517394997}
   m_enableInput: 1
-  m_type: 0
+  m_simulateType: 0
   m_enableDollyZoom: 1
   m_enableWallDetection: 1
   m_enableFixedPoint: 0
@@ -12066,6 +12066,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4939222930954978099, guid: 90cecf89bb8e0904c8c24f055d3de680,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90cecf89bb8e0904c8c24f055d3de680, type: 3}
