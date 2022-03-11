@@ -88,6 +88,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             m_secondDrop.Add(em.SecondDropItem);
             m_getExperiencePoint += em.ExperiencePoint;
             m_enemyList[i].MESM.SetLookPosition(m_contactPosition);
+            m_enemyList[i].ChengeKinematic(true);
             //em.transform.LookAt(m_contactPosition);
         }
         m_battleEnemyList.ChengeBool();
