@@ -12012,6 +12012,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 1735872505903888011, guid: 90cecf89bb8e0904c8c24f055d3de680,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1735872505903888052, guid: 90cecf89bb8e0904c8c24f055d3de680,
         type: 3}
       propertyPath: m_RootOrder
