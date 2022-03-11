@@ -64,4 +64,9 @@ public class Enemy : EnemyParameter, ITakableDamage
             HP.Value -= damage;
         }
     }
+
+    public void ChengeKinematic(bool flag)
+    {
+        m_rigidbody.isKinematic = flag;
+    }
 }
