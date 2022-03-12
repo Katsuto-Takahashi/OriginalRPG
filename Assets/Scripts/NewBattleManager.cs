@@ -36,7 +36,6 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     List<GameObject> m_secondDrop = new List<GameObject>();
     int m_getExperiencePoint = 0;
 
-    bool m_isContact = false;
     bool m_isBattle = false;
     int m_enemyParty = 0;
     int m_enemyID = 0;
@@ -52,21 +51,6 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     }
     BattleResults m_battleResults = BattleResults.Escape;
 
-    void Start()
-    {
-        m_partyManager.CharacterCount.DistinctUntilChanged().Subscribe(_ => PartyNum());
-    }
-
-    void PartyNum()
-    {
-        Debug.Log("Character.IsContact");
-        for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
-        {
-            var c = m_partyManager.CharacterParty[i].GetComponent<Character>();
-            c.IsContact.Where(x => x is true).Subscribe(_ => BattleStart()).AddTo(m_partyManager.CharacterParty[i]);
-        }
-    }
-
     void CreateEnemy(int num)
     {
         for (int i = 0; i < num; i++)
@@ -74,6 +58,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             m_instantiateEnemy = Instantiate(m_partyManager.EnemyParty[m_enemyID - 1], new Vector3((m_contactPosition + m_charaTransform.forward * 3).x + i, m_contactPosition.y, (m_contactPosition + m_charaTransform.forward * 3).z + i), Quaternion.identity);
             m_enemyObjects.Add(m_instantiateEnemy);
             var em = m_enemyObjects[i].GetComponent<Enemy>();
+
             if (num > 1)
             {
                 m_enemyObjects[i].name = em.Name.Value + $"{i + 1}";
@@ -82,6 +67,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             {
                 m_enemyObjects[i].name = em.Name.Value;
             }
+
             m_enemyList.Add(em);
             m_battleEnemyList.AddEnemyList(m_enemyObjects[i]);
             m_firstDrop.Add(em.FirstDropItem);
@@ -89,8 +75,8 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             m_getExperiencePoint += em.ExperiencePoint;
             m_enemyList[i].MESM.SetLookPosition(m_contactPosition);
             m_enemyList[i].ChengeKinematic(true);
-            //em.transform.LookAt(m_contactPosition);
         }
+
         m_battleEnemyList.ChengeBool();
         m_isCreated = true;
     }
@@ -100,6 +86,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         {
             Destroy(m_enemyObjects[i]);
         }
+
         m_enemyObjects.Clear();
         m_enemyList.Clear();
         m_characterList.Clear();
@@ -130,6 +117,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         for (int i = 0; i < m_enemyObjects.Count; i++)
         {
             var emn = m_enemyList[i].Name.Value;
+
             if (m_enemyObjects.Count > 1)
             {
                 emn += $"{i + 1}";
@@ -142,11 +130,13 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     {
         characterDeadCount = m_characterList.Count;
         enemyDeadCount = m_enemyList.Count;
+
         for (int i = 0; i < m_characterList.Count; i++)
         {
             m_characterList[i].HP.DistinctUntilChanged().Where(h => h < 1).Subscribe(_ => characterDeadCount++).AddTo(m_characterList[i]);
             m_characterList[i].HP.DistinctUntilChanged().Where(h => h > 0).Subscribe(_ => characterDeadCount--).AddTo(m_characterList[i]);
         }
+
         for (int i = 0; i < m_enemyList.Count; i++)
         {
             m_enemyList[i].HP.DistinctUntilChanged().Where(h => h < 1).Subscribe(_ => enemyDeadCount++).AddTo(m_enemyList[i]);
@@ -177,6 +167,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
                 m_enemyList[n].BESM.Targets.Add(m_characterList[i].gameObject);
             }
         }
+
         for (int n = 0; n < m_characterList.Count; n++)
         {
             for (int i = 0; i < m_enemyObjects.Count; i++)
@@ -191,6 +182,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         {
             m_characterList[i].BCSM.IsBattle = true;
         }
+
         for (int i = 0; i < m_enemyObjects.Count; i++)
         {
             m_enemyList[i].BESM.IsBattle = true;
@@ -205,10 +197,12 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     int DamageCalculate(GameObject attacker, GameObject defender, SkillData skillData)
     {
         int damage = 0;
+
         if (attacker.CompareTag("Player"))
         {
             var characterParameter = attacker.GetComponent<Character>();
             var enemyParameter = defender.GetComponent<Enemy>();
+
             if (skillData.attackType == SkillData.AttackType.physicalAttack)
             {
                 if (Random.Range(0, 200) > characterParameter.Luck.Value)
@@ -233,12 +227,14 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
                     damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.MagicPower.Value, enemyParameter.MagicResist.Value, m_battleInformationUI.Critical);
                 }
             }
+
             StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, defender.name, m_battleInformationUI.Critical));
         }
         else if (attacker.CompareTag("Enemy"))
         {
             var enemyParameter = attacker.GetComponent<Enemy>();
             var characterParameter = defender.GetComponent<Character>();
+
             if (skillData.attackType == SkillData.AttackType.physicalAttack)
             {
                 if (Random.Range(0, 200) > enemyParameter.Luck.Value)
@@ -263,24 +259,29 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
                     damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.MagicPower.Value, characterParameter.MagicResist.Value, m_battleInformationUI.Critical);
                 }
             }
+
             StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, characterParameter.Name.Value, m_battleInformationUI.Critical));
         }
+
         return damage;
     }
     void FinishBattle()
     {
         for (int i = 0; i < m_characterList.Count; i++)
         {
+            m_characterList[i].IsContact = false;
             m_characterList[i].BCSM.IsBattle = false;
             m_characterList[i].BCSM.Targets.Clear();
             //cbsm.m_open = false;
             //cbsm.m_battlePanel.SetActive(false);
         }
+
         for (int i = 0; i < m_enemyObjects.Count; i++)
         {
             m_enemyList[i].BESM.IsBattle = false;
             m_enemyList[i].BESM.Targets.Clear();
         }
+
         StartCoroutine(BattleData());
     }
     IEnumerator ChengeActiveUI()
@@ -295,6 +296,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             yield return null;
             m_battleInformationUIObject.SetActive(true);
         }
+
         yield return null;
     }
     void BattleStart()
@@ -317,7 +319,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             DeadCheck();
             yield return null;
         }
-        //yield return new WaitUntil(() => m_finish);
+
         FinishBattle();
         DestryEnemy(randam);
         DeleteField();
@@ -337,8 +339,10 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         {
             StartCoroutine(m_battleInformationUI.BattleFinishUI((int)BattleResults.Escape));
         }
+
         StartCoroutine(ChengeActiveUI());
         yield return null;
+
         if (m_battleResults == BattleResults.Win)
         {
             for (int i = 0; i < m_characterList.Count; i++)
@@ -352,6 +356,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         {
 
         }
+
         m_getExperiencePoint = 0;
     }
 
@@ -370,22 +375,24 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         m_enemyID = em.ID.Value;
         m_isBattle = true;
         Destroy(enemy.transform.parent.gameObject);
+        BattleStart();
         StartCoroutine(ContactUpdate(character));
     }
 
     IEnumerator ContactUpdate(Character character)
     {
-        if (character.IsContact.HasValue)
+        if (character.IsContact)
         {
             while (m_isBattle)
             {
                 m_distsnce = (m_contactPosition.x - character.transform.position.x) * (m_contactPosition.x - character.transform.position.x) + (m_contactPosition.z - character.transform.position.z) * (m_contactPosition.z - character.transform.position.z);
+                
                 if (Mathf.Sqrt(m_distsnce) > 15f)
                 {
                     m_isBattle = false;
                     m_finish = true;
-                    DeleteField();
                 }
+
                 yield return null;
             }
         }
