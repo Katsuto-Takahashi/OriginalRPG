@@ -26,8 +26,8 @@ public class Character : CharacterParameter, ITakableDamage
 
     public MovementCharacterStateMachine MCSM => m_mcsm;
 
-    BoolReactiveProperty m_isContact = new BoolReactiveProperty(false);
-    public IReadOnlyReactiveProperty<bool> IsContact => m_isContact;
+    bool m_isContact = false;
+    public bool IsContact { get => m_isContact; set => m_isContact = value; }
     
     BoolReactiveProperty m_levelUP = new BoolReactiveProperty(false);
     public IReactiveProperty<bool> LevelUP => m_levelUP;
@@ -167,9 +167,9 @@ public class Character : CharacterParameter, ITakableDamage
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy") && !m_isContact.Value)
+        if (other.gameObject.CompareTag("Enemy") && !m_isContact)
         {
-            m_isContact.Value = true;
+            m_isContact = true;
             NewBattleManager.Instance.SetBattle(this, other.gameObject);
         }
     }
