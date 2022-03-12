@@ -5,30 +5,36 @@ using UniRx;
 
 public class SkillPanel : MonoBehaviour
 {
-    Character m_character;
+    [SerializeField]
+    List<SkillData> skillData = new List<SkillData>();
 
+    [SerializeField]
     List<Skill> skills = new List<Skill>();
+
+    [SerializeField]
+    List<HasSkillList> characters = new List<HasSkillList>();
+
+    ReactiveCollection<SkillData> skillss = new ReactiveCollection<SkillData>();
+
 
     void Start()
     {
-        m_character = GetComponent<Character>();
+        skillss.Add(skillData[0]);
+        skillss.Remove(skillData[0]);
+        int a = skillss.Count;
     }
 
     void Update()
     {
     }
-
-    void SkillUpdate()
+    public enum CharacterNum
     {
-        
+        AAA,
+        SSS,
+        DDD
     }
-
-    void GetSkill(int index)
+    public void SetSkill(CharacterNum num, int index)
     {
-        m_character.GetSkill(skills[index].GetSkill());
-    }
 
-    void GotSkill()
-    {
     }
 }
