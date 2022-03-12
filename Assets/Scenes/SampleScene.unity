@@ -10896,8 +10896,12 @@ MonoBehaviour:
   m_normalSkill:
   - {fileID: 11400000, guid: 408cb59764b74164ea227dc67d4a20ae, type: 2}
   - {fileID: 11400000, guid: 1a2597fbf442d354ab3c6a9a48b6db6b, type: 2}
-  m_skillDatas: []
-  m_magicDatas: []
+  m_skillDatas:
+  - {fileID: 0}
+  - {fileID: 0}
+  m_magicDatas:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1946191175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11346,6 +11350,7 @@ GameObject:
   - component: {fileID: 2051462366}
   - component: {fileID: 2051462365}
   - component: {fileID: 2051462364}
+  - component: {fileID: 2051462368}
   m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
@@ -11430,6 +11435,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2051462368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051462363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fea43c5b730fac24fa5d7705c2c7c347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillData:
+  - {fileID: 11400000, guid: 42eeb142ed4157e49a80bc3700562496, type: 2}
+  - {fileID: 11400000, guid: 42eeb142ed4157e49a80bc3700562496, type: 2}
+  skills:
+  - skillName: 
+    skillInformation: 
+    skillPower: 0
+    skillMagnification: 0
+    requiredAP: 0
+    attackRange: 0
+    attackAttributes: 0
+    attackType: 0
+  - skillName: 
+    skillInformation: 
+    skillPower: 0
+    skillMagnification: 0
+    requiredAP: 0
+    attackRange: 0
+    attackAttributes: 0
+    attackType: 0
+  characters:
+  - {fileID: 0}
 --- !u!1 &2077552384
 GameObject:
   m_ObjectHideFlags: 0
