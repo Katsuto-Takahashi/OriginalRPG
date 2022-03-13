@@ -10661,7 +10661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_name:
-    value: 
+    value: character
   m_hp:
     value: 1
   m_maxHp:
