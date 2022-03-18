@@ -401,7 +401,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     {
         m_instantiateBattleFeild = Instantiate(m_battleFeildPrefab, contactPos, Quaternion.identity);
     }
-    public void DeleteField()
+    void DeleteField()
     {
         Destroy(m_instantiateBattleFeild);
         m_contactPosition = Vector3.zero;
