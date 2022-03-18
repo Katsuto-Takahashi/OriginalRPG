@@ -11316,6 +11316,8 @@ GameObject:
   - component: {fileID: 2051462365}
   - component: {fileID: 2051462364}
   - component: {fileID: 2051462368}
+  - component: {fileID: 2051462370}
+  - component: {fileID: 2051462369}
   m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
@@ -11416,24 +11418,57 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 42eeb142ed4157e49a80bc3700562496, type: 2}
   - {fileID: 11400000, guid: 42eeb142ed4157e49a80bc3700562496, type: 2}
   skills:
-  - skillName: 
-    skillInformation: 
-    skillPower: 0
-    skillMagnification: 0
-    requiredAP: 0
-    attackRange: 0
-    attackAttributes: 0
-    attackType: 0
-  - skillName: 
-    skillInformation: 
-    skillPower: 0
-    skillMagnification: 0
-    requiredAP: 0
-    attackRange: 0
-    attackAttributes: 0
-    attackType: 0
+  - m_skillName: 
+    m_skillInformation: 
+    m_skillPower: 0
+    m_skillMagnification: 0
+    m_requiredAP: 1
+    m_attackRange: 1
+    m_coolTime: 0
+    m_attackAttributes: 0
+    m_attackType: 0
+  - m_skillName: 
+    m_skillInformation: 
+    m_skillPower: 0
+    m_skillMagnification: 0
+    m_requiredAP: 1
+    m_attackRange: 1
+    m_coolTime: 0
+    m_attackAttributes: 0
+    m_attackType: 0
   characters:
   - {fileID: 0}
+--- !u!114 &2051462369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051462363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3794eae24445742b5da93411896df8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_skillList: {fileID: 0}
+--- !u!114 &2051462370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051462363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a55cc1e38107964a800224c4bdaf690, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_myChildNode:
+    id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: , ns: , asm: }
 --- !u!1 &2077552384
 GameObject:
   m_ObjectHideFlags: 0
