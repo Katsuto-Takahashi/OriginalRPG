@@ -5259,7 +5259,7 @@ MonoBehaviour:
   m_rotation: {x: 15, y: 0, z: 0}
   m_positionDamping: 16
   m_rotationDamping: 16
-  m_dolly: 0.34
+  m_dolly: 0.33
   m_noise: 0
   m_noiseZ: 0
   m_noiseSpeed: 1
