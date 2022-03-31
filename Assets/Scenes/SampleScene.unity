@@ -12048,6 +12048,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 129838601660835389, guid: 90cecf89bb8e0904c8c24f055d3de680,
+        type: 3}
+      propertyPath: m_childNode.m_childNode.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 129838601660835389, guid: 90cecf89bb8e0904c8c24f055d3de680,
+        type: 3}
+      propertyPath: m_childNode.m_childNode.Array.data[0]
+      value: Assembly-CSharp CountDownAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 129838601660835389, guid: 90cecf89bb8e0904c8c24f055d3de680,
+        type: 3}
+      propertyPath: m_childNode.m_childNode.Array.data[0].m_mesm
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 129838601660835389, guid: 90cecf89bb8e0904c8c24f055d3de680,
+        type: 3}
+      propertyPath: m_childNode.m_childNode.Array.data[0].m_count
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 129838601660835389, guid: 90cecf89bb8e0904c8c24f055d3de680,
+        type: 3}
+      propertyPath: m_childNode.m_childNode.Array.data[0].m_state
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 129838601660835389, guid: 90cecf89bb8e0904c8c24f055d3de680,
+        type: 3}
+      propertyPath: m_childNode.m_childNode.Array.data[0].m_childNode.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1735872505903888010, guid: 90cecf89bb8e0904c8c24f055d3de680,
         type: 3}
       propertyPath: m_Name
