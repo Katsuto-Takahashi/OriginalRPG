@@ -80,6 +80,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         m_battleEnemyList.ChengeBool();
         m_isCreated = true;
     }
+
     void DestryEnemy(int num)
     {
         for (int i = 0; i < num; i++)
@@ -92,6 +93,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         m_characterList.Clear();
         m_battleEnemyList.ClearEnemyList();
     }
+
     void BattleStanby()
     {
         characterDeadCount = 0;
@@ -176,6 +178,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             }
         }
     }
+
     void StateChange()
     {
         for (int i = 0; i < m_characterList.Count; i++)
@@ -265,6 +268,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
 
         return damage;
     }
+
     void FinishBattle()
     {
         for (int i = 0; i < m_characterList.Count; i++)
@@ -284,6 +288,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
 
         StartCoroutine(BattleData());
     }
+
     IEnumerator ChengeActiveUI()
     {
         if (m_battleInformationUIObject.activeSelf)
@@ -299,11 +304,13 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
 
         yield return null;
     }
+
     void BattleStart()
     {
         Debug.Log("戦闘開始");
         StartCoroutine(BattleUpdate());
     }
+
     IEnumerator BattleUpdate()
     {
         yield return new WaitUntil(() => m_isBattle);
@@ -325,6 +332,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         DeleteField();
         m_finish = false;
     }
+
     IEnumerator BattleData()
     {
         if (m_battleResults == BattleResults.Win)
@@ -397,15 +405,16 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             }
         }
     }
+
     void CreateField(Vector3 contactPos)
     {
         m_instantiateBattleFeild = Instantiate(m_battleFeildPrefab, contactPos, Quaternion.identity);
     }
+
     void DeleteField()
     {
         Destroy(m_instantiateBattleFeild);
         m_contactPosition = Vector3.zero;
         m_distsnce = 0f;
     }
-
 }
