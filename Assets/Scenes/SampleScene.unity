@@ -10867,7 +10867,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1a2597fbf442d354ab3c6a9a48b6db6b, type: 2}
   m_skillDatas:
   - {fileID: 0}
-  m_magicDatas: []
+  m_magicDatas:
+  - {fileID: 0}
 --- !u!114 &1946191175
 MonoBehaviour:
   m_ObjectHideFlags: 0
