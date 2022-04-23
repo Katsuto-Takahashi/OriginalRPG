@@ -30,14 +30,19 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     public bool IsDead { get => m_isDead; set => m_isDead = value; }
 
     /// <summary>入力による動きを止めるかどうか</summary>
-    BoolReactiveProperty m_stop = new BoolReactiveProperty(false);
+    BoolReactiveProperty m_isStop = new BoolReactiveProperty(false);
     /// <summary>入力による動きを止めるかのフラグ</summary>
-    public IReactiveProperty<bool> Stop => m_stop;
+    public IReactiveProperty<bool> IsStop => m_isStop;
 
     /// <summary>バインドされているかどうか</summary>
     bool m_isBind = false;
     /// <summary>バインドされているかのフラグ</summary>
     public bool IsBind { get => m_isBind; set => m_isBind = value; }
+
+    /// <summary>選択できるかどうか</summary>
+    BoolReactiveProperty m_canSelect = new BoolReactiveProperty(false);
+    /// <summary>選択できるかのフラグ</summary>
+    public IReactiveProperty<bool> CanSelect => m_canSelect;
 
     /// <summary>対象との距離</summary>
     float m_distance;
@@ -85,6 +90,8 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     List<SkillData> m_skillDatas = new List<SkillData>();
     /// <summary>魔法</summary>
     List<SkillData> m_magicDatas = new List<SkillData>();
+    /// <summary>選択した攻撃</summary>
+    SkillData m_selectSkill;
 
     void SetState()
     {
@@ -105,7 +112,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     public void SetUp(Animator animator, HasSkillList  hasSkill, MoveParameters param)
     {
         SetAnim(animator);
-        SetParam(param);
+        SetMoveParam(param);
         SetSkill(hasSkill);
         SetState();
     }
@@ -122,7 +129,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         m_animator = animator;
     }
 
-    public void Parameter(Character character)
+    public void SetParam(Character character)
     {
         SetCharaParam(character);
     }
@@ -143,7 +150,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         m_maxActionCount = character.MaxActionCount;
     }
 
-    void SetParam(MoveParameters param)
+    void SetMoveParam(MoveParameters param)
     {
         m_moveSpeed = (param.WalkingSpeed + param.RunningSpeed) / 2f;
     }

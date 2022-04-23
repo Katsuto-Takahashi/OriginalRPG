@@ -40,6 +40,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("Standby");
+                owner.m_canSelect.Value = true;
             }
 
             protected override void OnUpdate()
@@ -56,19 +57,15 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.NoBattle);
                 }
-                else if (owner.m_distance > 0)
+                else if (!owner.m_canSelect.Value)
                 {
                     StateMachine.Dispatch((int)ActEvent.Move);
-                }
-                else
-                {
-                    StateMachine.Dispatch((int)ActEvent.BattleAction);
                 }
             }
 
             protected override void OnExit(State nextState)
             {
-                if (nextState is Move || nextState is BattleAction)
+                if (nextState is Move)
                 {
                     owner.m_actionCount--;
                 }
@@ -80,7 +77,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("Move");
-                owner.m_stop.Value = true;
+                owner.m_isStop.Value = true;
                 owner.PlayAnimation("Run");
             }
 
@@ -102,7 +99,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Wait);
                 }
-                if (owner.m_distance > owner.m_normalSkill[0].AttackRange)
+                if (owner.m_distance > owner.m_selectSkill.AttackRange)
                 {
                     //Vector3 target = owner.m_targetPosition;
                     //target.y = 0f;
@@ -124,7 +121,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             {
                 if (nextState is Wait)
                 {
-                    owner.m_stop.Value = false;
+                    owner.m_isStop.Value = false;
                 }
             }
         }
@@ -154,7 +151,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("ActionEnd");
-                owner.m_stop.Value = false;
+                owner.m_isStop.Value = false;
             }
 
             protected override void OnUpdate()
@@ -187,7 +184,8 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("Bind");
-                owner.m_stop.Value = true;
+                owner.m_actionCount = 0;
+                owner.m_isStop.Value = true;
                 owner.PlayAnimation("");
             }
 
@@ -219,7 +217,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnExit(State nextState)
             {
-                owner.m_stop.Value = false;
+                owner.m_isStop.Value = false;
             }
         }
 
@@ -228,7 +226,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("NoBattle");
-                owner.m_stop.Value = false;
+                owner.m_isStop.Value = false;
                 owner.m_isBattle = false;
                 owner.m_currentTimer = 0f;
                 owner.m_actionCount = 1;
@@ -257,7 +255,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             {
                 Debug.Log("Dead");
                 owner.m_actionCount = 0;
-                owner.m_stop.Value = true;
+                owner.m_isStop.Value = true;
                 owner.PlayAnimation("");
             }
 
@@ -281,7 +279,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 owner.PlayAnimation("");
                 if (owner.FinishedAnimation())
                 {
-                    owner.m_stop.Value = false;
+                    owner.m_isStop.Value = false;
                 }
             }
         }
