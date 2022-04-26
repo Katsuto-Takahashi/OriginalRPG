@@ -55,7 +55,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     {
         for (int i = 0; i < num; i++)
         {
-            m_instantiateEnemy = Instantiate(m_partyManager.EnemyParty[m_enemyID - 1], new Vector3((m_contactPosition + m_charaTransform.forward * 3).x + i, m_contactPosition.y, (m_contactPosition + m_charaTransform.forward * 3).z + i), Quaternion.identity);
+            m_instantiateEnemy = Instantiate(PartyManager.Instance.EnemyParty[m_enemyID - 1], new Vector3((m_contactPosition + m_charaTransform.forward * 3).x + i, m_contactPosition.y, (m_contactPosition + m_charaTransform.forward * 3).z + i), Quaternion.identity);
             m_enemyObjects.Add(m_instantiateEnemy);
             var em = m_enemyObjects[i].GetComponent<Enemy>();
 
@@ -100,9 +100,9 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         enemyDeadCount = 0;
         m_battleResults = BattleResults.Escape;
 
-        for (int i = 0; i < m_partyManager.CharacterParty.Count; i++)
+        for (int i = 0; i < PartyManager.Instance.CharacterParty.Count; i++)
         {
-            var cpm = m_partyManager.CharacterParty[i].GetComponent<Character>();
+            var cpm = PartyManager.Instance.CharacterParty[i].GetComponent<Character>();
             m_characterList.Add(cpm);
         }
 
@@ -148,7 +148,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
 
     void DeadCheck()
     {
-        if (characterDeadCount == m_partyManager.CharacterParty.Count)
+        if (characterDeadCount == m_characterList.Count)
         {
             m_battleResults = BattleResults.Lose;
             m_finish = true;
@@ -391,11 +391,12 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     {
         if (character.IsContact)
         {
+            float limit = m_battleFeildPrefab.transform.localScale.x;
             while (m_isBattle)
             {
                 m_distsnce = (m_contactPosition.x - character.transform.position.x) * (m_contactPosition.x - character.transform.position.x) + (m_contactPosition.z - character.transform.position.z) * (m_contactPosition.z - character.transform.position.z);
                 
-                if (Mathf.Sqrt(m_distsnce) > 15f)
+                if (Mathf.Sqrt(m_distsnce) > limit)
                 {
                     m_isBattle = false;
                     m_finish = true;
