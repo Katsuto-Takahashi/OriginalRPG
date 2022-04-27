@@ -16,7 +16,7 @@ public class DamageCalculator : MonoBehaviour
     
     int CalculateNormalDamage(SkillData skillData, int defender, int attacker)
     {
-        float power = skillData.SkillPower / 100;
+        float power = skillData.SkillPower / 100f;
         int baseDamage = attacker / 4 - defender / 3;
         float normalDamege = baseDamage * GetRandom(normalDamegeRandom) * skillData.SkillMagnification * power;
         return (int)normalDamege;
@@ -24,14 +24,14 @@ public class DamageCalculator : MonoBehaviour
     
     int CalculateCriticalDamage(SkillData skillData, int attacker)
     {
-        float power = skillData.SkillPower / 100;
+        float power = skillData.SkillPower / 100f;
         float criticalDamege = attacker * GetRandom(criticalDamegeRandam) * skillData.SkillMagnification * power;
         return (int)criticalDamege;
     }
     
     int DecideEnemyDamage(SkillData skillData, int damage, Enemy enemy)
     {
-        if (damage <= 0)
+        if (damage < 1)
         {
             decideDamage = GetRandom(minDamage);
         }
@@ -39,26 +39,20 @@ public class DamageCalculator : MonoBehaviour
         {
             decideDamage = damage;
         }
-        if (decideDamage != 0)
+        if ((int)(decideDamage * enemy.attackTypeResistance[(int)skillData.attackType]) > 0)
         {
-            if ((int)(decideDamage * enemy.attackTypeResistance[(int)skillData.attackType]) != 0)
-            {
-                decideDamage = (int)(decideDamage * enemy.attackTypeResistance[(int)skillData.attackType]);
-            }
+            decideDamage = (int)(decideDamage * enemy.attackTypeResistance[(int)skillData.attackType]);
         }
-        if (decideDamage != 0)
+        if ((int)(decideDamage * enemy.attackAttributeResistance[(int)skillData.attackAttributes]) > 0)
         {
-            if ((int)(decideDamage * enemy.attackAttributeResistance[(int)skillData.attackAttributes]) != 0)
-            {
-                decideDamage = (int)(decideDamage * enemy.attackAttributeResistance[(int)skillData.attackAttributes]);
-            }
+            decideDamage = (int)(decideDamage * enemy.attackAttributeResistance[(int)skillData.attackAttributes]);
         }
         return decideDamage;
     }
 
     int DecidePlayerDamage(int damage)
     {
-        if (damage <= 0)
+        if (damage < 1)
         {
             decideDamage = GetRandom(minDamage);
         }
@@ -109,4 +103,10 @@ public class DamageCalculator : MonoBehaviour
         }
         return damage;
     }
+}
+
+public enum CriticalCheck
+{
+    normal,
+    critical
 }
