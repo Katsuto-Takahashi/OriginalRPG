@@ -12,7 +12,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8c6059d0bb0bb24eb2c1fad3bb6cc1f, type: 3}
   m_Name: SkillsTest
   m_EditorClassIdentifier: 
-  m_physicalSkills: []
-  m_magicSkills: []
+  m_physicalSkills:
+  - m_skillParameter:
+      m_skillName: 
+      m_skillInformation: 
+      m_skillPower: 0
+      m_skillMagnification: 0
+      m_requiredAP: 0
+      m_skillRange: 0
+      m_coolTime: 0
+      m_skillAttributes: 0
+      m_skillType: 0
+    m_efect:
+    - id: 0
+  m_magicSkills:
+  - m_skillParameter:
+      m_skillName: "\u706B\u708E"
+      m_skillInformation: "\u708E\u653B\u6483"
+      m_skillPower: 100
+      m_skillMagnification: 1
+      m_requiredAP: 1
+      m_skillRange: 2.5
+      m_coolTime: 0
+      m_skillAttributes: 1
+      m_skillType: 1
+    m_efect:
+    - id: 1
   references:
     version: 1
+    00000000:
+      type: {class: Attack, ns: , asm: Assembly-CSharp}
+      data:
+        time: 0
+    00000001:
+      type: {class: Attack, ns: , asm: Assembly-CSharp}
+      data:
+        time: 0

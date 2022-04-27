@@ -6,7 +6,7 @@ using UniRx;
 public class SkillTest : MonoBehaviour
 {
     [SerializeField]
-    SkillsData m_skillList;
+    SkillList m_skillList;
     void Start()
     {
         
