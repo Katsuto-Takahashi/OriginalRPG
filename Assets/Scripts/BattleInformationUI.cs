@@ -9,13 +9,10 @@ public class BattleInformationUI : MonoBehaviour
     [SerializeField] Text m_criticalDamageText = null;
     [SerializeField] Text m_informationText = null;
     [SerializeField] Text m_levelText = null;
-    private bool m_critical = false;
-
-    public bool Critical { get => m_critical; set => m_critical = value; }
 
     void Start()
     {
-        Critical = false;
+        ;
     }
 
     void Update()
@@ -23,14 +20,13 @@ public class BattleInformationUI : MonoBehaviour
         
     }
     
-    public IEnumerator BattleUIDisplay(int damage, string attackedCharacter, bool critical)
+    public IEnumerator BattleUIDisplay(int damage, string attackedCharacter, CriticalCheck critical)
     {
-        if (critical)
+        if (critical == CriticalCheck.critical)
         {
             m_criticalDamageText.gameObject.SetActive(true);
             yield return new WaitForSeconds(0.5f);
             m_criticalDamageText.gameObject.SetActive(false);
-            Critical = false;
         }
         m_damageText.gameObject.SetActive(true);
         m_damageText.text += $"{attackedCharacter}は{damage}のダメージをうけた\n";
@@ -104,4 +100,10 @@ public class BattleInformationUI : MonoBehaviour
         }
         m_levelText.gameObject.SetActive(false);
     }
+}
+
+public enum CriticalCheck
+{
+    normal,
+    critical
 }
