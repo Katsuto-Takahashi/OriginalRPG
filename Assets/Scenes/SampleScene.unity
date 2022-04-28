@@ -8038,6 +8038,8 @@ GameObject:
   - component: {fileID: 1509466358}
   - component: {fileID: 1509466361}
   - component: {fileID: 1509466359}
+  - component: {fileID: 1509466362}
+  - component: {fileID: 1509466363}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Manager
@@ -8163,6 +8165,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05053640b340bd4086614369ec3e300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1509466362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509466353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb1f09d2436253a4aa8539ae0155f390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MenuPanel: {fileID: 649963452}
+  m_battleCommandPanel: {fileID: 810348678}
+--- !u!114 &1509466363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509466353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9c79935fc3b4d149abb537b57785cd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillsData: {fileID: 11400000, guid: c369592a01c08c44eb641d30fb5eeca8, type: 2}
 --- !u!1 &1514665841
 GameObject:
   m_ObjectHideFlags: 0
@@ -11423,19 +11452,21 @@ MonoBehaviour:
     m_skillPower: 0
     m_skillMagnification: 0
     m_requiredAP: 1
-    m_attackRange: 1
+    m_skillRange: 1
     m_coolTime: 0
-    m_attackAttributes: 0
-    m_attackType: 0
+    m_skillAttributes: 0
+    m_skillType: 0
+    m_skillTarget: 0
   - m_skillName: 
     m_skillInformation: 
     m_skillPower: 0
     m_skillMagnification: 0
     m_requiredAP: 1
-    m_attackRange: 1
+    m_skillRange: 1
     m_coolTime: 0
-    m_attackAttributes: 0
-    m_attackType: 0
+    m_skillAttributes: 0
+    m_skillType: 0
+    m_skillTarget: 0
   characters:
   - {fileID: 0}
 --- !u!114 &2051462369
@@ -12075,6 +12106,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_childNode.m_childNode.Array.data[0].m_childNode.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1104479159572024198, guid: 90cecf89bb8e0904c8c24f055d3de680,
+        type: 3}
+      propertyPath: enemyPartyNumber
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1735872505903888010, guid: 90cecf89bb8e0904c8c24f055d3de680,
         type: 3}
