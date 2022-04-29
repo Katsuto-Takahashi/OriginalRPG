@@ -8032,7 +8032,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1509466355}
   - component: {fileID: 1509466354}
-  - component: {fileID: 1509466357}
   - component: {fileID: 1509466356}
   - component: {fileID: 1509466360}
   - component: {fileID: 1509466358}
@@ -8091,23 +8090,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 075f5c455979f0c41b55123334d5ebe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1509466357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1509466353}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0ab85c9ca8a4024f9abcc25824d18a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_damageCalculator: {fileID: 1509466356}
-  m_contactEnemy: {fileID: 1729603099}
-  m_partyManager: {fileID: 1509466354}
-  m_battleEnemyList: {fileID: 1598404453}
-  m_battleInformationUIObject: {fileID: 149291164}
 --- !u!114 &1509466358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9905,18 +9887,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728360454}
   m_CullTransparentMesh: 0
---- !u!114 &1729603099 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3558055783207864879, guid: f8e4aa4c9327e5647903c61a5fd1880c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1394153789}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c39476fd70e62fb41a392bd2b22d99f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1734269776
 GameObject:
   m_ObjectHideFlags: 0
