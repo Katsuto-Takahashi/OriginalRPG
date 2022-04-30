@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
-    [SerializeField]
-    GameObject m_menu = null;
-    bool m_menuDisplay = false;
+    bool m_isDisplay = false;
     bool m_canDisplay = true;
+
+    [SerializeField]
+    SkillList skillsData = null;
 
     void Start()
     {
-        
+        for (int n = 0; n < skillsData.MagicSkills.Count; n++)
+        {
+            for (int i = 0; i < skillsData.MagicSkills[n].Efect.Count; i++)
+            {
+                skillsData.MagicSkills[n].Efect[i].Efect(skillsData.MagicSkills[n].SkillParameter);
+            }
+        }
     }
 
     void Update()
@@ -25,13 +32,13 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         {
             if (InputController.Instance.Menu())
             {
-                m_menuDisplay = !m_menuDisplay;
+                m_isDisplay = !m_isDisplay;
             }
-            m_menu.SetActive(m_menuDisplay);
+            UIManager.Instance.DisplayMenu(m_isDisplay);
         }
         else
         {
-            m_menu.SetActive(false);
+            UIManager.Instance.DisplayMenu(m_canDisplay);
         }
     }
 }
