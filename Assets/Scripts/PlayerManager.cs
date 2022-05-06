@@ -16,18 +16,18 @@ public class PlayerManager : Character
         AP.DistinctUntilChanged().Subscribe(ap => CheckAP(ap));
 
 
-        HP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        AP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        HP.DistinctUntilChanged().Subscribe(_ => m_bcsm.SetParam(this));
+        AP.DistinctUntilChanged().Subscribe(_ => m_bcsm.SetParam(this));
 
-        MaxHP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        MaxAP.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        Strength.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        Defense.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        MagicPower.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        MagicResist.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
-        Speed.DistinctUntilChanged().Subscribe(_ => m_bcsm.Parameter(this));
+        MaxHP.DistinctUntilChanged().Subscribe(_ => m_bcsm.SetParam(this));
+        MaxAP.DistinctUntilChanged().Subscribe(_ => m_bcsm.SetParam(this));
+        Strength.DistinctUntilChanged().Subscribe(_ => m_bcsm.SetParam(this));
+        Defense.DistinctUntilChanged().Subscribe(_ => m_bcsm.SetParam(this));
+        MagicPower.DistinctUntilChanged().Subscribe(_ => m_bcsm.SetParam(this));
+        MagicResist.DistinctUntilChanged().Subscribe(_ => m_bcsm.SetParam(this));
+        Speed.DistinctUntilChanged().Subscribe(_ => m_bcsm.SetParam(this));
 
-        m_bcsm.Stop.DistinctUntilChanged().Subscribe(s => StopMove(s));
+        m_bcsm.IsStop.DistinctUntilChanged().Subscribe(s => StopMove(s));
 
         m_mcsm.SetUp(m_animator, m_rigidbody, m_capsuleCollider, m_myTransform, m_param);
         m_bcsm.SetUp(m_animator, m_hsl, m_param);
