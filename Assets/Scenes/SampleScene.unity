@@ -10864,7 +10864,8 @@ MonoBehaviour:
   m_normalSkill:
   - {fileID: 11400000, guid: 408cb59764b74164ea227dc67d4a20ae, type: 2}
   - {fileID: 11400000, guid: 1a2597fbf442d354ab3c6a9a48b6db6b, type: 2}
-  m_skillDatas: []
+  m_skillDatas:
+  - {fileID: 0}
   m_magicDatas: []
 --- !u!114 &1946191175
 MonoBehaviour:
