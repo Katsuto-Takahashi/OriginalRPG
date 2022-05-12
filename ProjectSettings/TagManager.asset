@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Manager
+  - Character
   layers:
   - Default
   - TransparentFX
@@ -18,8 +19,8 @@ TagManager:
   - Ground
   - Slope
   - Wall
-  - 
-  - 
+  - Character
+  - Enemy
   - 
   - 
   - 
