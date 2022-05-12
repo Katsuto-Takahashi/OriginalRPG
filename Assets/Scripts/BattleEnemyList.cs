@@ -38,13 +38,14 @@ public class BattleEnemyList : MonoBehaviour
         for (int i = 0; i < m_battleEnemys.Count; i++)
         {
             var ui = m_target[i].GetComponent<CharacterParameterUI>();
+            var enemyName = m_battleEnemys[i].GetComponent<Enemy>().Name.Value;
             if (m_battleEnemys.Count > 1)
             {
-                ui.CreateName($"{m_battleEnemys[i].GetComponent<EnemyManager>().EnemyParameters.EnemyCharacterName}" + $"{i + 1}");
+                ui.CreateName($"{enemyName}{i + 1}");
             }
             else
             {
-                ui.CreateName(m_battleEnemys[i].GetComponent<EnemyManager>().EnemyParameters.EnemyCharacterName);
+                ui.CreateName(enemyName);
             }
             m_target[i].SetActive(true);
         }
