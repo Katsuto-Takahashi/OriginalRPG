@@ -192,6 +192,11 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         }
     }
 
+    /// <summary>ダメージを計算して返す</summary>
+    /// <param name="attacker">攻撃側の能力</param>
+    /// <param name="defender">防御側の能力</param>
+    /// <param name="skillData">攻撃に使用する技のデータ</param>
+    /// <returns>計算後のダメージ</returns>
     public int Damage(GameObject attacker, GameObject defender, SkillData skillData)
     {
         return DamageCalculate(attacker, defender, skillData);
@@ -369,6 +374,9 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         m_getExperiencePoint = 0;
     }
 
+    /// <summary>バトルを開始するときに呼ぶ</summary>
+    /// <param name="character">バトルを開始するキャラクター</param>
+    /// <param name="enemy">バトルする敵</param>
     public void SetBattle(Character character, GameObject enemy)
     {
         Contact(character, enemy);
