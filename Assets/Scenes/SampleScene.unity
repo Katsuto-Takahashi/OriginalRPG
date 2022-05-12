@@ -10670,6 +10670,9 @@ MonoBehaviour:
     m_slopeLayer:
       serializedVersion: 2
       m_Bits: 512
+    m_targetLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!114 &1941238367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10921,6 +10924,9 @@ MonoBehaviour:
     m_slopeLayer:
       serializedVersion: 2
       m_Bits: 512
+    m_targetLayer:
+      serializedVersion: 2
+      m_Bits: 4096
 --- !u!1 &1952421689
 GameObject:
   m_ObjectHideFlags: 0
@@ -12081,7 +12087,22 @@ PrefabInstance:
     - target: {fileID: 1104479159572024198, guid: 90cecf89bb8e0904c8c24f055d3de680,
         type: 3}
       propertyPath: enemyPartyNumber
-      value: 2
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1104479159572024198, guid: 90cecf89bb8e0904c8c24f055d3de680,
+        type: 3}
+      propertyPath: m_param.m_targetLayer.m_Bits
+      value: 2048
+      objectReference: {fileID: 0}
+    - target: {fileID: 1104479160103875412, guid: 90cecf89bb8e0904c8c24f055d3de680,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1104479160103875415, guid: 90cecf89bb8e0904c8c24f055d3de680,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1735872505903888010, guid: 90cecf89bb8e0904c8c24f055d3de680,
         type: 3}
