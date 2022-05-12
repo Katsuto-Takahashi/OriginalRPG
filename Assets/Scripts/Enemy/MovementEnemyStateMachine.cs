@@ -29,7 +29,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
 
     public GameObject TargetObject => m_targetObject;
     Vector3 m_lookAtPosition;
-    LayerMask m_targetLayer;
+    //LayerMask m_targetLayer;
 
     [SerializeReference, SubclassSelector]
     Node m_childNode;
@@ -65,6 +65,8 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
     LayerMask m_groundLayer;
     /// <summary>坂のレイヤー</summary>
     LayerMask m_slopeLayer;
+    /// <summary>攻撃対象のレイヤー</summary>
+    LayerMask m_targetLayer;
 
     void SetState()
     {
@@ -99,6 +101,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
         m_isGroundLength = setParam.IsGroundLength;
         m_groundLayer = setParam.GroundLayer;
         m_slopeLayer = setParam.SlopeLayer;
+        m_targetLayer = setParam.TargetLayer;
         m_movingSpeed = m_walkingSpeed;
     }
 
@@ -164,7 +167,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == m_targetLayer)
+        if (((1 << other.gameObject.layer) & m_targetLayer) != 0)
         {
             m_targetObject = other.gameObject;
         }
@@ -172,7 +175,7 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == m_targetLayer)
+        if (((1 << other.gameObject.layer) & m_targetLayer) != 0)
         {
             m_targetObject = null;
         }

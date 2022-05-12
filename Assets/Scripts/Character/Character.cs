@@ -167,7 +167,7 @@ public class Character : CharacterParameter, ITakableDamage
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy") && !m_isContact)
+        if (((1 << other.gameObject.layer) & m_param.TargetLayer) != 0 && !m_isContact && !m_bcsm.IsBattle)
         {
             m_isContact = true;
             NewBattleManager.Instance.SetBattle(this, other.gameObject);
