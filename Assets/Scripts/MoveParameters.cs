@@ -37,6 +37,10 @@ public class MoveParameters
     [Tooltip("坂のレイヤー")]
     LayerMask m_slopeLayer = 0;
 
+    [SerializeField]
+    [Tooltip("攻撃対象のレイヤー")]
+    LayerMask m_targetLayer = 0;
+
     /// <summary>回転速度</summary>
     public float RotatingSpeed => m_rotatingSpeed;
 
@@ -60,4 +64,7 @@ public class MoveParameters
 
     /// <summary>坂のレイヤー</summary>
     public LayerMask SlopeLayer => m_slopeLayer;
+
+    /// <summary>攻撃対象のレイヤー</summary>
+    public LayerMask TargetLayer => m_targetLayer;
 }
