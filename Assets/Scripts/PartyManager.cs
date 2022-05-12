@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class PartyManager : MonoBehaviour
+public class PartyManager : SingletonMonoBehaviour<PartyManager>
 {
     [SerializeField, Tooltip("Player側")] 
     List<GameObject> m_characterParty = new List<GameObject>();
