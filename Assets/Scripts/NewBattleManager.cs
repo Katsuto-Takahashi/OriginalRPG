@@ -44,6 +44,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     Transform m_charaTransform;
     /// <summary>オブジェクト同士の中心点の間隔</summary>
     float m_enemyInterval = 0.0f;
+    /// <summary>接触地点からの距離</summary>
     [SerializeField]
     float m_enemyDistance = 3.0f;
 
@@ -230,66 +231,50 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         var damage = 0;
         CriticalCheck check = CriticalCheck.normal;
 
-        if (attacker.CompareTag("Player"))//レイヤーでの判定に変更予定
+        if (((1 << attacker.layer) & LayerMask.NameToLayer("Character")) != 0)//(attacker.CompareTag("Player"))//レイヤーでの判定に変更予定
         {
             var characterParameter = attacker.GetComponent<Character>();
             var enemyParameter = defender.GetComponent<Enemy>();
 
             if (skillData.attackType == SkillData.AttackType.physicalAttack)
             {
-                if (Random.Range(0, 200) > characterParameter.Luck.Value)
-                {
-                    damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.Strength.Value, enemyParameter.Defense.Value, check);
-                }
-                else
+                if (Random.Range(0, 200) < characterParameter.Luck.Value)
                 {
                     check = CriticalCheck.critical;
-                    damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.Strength.Value, enemyParameter.Defense.Value, check);
                 }
+                damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.Strength.Value, enemyParameter.Defense.Value, check);
             }
             else if (skillData.attackType == SkillData.AttackType.magicAttack)
             {
-                if (Random.Range(0, 200) > characterParameter.Luck.Value)
-                {
-                    damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.MagicPower.Value, enemyParameter.MagicResist.Value, check);
-                }
-                else
+                if (Random.Range(0, 200) < characterParameter.Luck.Value)
                 {
                     check = CriticalCheck.critical;
-                    damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.MagicPower.Value, enemyParameter.MagicResist.Value, check);
                 }
+                damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.MagicPower.Value, enemyParameter.MagicResist.Value, check);
             }
 
-            StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, defender.name, check));
+            StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, enemyParameter.Name.Value, check));
         }
-        else if (attacker.CompareTag("Enemy"))//レイヤーでの判定に変更予定
+        else if (((1 << attacker.layer) & LayerMask.NameToLayer("Enemy")) != 0)//(attacker.CompareTag("Enemy"))//レイヤーでの判定に変更予定
         {
             var enemyParameter = attacker.GetComponent<Enemy>();
             var characterParameter = defender.GetComponent<Character>();
 
             if (skillData.attackType == SkillData.AttackType.physicalAttack)
             {
-                if (Random.Range(0, 200) > enemyParameter.Luck.Value)
-                {
-                    damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.Strength.Value, characterParameter.Defense.Value, check);
-                }
-                else
+                if (Random.Range(0, 200) < enemyParameter.Luck.Value)
                 {
                     check = CriticalCheck.critical;
-                    damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.Strength.Value, characterParameter.Defense.Value, check);
                 }
+                damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.Strength.Value, characterParameter.Defense.Value, check);
             }
             else if (skillData.attackType == SkillData.AttackType.magicAttack)
             {
-                if (Random.Range(0, 200) > enemyParameter.Luck.Value)
-                {
-                    damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.MagicPower.Value, characterParameter.MagicResist.Value, check);
-                }
-                else
+                if (Random.Range(0, 200) < enemyParameter.Luck.Value)
                 {
                     check = CriticalCheck.critical;
-                    damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.MagicPower.Value, characterParameter.MagicResist.Value, check);
                 }
+                damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.MagicPower.Value, characterParameter.MagicResist.Value, check);
             }
 
             StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, characterParameter.Name.Value, check));
