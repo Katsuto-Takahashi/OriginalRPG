@@ -40,8 +40,12 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     int m_enemyParty = 0;
     int m_enemyID = 0;
     Vector3 m_contactPosition;
-    float m_distsnce = 0f;
+    float m_distsnce = 0.0f;
     Transform m_charaTransform;
+    /// <summary>オブジェクト同士の中心点の間隔</summary>
+    float m_enemyInterval = 0.0f;
+    [SerializeField]
+    float m_enemyDistance = 3.0f;
 
     enum BattleResults
     {
@@ -53,26 +57,45 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
 
     void CreateEnemy(int num)
     {
+        var harf = num / 2f;
+        var distanceFromCenter = (num - 1) / 2f * m_enemyInterval;
+
         for (int i = 0; i < num; i++)
         {
-            m_instantiateEnemy = Instantiate(PartyManager.Instance.EnemyParty[m_enemyID - 1], new Vector3((m_contactPosition + m_charaTransform.forward * 3).x + i, m_contactPosition.y, (m_contactPosition + m_charaTransform.forward * 3).z + i), Quaternion.identity);
-            m_enemyObjects.Add(m_instantiateEnemy);
-            var em = m_enemyObjects[i].GetComponent<Enemy>();
-
-            if (num > 1)
+            if (i < harf)
             {
-                m_enemyObjects[i].name = em.Name.Value + $"{i + 1}";
+                m_instantiateEnemy = Instantiate(PartyManager.Instance.EnemyParty[m_enemyID - 1],
+                    new Vector3((m_contactPosition + m_charaTransform.forward * m_enemyDistance).x - distanceFromCenter + m_enemyInterval * i,
+                    m_contactPosition.y,
+                    (m_contactPosition + m_charaTransform.forward * m_enemyDistance).z - distanceFromCenter + m_enemyInterval * i),
+                    Quaternion.identity);
             }
             else
             {
-                m_enemyObjects[i].name = em.Name.Value;
+                m_instantiateEnemy = Instantiate(PartyManager.Instance.EnemyParty[m_enemyID - 1],
+                    new Vector3((m_contactPosition + m_charaTransform.forward * m_enemyDistance).x - distanceFromCenter + m_enemyInterval * i,
+                    m_contactPosition.y,
+                    (m_contactPosition + m_charaTransform.forward * m_enemyDistance).z + distanceFromCenter - m_enemyInterval * i),
+                    Quaternion.identity);
             }
 
-            m_enemyList.Add(em);
+            m_enemyObjects.Add(m_instantiateEnemy);
+            var enemy = m_enemyObjects[i].GetComponent<Enemy>();
+
+            if (num > 1)
+            {
+                m_enemyObjects[i].name = enemy.Name.Value + $"{i + 1}";
+            }
+            else
+            {
+                m_enemyObjects[i].name = enemy.Name.Value;
+            }
+
+            m_enemyList.Add(enemy);
             m_battleEnemyList.AddEnemyList(m_enemyObjects[i]);
-            m_firstDrop.Add(em.FirstDropItem);
-            m_secondDrop.Add(em.SecondDropItem);
-            m_getExperiencePoint += em.ExperiencePoint;
+            m_firstDrop.Add(enemy.FirstDropItem);
+            m_secondDrop.Add(enemy.SecondDropItem);
+            m_getExperiencePoint += enemy.ExperiencePoint;
             m_enemyList[i].MESM.SetLookPosition(m_contactPosition);
             m_enemyList[i].ChengeKinematic(true);
         }
@@ -118,13 +141,13 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
 
         for (int i = 0; i < m_enemyObjects.Count; i++)
         {
-            var emn = m_enemyList[i].Name.Value;
+            var enemyName = m_enemyList[i].Name.Value;
 
             if (m_enemyObjects.Count > 1)
             {
-                emn += $"{i + 1}";
+                enemyName += $"{i + 1}";
             }
-            m_enemyObjects[i].GetComponentInChildren<EnemyUI>().ChangeName(emn);
+            m_enemyObjects[i].GetComponentInChildren<EnemyUI>().ChangeName(enemyName);
         }
     }
 
@@ -204,10 +227,10 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
 
     int DamageCalculate(GameObject attacker, GameObject defender, SkillData skillData)
     {
-        int damage = 0;
+        var damage = 0;
         CriticalCheck check = CriticalCheck.normal;
 
-        if (attacker.CompareTag("Player"))
+        if (attacker.CompareTag("Player"))//レイヤーでの判定に変更予定
         {
             var characterParameter = attacker.GetComponent<Character>();
             var enemyParameter = defender.GetComponent<Enemy>();
@@ -239,7 +262,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
 
             StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, defender.name, check));
         }
-        else if (attacker.CompareTag("Enemy"))
+        else if (attacker.CompareTag("Enemy"))//レイヤーでの判定に変更予定
         {
             var enemyParameter = attacker.GetComponent<Enemy>();
             var characterParameter = defender.GetComponent<Character>();
@@ -282,8 +305,6 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             m_characterList[i].IsContact = false;
             m_characterList[i].BCSM.IsBattle = false;
             m_characterList[i].BCSM.Targets.Clear();
-            //cbsm.m_open = false;
-            //cbsm.m_battlePanel.SetActive(false);
         }
 
         for (int i = 0; i < m_enemyObjects.Count; i++)
@@ -376,22 +397,23 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
 
     /// <summary>バトルを開始するときに呼ぶ</summary>
     /// <param name="character">バトルを開始するキャラクター</param>
-    /// <param name="enemy">バトルする敵</param>
-    public void SetBattle(Character character, GameObject enemy)
+    /// <param name="enemyObject">バトルする敵</param>
+    public void SetBattle(Character character, GameObject enemyObject)
     {
-        Contact(character, enemy);
+        Contact(character, enemyObject);
     }
 
-    void Contact(Character character, GameObject enemy)
+    void Contact(Character character, GameObject enemyObject)
     {
         m_charaTransform = character.gameObject.transform;
-        m_contactPosition = enemy.transform.position;
+        m_contactPosition = enemyObject.transform.position;
         CreateField(m_contactPosition);
-        var em = enemy.GetComponentInParent<Enemy>();
-        m_enemyParty = em.EnemyPartyNumber;
-        m_enemyID = em.ID.Value;
+        var enemy = enemyObject.GetComponentInParent<Enemy>();
+        m_enemyParty = enemy.EnemyPartyNumber;
+        m_enemyID = enemy.ID.Value;
+        m_enemyInterval = enemyObject.GetComponentInParent<CapsuleCollider>().radius * 3; //オブジェクト同士を半径の分離す為
         m_isBattle = true;
-        Destroy(enemy.transform.parent.gameObject);
+        Destroy(enemyObject.transform.parent.gameObject);
         BattleStart();
         StartCoroutine(ContactUpdate(character));
     }
@@ -400,7 +422,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     {
         if (character.IsContact)
         {
-            float limit = m_battleFeildPrefab.transform.localScale.x;
+            var limit = m_battleFeildPrefab.transform.localScale.x;
             while (m_isBattle)
             {
                 m_distsnce = (m_contactPosition.x - character.transform.position.x) * (m_contactPosition.x - character.transform.position.x) + (m_contactPosition.z - character.transform.position.z) * (m_contactPosition.z - character.transform.position.z);
