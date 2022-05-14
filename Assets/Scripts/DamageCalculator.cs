@@ -29,6 +29,21 @@ public class DamageCalculator : MonoBehaviour
         return (int)criticalDamege;
     }
     
+    int CalculateDamage(SkillData skillData, int attacker, int defender, CriticalCheck critical)
+    {
+        var power = skillData.SkillPower / 100f;
+        float damege;
+        if (critical == CriticalCheck.critical)
+        {
+            damege = attacker * GetRandom(criticalDamegeRandam);
+        }
+        else
+        {
+            damege = (attacker / 4 - defender / 3) * GetRandom(normalDamegeRandom);
+        }
+        return (int)(damege * skillData.SkillMagnification * power);
+    }
+
     int DecideEnemyDamage(SkillData skillData, int damage, Enemy enemy)
     {
         if (damage < 1)
@@ -39,13 +54,17 @@ public class DamageCalculator : MonoBehaviour
         {
             decideDamage = damage;
         }
-        if ((int)(decideDamage * enemy.attackTypeResistance[(int)skillData.attackType]) > 0)
+
+        var atr = (int)(decideDamage * enemy.attackTypeResistance[(int)skillData.attackType]);
+        if (atr > 0)
         {
-            decideDamage = (int)(decideDamage * enemy.attackTypeResistance[(int)skillData.attackType]);
+            decideDamage = atr;
         }
-        if ((int)(decideDamage * enemy.attackAttributeResistance[(int)skillData.attackAttributes]) > 0)
+
+        var aar = (int)(decideDamage * enemy.attackAttributeResistance[(int)skillData.attackAttributes]);
+        if (aar > 0)
         {
-            decideDamage = (int)(decideDamage * enemy.attackAttributeResistance[(int)skillData.attackAttributes]);
+            decideDamage = aar;
         }
         return decideDamage;
     }
@@ -72,15 +91,7 @@ public class DamageCalculator : MonoBehaviour
     /// <returns>敵へのダメージ</returns>
     public int EnemyDamage(SkillData skillData, Enemy enemy, int attacker, int defender, CriticalCheck critical)
     {
-        int damage;
-        if (critical == CriticalCheck.critical)
-        {
-            damage = DecideEnemyDamage(skillData, CalculateCriticalDamage(skillData, attacker), enemy);
-        }
-        else
-        {
-            damage = DecideEnemyDamage(skillData, CalculateNormalDamage(skillData, defender, attacker), enemy);
-        }
+        var damage = DecideEnemyDamage(skillData, CalculateDamage(skillData, attacker, defender, critical), enemy);
         return damage;
     }
 
@@ -92,15 +103,7 @@ public class DamageCalculator : MonoBehaviour
     /// <returns>プレイヤーに与えるダメージ</returns>
     public int PlayerDamage(SkillData skillData, int attacker, int defender, CriticalCheck critical)
     {
-        int damage;
-        if (critical == CriticalCheck.critical)
-        {
-            damage = DecidePlayerDamage(CalculateCriticalDamage(skillData, attacker));
-        }
-        else
-        {
-            damage = DecidePlayerDamage(CalculateNormalDamage(skillData, defender, attacker));
-        }
+        var damage = DecidePlayerDamage(CalculateDamage(skillData, attacker, defender, critical));
         return damage;
     }
 }
