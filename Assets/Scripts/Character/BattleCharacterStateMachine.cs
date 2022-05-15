@@ -24,6 +24,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     bool m_isBattle = false;
     /// <summary>戦闘中かのフラグ</summary>
     public bool IsBattle { get => m_isBattle; set => m_isBattle = value; }
+
     /// <summary>死亡しているかどうか</summary>
     bool m_isDead = false;
     /// <summary>死亡しているかのフラグ</summary>
@@ -51,7 +52,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     /// <summary>行動の対象</summary>
     List<GameObject> m_targets = new List<GameObject>();
     /// <summary>行動の対象のList</summary>
-    public List<GameObject> Targets { get => m_targets; set => m_targets = value; }
+    public List<GameObject> Targets => m_targets;
     /// <summary>対象のPosition</summary>
     Vector3 m_targetPosition;
     /// <summary>行動回数</summary>

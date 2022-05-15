@@ -63,7 +63,7 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
     /// <summary>行動の対象List</summary>
     List<GameObject> m_targets = new List<GameObject>();
     /// <summary>行動の対象List</summary>
-    public List<GameObject> Targets { get => m_targets; set => m_targets = value; }
+    public List<GameObject> Targets => m_targets;
 
     /// <summary>行動の対象</summary>
     GameObject m_targetObject;
