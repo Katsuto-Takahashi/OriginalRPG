@@ -33,7 +33,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     /// <summary>入力による動きを止めるかどうか</summary>
     BoolReactiveProperty m_isStop = new BoolReactiveProperty(false);
     /// <summary>入力による動きを止めるかのフラグ</summary>
-    public IReactiveProperty<bool> IsStop => m_isStop;
+    public BoolReactiveProperty IsStop => m_isStop;
 
     /// <summary>バインドされているかどうか</summary>
     bool m_isBind = false;
@@ -43,7 +43,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     /// <summary>選択できるかどうか</summary>
     BoolReactiveProperty m_canSelect = new BoolReactiveProperty(false);
     /// <summary>選択できるかのフラグ</summary>
-    public IReactiveProperty<bool> CanSelect => m_canSelect;
+    public BoolReactiveProperty CanSelect => m_canSelect;
 
     /// <summary>対象との距離</summary>
     float m_distance;

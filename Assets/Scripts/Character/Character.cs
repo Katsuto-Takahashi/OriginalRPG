@@ -30,7 +30,7 @@ public class Character : CharacterParameter, ITakableDamage
     public bool IsContact { get => m_isContact; set => m_isContact = value; }
     
     BoolReactiveProperty m_levelUP = new BoolReactiveProperty(false);
-    public IReactiveProperty<bool> LevelUP => m_levelUP;
+    public BoolReactiveProperty LevelUP => m_levelUP;
 
     void Awake()
     {
@@ -57,22 +57,22 @@ public class Character : CharacterParameter, ITakableDamage
 
     protected virtual void OnUpdate()
     {
-        if (HP.Value >= MaxHP.Value)
-        {
-            HP.Value = MaxHP.Value;
-        }
-        else if (HP.Value < 1)
-        {
-            HP.Value = 0;
-        }
-        if (AP.Value >= MaxAP.Value)
-        {
-            AP.Value = MaxAP.Value;
-        }
-        else if (AP.Value < 1)
-        {
-            AP.Value = 0;
-        }
+        //if (HP.Value >= MaxHP.Value)
+        //{
+        //    HP.Value = MaxHP.Value;
+        //}
+        //else if (HP.Value < 1)
+        //{
+        //    HP.Value = 0;
+        //}
+        //if (AP.Value >= MaxAP.Value)
+        //{
+        //    AP.Value = MaxAP.Value;
+        //}
+        //else if (AP.Value < 1)
+        //{
+        //    AP.Value = 0;
+        //}
     }
 
     protected virtual void OnFixedUpdate() { }
