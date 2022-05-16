@@ -7,24 +7,17 @@ public class BattleEnemyList : MonoBehaviour
 {
     [SerializeField] List<GameObject> m_target = new List<GameObject>();
     List<GameObject> m_battleEnemys = new List<GameObject>();
-    bool target = false;
     
     void Start()
     {
         CreateTarget();
     }
-    void Update()
-    {
-        if (target)
-        {
-            CreateTarget();
-            target = false;
-        }
-    }
+
     public void SetEnemy(List<Image> images)
     {
         Set(images);
     }
+
     void Set(List<Image> images)
     {
         images.Clear();
@@ -33,6 +26,12 @@ public class BattleEnemyList : MonoBehaviour
             images.Add(m_target[i].GetComponent<Image>());
         }
     }
+
+    public void Create()
+    {
+        CreateTarget();
+    }
+
     void CreateTarget()
     {
         for (int i = 0; i < m_battleEnemys.Count; i++)
@@ -50,14 +49,12 @@ public class BattleEnemyList : MonoBehaviour
             m_target[i].SetActive(true);
         }
     }
-    public void ChengeBool()
-    {
-        target = true;
-    }
+
     public void AddEnemyList(GameObject enemy)
     {
         m_battleEnemys.Add(enemy);
     }
+
     public void ClearEnemyList()
     {
         Clear();
