@@ -38,7 +38,7 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
     /// <summary>動きを止めるかどうか</summary>
     BoolReactiveProperty m_stop = new BoolReactiveProperty(false);
     /// <summary>動きを止めるかのフラグ</summary>
-    public IReactiveProperty<bool> Stop => m_stop;
+    public BoolReactiveProperty Stop => m_stop;
 
     /// <summary>バインドされているかどうか</summary>
     bool m_isBind = false;
@@ -48,12 +48,12 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
     /// <summary>動かすかどうか</summary>
     BoolReactiveProperty m_move = new BoolReactiveProperty(false);
     /// <summary>動かすかのフラグ</summary>
-    public IReactiveProperty<bool> Move  => m_move;
+    public BoolReactiveProperty Move  => m_move;
 
     /// <summary>注目するかどうか</summary>
     BoolReactiveProperty m_look = new BoolReactiveProperty(false);
     /// <summary>注目するかのフラグ</summary>
-    public IReactiveProperty<bool> Look  => m_look;
+    public BoolReactiveProperty Look  => m_look;
 
     /// <summary>対象との距離</summary>
     float m_distance;

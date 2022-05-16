@@ -18,7 +18,7 @@ public class EnemyParameter : MonoBehaviour
     [SerializeField]
     IntReactiveProperty m_hp = new IntReactiveProperty(1);
     /// <summary>現在HP</summary>
-    public IReactiveProperty<int> HP => m_hp;
+    public IntReactiveProperty HP => m_hp;
 
     [SerializeField]
     IntReactiveProperty m_maxHp = new IntReactiveProperty(1);
@@ -28,7 +28,7 @@ public class EnemyParameter : MonoBehaviour
     [SerializeField]
     IntReactiveProperty m_ap = new IntReactiveProperty(0);
     /// <summary>現在AP</summary>
-    public IReactiveProperty<int> AP => m_ap;
+    public IntReactiveProperty AP => m_ap;
 
     [SerializeField]
     IntReactiveProperty m_maxAp = new IntReactiveProperty(0);
@@ -71,32 +71,32 @@ public class EnemyParameter : MonoBehaviour
     public IReadOnlyReactiveProperty<int> Speed => m_speed;
 
     [SerializeField]
-    private GameObject firstDropItem = null;
+    GameObject m_firstDropItem = null;
     /// <summary>一つ目のドロップアイテム</summary>
-    public GameObject FirstDropItem => firstDropItem;
+    public GameObject FirstDropItem => m_firstDropItem;
 
     [SerializeField]
-    private GameObject secondDropItem = null;
+    GameObject m_secondDropItem = null;
     /// <summary>二つ目のドロップアイテム</summary>
-    public GameObject SecondDropItem => secondDropItem;
+    public GameObject SecondDropItem => m_secondDropItem;
 
     [SerializeField]
     [Range(0, 100)]
-    private int dropRate = 0;
+    int m_dropRate = 0;
     /// <summary>二つ目のアイテムのドロップ率</summary>
-    public int DropRate => dropRate;
+    public int DropRate => m_dropRate;
 
     [SerializeField]
     [Range(1, 10000)]
-    private int experiencePoint = 1;
+    int m_experiencePoint = 1;
     /// <summary>倒された際の経験値</summary>
-    public int ExperiencePoint => experiencePoint;
+    public int ExperiencePoint => m_experiencePoint;
 
     [SerializeField]
     [Range(1, 6)]
-    private int enemyPartyNumber = 1;
+    int m_enemyPartyNumber = 1;
     /// <summary>パーティー構成</summary>
-    public int EnemyPartyNumber => enemyPartyNumber;
+    public int EnemyPartyNumber => m_enemyPartyNumber;
 
     [SerializeField]
     [Range(1, 5)]
@@ -104,7 +104,7 @@ public class EnemyParameter : MonoBehaviour
     /// <summary>蓄積可能な行動回数</summary>
     public int MaxActionCount => m_maxActionCount;
 
-    public enum AttackAttributesResistance
+    public enum AttackAttributeResistance
     {
         non,
         fire,
@@ -116,9 +116,12 @@ public class EnemyParameter : MonoBehaviour
         dark,
         light
     }
-    [EnumIndex(typeof(AttackAttributesResistance))]
-    /// <summary>攻撃される技の属性</summary>
-    public float[] attackAttributeResistance = new float[9];
+    [EnumIndex(typeof(AttackAttributeResistance))]
+    [SerializeField]
+    float[] m_attackAttributesResistance = new float[9];
+
+    /// <summary>攻撃される技の属性の配列</summary>
+    public float[] AttackAttributesResistance => m_attackAttributesResistance;
 
     public enum AttackTypeResistance
     {
@@ -126,6 +129,9 @@ public class EnemyParameter : MonoBehaviour
         magicAttack
     }
     [EnumIndex(typeof(AttackTypeResistance))]
-    /// <summary>攻撃されるタイプ</summary>
-    public float[] attackTypeResistance = new float[2];
+    [SerializeField]
+    float[] m_attackTypesResistance = new float[2];
+
+    /// <summary>攻撃されるタイプの配列</summary>
+    public float[] AttackTypesResistance => m_attackTypesResistance;
 }
