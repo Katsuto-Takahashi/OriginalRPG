@@ -60,12 +60,13 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     {
         var harf = num / 2f;
         var distanceFromCenter = (num - 1) / 2f * m_enemyInterval;
+        var ep = PartyManager.Instance.EnemyParty;
 
         for (int i = 0; i < num; i++)
         {
             if (i < harf)
             {
-                m_instantiateEnemy = Instantiate(PartyManager.Instance.EnemyParty[m_enemyID - 1],
+                m_instantiateEnemy = Instantiate(ep[m_enemyID - 1],
                     new Vector3((m_contactPosition + m_charaTransform.forward * m_enemyDistance).x - distanceFromCenter + m_enemyInterval * i,
                     m_contactPosition.y,
                     (m_contactPosition + m_charaTransform.forward * m_enemyDistance).z - distanceFromCenter + m_enemyInterval * i),
@@ -73,7 +74,7 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             }
             else
             {
-                m_instantiateEnemy = Instantiate(PartyManager.Instance.EnemyParty[m_enemyID - 1],
+                m_instantiateEnemy = Instantiate(ep[m_enemyID - 1],
                     new Vector3((m_contactPosition + m_charaTransform.forward * m_enemyDistance).x - distanceFromCenter + m_enemyInterval * i,
                     m_contactPosition.y,
                     (m_contactPosition + m_charaTransform.forward * m_enemyDistance).z + distanceFromCenter - m_enemyInterval * i),
@@ -98,10 +99,10 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             m_secondDrop.Add(enemy.SecondDropItem);
             m_getExperiencePoint += enemy.ExperiencePoint;
             m_enemyList[i].MESM.SetLookPosition(m_contactPosition);
-            m_enemyList[i].ChengeKinematic(true);
+            m_enemyList[i].ChengeKinematic(true);//仮置き
         }
 
-        m_battleEnemyList.ChengeBool();
+        m_battleEnemyList.Create();
         m_isCreated = true;
     }
 
@@ -123,10 +124,11 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         characterDeadCount = 0;
         enemyDeadCount = 0;
         m_battleResults = BattleResults.Escape;
+        var cp = PartyManager.Instance.CharacterParty;
 
-        for (int i = 0; i < PartyManager.Instance.CharacterParty.Count; i++)
+        for (int i = 0; i < cp.Count; i++)
         {
-            var cpm = PartyManager.Instance.CharacterParty[i].GetComponent<Character>();
+            var cpm = cp[i].GetComponent<Character>();
             m_characterList.Add(cpm);
         }
 
@@ -236,23 +238,22 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             var characterParameter = attacker.GetComponent<Character>();
             var enemyParameter = defender.GetComponent<Enemy>();
 
+            if (Random.Range(0, 200) < characterParameter.Luck.Value)
+            {
+                check = CriticalCheck.critical;
+            }
+
+            damage = m_damageCalculator.Damage(characterParameter, enemyParameter, skillData, Attacker.character, check);
+            /*
             if (skillData.attackType == SkillData.AttackType.physicalAttack)
             {
-                if (Random.Range(0, 200) < characterParameter.Luck.Value)
-                {
-                    check = CriticalCheck.critical;
-                }
                 damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.Strength.Value, enemyParameter.Defense.Value, check);
             }
             else if (skillData.attackType == SkillData.AttackType.magicAttack)
             {
-                if (Random.Range(0, 200) < characterParameter.Luck.Value)
-                {
-                    check = CriticalCheck.critical;
-                }
                 damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.MagicPower.Value, enemyParameter.MagicResist.Value, check);
             }
-
+            */
             StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, enemyParameter.Name.Value, check));
         }
         else if (((1 << attacker.layer) & LayerMask.NameToLayer("Enemy")) != 0)//(attacker.CompareTag("Enemy"))//レイヤーでの判定に変更予定
@@ -260,23 +261,22 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             var enemyParameter = attacker.GetComponent<Enemy>();
             var characterParameter = defender.GetComponent<Character>();
 
+            if (Random.Range(0, 200) < enemyParameter.Luck.Value)
+            {
+                check = CriticalCheck.critical;
+            }
+
+            damage = m_damageCalculator.Damage(characterParameter, enemyParameter, skillData, Attacker.enemy, check);
+            /*
             if (skillData.attackType == SkillData.AttackType.physicalAttack)
             {
-                if (Random.Range(0, 200) < enemyParameter.Luck.Value)
-                {
-                    check = CriticalCheck.critical;
-                }
                 damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.Strength.Value, characterParameter.Defense.Value, check);
             }
             else if (skillData.attackType == SkillData.AttackType.magicAttack)
             {
-                if (Random.Range(0, 200) < enemyParameter.Luck.Value)
-                {
-                    check = CriticalCheck.critical;
-                }
                 damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.MagicPower.Value, characterParameter.MagicResist.Value, check);
             }
-
+            */
             StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, characterParameter.Name.Value, check));
         }
 

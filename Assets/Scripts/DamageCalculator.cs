@@ -44,7 +44,7 @@ public class DamageCalculator : MonoBehaviour
         return (int)(damege * skillData.SkillMagnification * power);
     }
 
-    int DecideEnemyDamage(SkillData skillData, int damage, Enemy enemy)
+    int DecideEnemyDamage(int damage, SkillData skillData, Enemy enemy)
     {
         if (damage < 1)
         {
@@ -55,13 +55,13 @@ public class DamageCalculator : MonoBehaviour
             decideDamage = damage;
         }
 
-        var atr = (int)(decideDamage * enemy.attackTypeResistance[(int)skillData.attackType]);
+        var atr = (int)(decideDamage * enemy.AttackTypesResistance[(int)skillData.attackType]);
         if (atr > 0)
         {
             decideDamage = atr;
         }
 
-        var aar = (int)(decideDamage * enemy.attackAttributeResistance[(int)skillData.attackAttributes]);
+        var aar = (int)(decideDamage * enemy.AttackAttributesResistance[(int)skillData.attackAttributes]);
         if (aar > 0)
         {
             decideDamage = aar;
@@ -91,7 +91,7 @@ public class DamageCalculator : MonoBehaviour
     /// <returns>敵へのダメージ</returns>
     public int EnemyDamage(SkillData skillData, Enemy enemy, int attacker, int defender, CriticalCheck critical)
     {
-        var damage = DecideEnemyDamage(skillData, CalculateDamage(skillData, attacker, defender, critical), enemy);
+        var damage = DecideEnemyDamage(CalculateDamage(skillData, attacker, defender, critical), skillData, enemy);
         return damage;
     }
 
@@ -106,10 +106,51 @@ public class DamageCalculator : MonoBehaviour
         var damage = DecidePlayerDamage(CalculateDamage(skillData, attacker, defender, critical));
         return damage;
     }
+
+    /// <summary>与えるダメージの計算</summary>
+    /// <param name="character">Characterの能力</param>
+    /// <param name="enemy">Enemyの能力</param>
+    /// <param name="skillData">技データ</param>
+    /// <param name="attacker">攻撃する側</param>
+    /// <param name="critical">クリティカルかどうか</param>
+    /// <returns>計算結果</returns>
+    public int Damage(Character character, Enemy enemy, SkillData skillData, Attacker attacker, CriticalCheck critical)
+    {
+        int damage;
+        if (attacker == Attacker.character)
+        {
+            if (skillData.attackType == SkillData.AttackType.physicalAttack)
+            {
+                damage = DecideEnemyDamage(CalculateDamage(skillData, character.Strength.Value, enemy.Defense.Value, critical), skillData, enemy);
+            }
+            else
+            {
+                damage = DecideEnemyDamage(CalculateDamage(skillData, character.MagicPower.Value, enemy.MagicResist.Value, critical), skillData, enemy);
+            }
+        }
+        else
+        {
+            if (skillData.attackType == SkillData.AttackType.physicalAttack)
+            {
+                damage = DecidePlayerDamage(CalculateDamage(skillData, enemy.Strength.Value, character.Defense.Value, critical));
+            }
+            else
+            {
+                damage = DecidePlayerDamage(CalculateDamage(skillData, enemy.MagicPower.Value, character.MagicResist.Value, critical));
+            }
+        }
+        return damage;
+    }
 }
 
 public enum CriticalCheck
 {
     normal,
     critical
+}
+
+public enum Attacker
+{
+    character,
+    enemy
 }
