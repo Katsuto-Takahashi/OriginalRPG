@@ -24,6 +24,8 @@ public class TargetUI : UIController
         //var player = GameObject.FindGameObjectWithTag("Player").GetComponent<BCharacterStateMachine>();
         //player.m_targetNumber = m_selectedCommandNumber;
         //player.m_action = true;
+        NewBattleManager.Instance.SelectEnemy(m_selectedCommandNumber);
+
         GoToZero();
         gameObject.SetActive(false);
     }

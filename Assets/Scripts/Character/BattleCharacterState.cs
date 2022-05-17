@@ -74,11 +74,15 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
         public class Move : State
         {
+            Enemy enemy;
+            Skill skill;
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("Move");
                 owner.m_isStop.Value = true;
                 owner.PlayAnimation("Run");
+                enemy = NewBattleManager.Instance.m_saveobj;
+                skill = NewBattleManager.Instance.m_skill;
             }
 
             protected override void OnUpdate()
@@ -99,7 +103,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Wait);
                 }
-                if (owner.m_distance > owner.m_selectSkill.AttackRange)
+                if (owner.m_distance > skill.SkillRange)
                 {
                     //Vector3 target = owner.m_targetPosition;
                     //target.y = 0f;

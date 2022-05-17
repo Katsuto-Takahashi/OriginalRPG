@@ -20,12 +20,18 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
     [SerializeField]
     GameObject m_battleFeildPrefab = null;
 
+    [SerializeField]
+    SkillList m_skillList;
+
     BattleInformationUI m_battleInformationUI;
     GameObject m_instantiateEnemy;
     GameObject m_instantiateBattleFeild;
     List<GameObject> m_enemyObjects = new List<GameObject>();
     List<Enemy> m_enemyList = new List<Enemy>();
     List<Character> m_characterList = new List<Character>();
+
+    Character m_player;
+
     bool m_isCreated = false;
     bool m_isChangeState = false;
     bool m_finish = false;
@@ -131,6 +137,8 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
             var cpm = cp[i].GetComponent<Character>();
             m_characterList.Add(cpm);
         }
+
+        m_player = m_characterList[0];
 
         randam = Random.Range(1, m_enemyParty + 1);
         Debug.Log($"出現数{randam}体");
@@ -433,5 +441,25 @@ public class NewBattleManager : SingletonMonoBehaviour<NewBattleManager>
         Destroy(m_instantiateBattleFeild);
         m_contactPosition = Vector3.zero;
         m_distsnce = 0f;
+    }
+
+    public Enemy m_saveobj { get; private set; }
+    public void SelectEnemy(int id)
+    {
+        m_saveobj = m_enemyList[id];
+        m_player.BCSM.CanSelect.Value = false;
+    }
+
+    public Skill m_skill { get; private set; }
+    public void SelectSkill(int id, Skill.SkillType skillType)
+    {
+        if (skillType == Skill.SkillType.physicalAttack)
+        {
+            m_skill = m_skillList.PhysicalSkills[id].SkillParameter;
+        }
+        else
+        {
+            m_skill = m_skillList.MagicSkills[id].SkillParameter;
+        }
     }
 }
