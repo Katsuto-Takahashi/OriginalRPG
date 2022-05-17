@@ -8140,6 +8140,7 @@ MonoBehaviour:
   m_battleInformationUIObject: {fileID: 149291164}
   m_battleFeildPrefab: {fileID: 1209401978525203268, guid: 32307c74b822f1d4daf2eac8e138af95,
     type: 3}
+  m_skillList: {fileID: 0}
   m_enemyDistance: 4
 --- !u!114 &1509466359
 MonoBehaviour:
