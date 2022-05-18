@@ -153,13 +153,13 @@ public class Character : CharacterParameter, ITakableDamage
         SkillPoint.Value += baseParameter;
     }
 
-    public void GetSkill(OldSkillData skillData)
+    public void GetSkill(SkillData skillData)
     {
-        if (skillData.attackType == OldSkillData.AttackType.physicalAttack)
+        if (skillData.Type == SkillData.SkillType.physicalAttack)
         {
             m_hsl.SkillDatas.Add(skillData);
         }
-        else if (skillData.attackType == OldSkillData.AttackType.magicAttack)
+        else if (skillData.Type == SkillData.SkillType.magicAttack)
         {
             m_hsl.MagicDatas.Add(skillData);
         }

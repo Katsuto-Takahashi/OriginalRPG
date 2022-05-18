@@ -107,11 +107,11 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
     #endregion
 
     /// <summary>通常攻撃</summary>
-    List<OldSkillData> m_normalSkill = new List<OldSkillData>();
+    List<SkillData> m_normalSkill = new List<SkillData>();
     /// <summary>スキル</summary>
-    List<OldSkillData> m_skillDatas = new List<OldSkillData>();
+    List<SkillData> m_skillDatas = new List<SkillData>();
     /// <summary>魔法</summary>
-    List<OldSkillData> m_magicDatas = new List<OldSkillData>();
+    List<SkillData> m_magicDatas = new List<SkillData>();
 
     void SetState()
     {
