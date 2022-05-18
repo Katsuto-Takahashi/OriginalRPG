@@ -8,33 +8,33 @@ using UniRx;
 public class SkillList : ScriptableObject
 {
     [SerializeField]
-    List<SkillDataTest> m_physicalSkills = new List<SkillDataTest>();
+    List<Skill> m_physicalSkills = new List<Skill>();
     [SerializeField]
-    List<SkillDataTest> m_magicSkills = new List<SkillDataTest>();
+    List<Skill> m_magicSkills = new List<Skill>();
 
     /// <summary>物理攻撃スキルList</summary>
-    public List<SkillDataTest> PhysicalSkills { get => m_physicalSkills; set => m_physicalSkills = value; }
+    public List<Skill> PhysicalSkills { get => m_physicalSkills; set => m_physicalSkills = value; }
     /// <summary>魔法攻撃スキルList</summary>
-    public List<SkillDataTest> MagicSkills { get => m_magicSkills; set => m_magicSkills = value; }
+    public List<Skill> MagicSkills { get => m_magicSkills; set => m_magicSkills = value; }
 }
 
 //スキル情報
 [System.Serializable]
-public class SkillDataTest
+public class Skill
 {
     [SerializeField]
-    Skill m_skillParameter = new Skill();
+    SkillData m_skillParameter = new SkillData();
     [SerializeReference, SubclassSelector]
     List<ISkillEfectable> m_efect = new List<ISkillEfectable>();
 
     /// <summary>スキルデータ</summary>
-    public Skill SkillParameter => m_skillParameter;
+    public SkillData SkillParameter => m_skillParameter;
     /// <summary>効果のList</summary>
     public List<ISkillEfectable> Efect => m_efect;
 }
 
 [System.Serializable]
-public class Skill
+public class SkillData
 {
     [SerializeField]
     [Tooltip("スキルの名前")]
@@ -129,14 +129,14 @@ public class Skill
 }
 public interface ISkillEfectable
 {
-    void Efect(Skill skill);
+    void Efect(SkillData skill);
 }
 
 //それぞれのスキルの効果
 [System.Serializable]
 public class Attack : ISkillEfectable
 {
-    public void Efect(Skill skill)
+    public void Efect(SkillData skill)
     {
         Debug.Log($"{skill.SkillName}は{ skill.SkillInformation }");
     }
@@ -147,7 +147,7 @@ public class Bind : ISkillEfectable
     [SerializeField]
     float time = 0.0f;
 
-    public void Efect(Skill skill)
+    public void Efect(SkillData skill)
     {
         Debug.Log($"{skill.SkillName}は{time}秒間拘束");
     }
@@ -160,7 +160,7 @@ public class ContinuationDamage : ISkillEfectable
     [SerializeField]
     int damage = 0;
 
-    public void Efect(Skill skill)
+    public void Efect(SkillData skill)
     {
         Debug.Log($"{skill.SkillName}は{time}秒間{damage}ダメージ");
     }
@@ -178,7 +178,7 @@ public class Heal : ISkillEfectable
     [SerializeField]
     HealPoint healPoint = HealPoint.HP;
 
-    public void Efect(Skill skill)
+    public void Efect(SkillData skill)
     {
         if (healPoint == HealPoint.HP)
         {

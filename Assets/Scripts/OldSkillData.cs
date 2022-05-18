@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SkillData", menuName = "SkillData")]
-public class SkillData : ScriptableObject
+[CreateAssetMenu(fileName = "OldSkillData", menuName = "OldSkillData")]
+public class OldSkillData : ScriptableObject
 {
     [SerializeField]
     [Tooltip("スキルの名前")]
@@ -41,7 +41,7 @@ public class SkillData : ScriptableObject
     [SerializeField]
     [Tooltip("攻撃の範囲")]
     [Range(1f, 15f)]
-    float attackRange = 1;
+    float attackRange = 1.0f;
     /// <summary>攻撃の範囲</summary>
     public float AttackRange => attackRange;
 
@@ -69,4 +69,10 @@ public class SkillData : ScriptableObject
     }
     [Tooltip("攻撃のタイプ")]
     public AttackType attackType;
+
+    public enum SubEfect
+    {
+        マヒ,
+        毒
+    }
 }
