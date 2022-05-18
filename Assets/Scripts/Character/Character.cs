@@ -153,13 +153,13 @@ public class Character : CharacterParameter, ITakableDamage
         SkillPoint.Value += baseParameter;
     }
 
-    public void GetSkill(SkillData skillData)
+    public void GetSkill(OldSkillData skillData)
     {
-        if (skillData.attackType == SkillData.AttackType.physicalAttack)
+        if (skillData.attackType == OldSkillData.AttackType.physicalAttack)
         {
             m_hsl.SkillDatas.Add(skillData);
         }
-        else if (skillData.attackType == SkillData.AttackType.magicAttack)
+        else if (skillData.attackType == OldSkillData.AttackType.magicAttack)
         {
             m_hsl.MagicDatas.Add(skillData);
         }
@@ -170,7 +170,7 @@ public class Character : CharacterParameter, ITakableDamage
         if (((1 << other.gameObject.layer) & m_param.TargetLayer) != 0 && !m_isContact && !m_bcsm.IsBattle)
         {
             m_isContact = true;
-            NewBattleManager.Instance.SetBattle(this, other.gameObject);
+            BattleManager.Instance.SetBattle(this, other.gameObject);
         }
     }
 }

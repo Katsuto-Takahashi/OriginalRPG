@@ -55,13 +55,13 @@ public class DamageCalculator : MonoBehaviour
             decideDamage = damage;
         }
 
-        var atr = (int)(decideDamage * enemy.AttackTypesResistance[(int)skillData.attackType]);
+        var atr = (int)(decideDamage * enemy.AttackTypesResistance[(int)skillData.Type]);
         if (atr > 0)
         {
             decideDamage = atr;
         }
 
-        var aar = (int)(decideDamage * enemy.AttackAttributesResistance[(int)skillData.attackAttributes]);
+        var aar = (int)(decideDamage * enemy.AttackAttributesResistance[(int)skillData.Attributes]);
         if (aar > 0)
         {
             decideDamage = aar;
@@ -119,7 +119,7 @@ public class DamageCalculator : MonoBehaviour
         int damage;
         if (attacker == Attacker.character)
         {
-            if (skillData.attackType == SkillData.AttackType.physicalAttack)
+            if (skillData.Type == SkillData.SkillType.physicalAttack)
             {
                 damage = DecideEnemyDamage(CalculateDamage(skillData, character.Strength.Value, enemy.Defense.Value, critical), skillData, enemy);
             }
@@ -130,7 +130,7 @@ public class DamageCalculator : MonoBehaviour
         }
         else
         {
-            if (skillData.attackType == SkillData.AttackType.physicalAttack)
+            if (skillData.Type == SkillData.SkillType.physicalAttack)
             {
                 damage = DecidePlayerDamage(CalculateDamage(skillData, enemy.Strength.Value, character.Defense.Value, critical));
             }

@@ -75,14 +75,14 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         public class Move : State
         {
             Enemy enemy;
-            Skill skill;
+            SkillData skill;
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("Move");
                 owner.m_isStop.Value = true;
                 owner.PlayAnimation("Run");
-                enemy = NewBattleManager.Instance.m_saveobj;
-                skill = NewBattleManager.Instance.m_skill;
+                enemy = BattleManager.Instance.m_saveobj;
+                skill = BattleManager.Instance.m_skill;
             }
 
             protected override void OnUpdate()

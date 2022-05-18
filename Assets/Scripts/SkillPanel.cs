@@ -6,15 +6,15 @@ using UniRx;
 public class SkillPanel : MonoBehaviour
 {
     [SerializeField]
-    List<SkillData> skillData = new List<SkillData>();
+    List<OldSkillData> skillData = new List<OldSkillData>();
 
     [SerializeField]
-    List<Skill> skills = new List<Skill>();
+    List<SkillData> skills = new List<SkillData>();
 
     [SerializeField]
     List<HasSkillList> characters = new List<HasSkillList>();
 
-    ReactiveCollection<SkillData> skillss = new ReactiveCollection<SkillData>();
+    ReactiveCollection<OldSkillData> skillss = new ReactiveCollection<OldSkillData>();
 
 
     void Start()
