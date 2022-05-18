@@ -393,7 +393,7 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""257830ca-e51b-471f-a5a5-c3af1d6b7653"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -432,7 +432,7 @@ public partial class @UserInput : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""be013517-2551-4c6b-bde8-d029cac45dc2"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""path"": ""<Gamepad>/select"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

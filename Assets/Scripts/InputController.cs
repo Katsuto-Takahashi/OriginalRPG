@@ -74,6 +74,6 @@ public class InputController : SingletonMonoBehaviour<InputController>
 
     public bool Option()
     {
-        return m_input.Option.Button.IsPressed();
+        return m_input.Option.Button.WasPressedThisFrame();
     }
 }
