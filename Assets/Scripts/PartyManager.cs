@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class PartyManager : SingletonMonoBehaviour<PartyManager>
 {
@@ -12,4 +13,11 @@ public class PartyManager : SingletonMonoBehaviour<PartyManager>
     public List<GameObject> CharacterParty  => m_characterParty;
 
     public List<GameObject> EnemyParty => m_enemyParty;
+
+
+    ReactiveCollection<GameObject> cp = new ReactiveCollection<GameObject>();
+    public ReactiveCollection<GameObject> CharacterP => cp;
+
+    ReactiveCollection<GameObject> ep = new ReactiveCollection<GameObject>();
+    public ReactiveCollection<GameObject> EnemyP => ep;
 }
