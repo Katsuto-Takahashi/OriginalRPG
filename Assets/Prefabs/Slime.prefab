@@ -83,6 +83,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &983047798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +174,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -342,6 +344,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -494,7 +497,6 @@ GameObject:
   - component: {fileID: 6722998763772854090}
   - component: {fileID: 528473566}
   - component: {fileID: 912346318}
-  - component: {fileID: 4975218352625791097}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
@@ -592,22 +594,6 @@ MonoBehaviour:
   m_targetNumber: 0
   m_firstAction: 0
   animator: {fileID: 6638014570590288594}
-  hasSkillList: {fileID: 4975218352625791097}
---- !u!114 &4975218352625791097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6722241011771852990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 844fb6f2508cee94db89c7876b66e409, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_normalSkill:
-  - {fileID: 11400000, guid: 408cb59764b74164ea227dc67d4a20ae, type: 2}
-  m_skillDatas: []
 --- !u!1 &6722446595711228746
 GameObject:
   m_ObjectHideFlags: 0

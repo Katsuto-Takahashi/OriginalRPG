@@ -109,7 +109,6 @@ GameObject:
   - component: {fileID: 2873923267653067914}
   - component: {fileID: 8840243075501327902}
   - component: {fileID: 8840243076153972494}
-  - component: {fileID: 4586173526416911289}
   m_Layer: 0
   m_Name: SlimeKing
   m_TagString: Enemy
@@ -207,22 +206,6 @@ MonoBehaviour:
   m_targetNumber: 0
   m_firstAction: 0
   animator: {fileID: 2787777820267667730}
-  hasSkillList: {fileID: 4586173526416911289}
---- !u!114 &4586173526416911289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2874678274130940798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 844fb6f2508cee94db89c7876b66e409, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_normalSkill:
-  - {fileID: 11400000, guid: 408cb59764b74164ea227dc67d4a20ae, type: 2}
-  m_skillDatas: []
 --- !u!1 &2874748113311946622
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,6 +465,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -589,6 +573,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -705,6 +690,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &8840243076094674358
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1104479160103875415}
   - component: {fileID: 1104479160103875412}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Hit
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1104479160103875414}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1735872505903888052}
@@ -43,7 +43,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!1 &1104479160277724890
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1104479160277724891}
   - component: {fileID: 1104479160277724888}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Serch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,11 +99,10 @@ GameObject:
   - component: {fileID: 1735872505903888052}
   - component: {fileID: 1735872505903888011}
   - component: {fileID: 1735872505903888055}
-  - component: {fileID: 1735872505903888054}
   - component: {fileID: 129838601660835389}
   - component: {fileID: 3646378222235889323}
   - component: {fileID: 1104479159572024198}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +116,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1735872505903888010}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -158,22 +157,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &1735872505903888054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735872505903888010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 844fb6f2508cee94db89c7876b66e409, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_normalSkill:
-  - {fileID: 11400000, guid: 408cb59764b74164ea227dc67d4a20ae, type: 2}
-  m_skillDatas: []
-  m_magicDatas: []
 --- !u!114 &129838601660835389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,10 +179,11 @@ MonoBehaviour:
         m_childNode:
         - id: 1
     00000001:
-      type: {class: Conditional, ns: , asm: Assembly-CSharp}
+      type: {class: ChengeState, ns: , asm: Assembly-CSharp}
       data:
         m_childNode: []
-        m_mesm: {fileID: 129838601660835389}
+        m_enemy: {fileID: 0}
+        m_state: 0
 --- !u!114 &3646378222235889323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,25 +242,25 @@ MonoBehaviour:
     value: 1
   m_speed:
     value: 1
-  firstDropItem: {fileID: 0}
-  secondDropItem: {fileID: 0}
-  dropRate: 0
-  experiencePoint: 1
-  enemyPartyNumber: 1
+  m_firstDropItem: {fileID: 0}
+  m_secondDropItem: {fileID: 0}
+  m_dropRate: 0
+  m_experiencePoint: 1
+  m_enemyPartyNumber: 1
   m_maxActionCount: 3
-  attackAttributeResistance:
-  - 1
-  - 1
-  - 1
-  - 1
-  - 1
-  - 1
-  - 1
-  - 1
-  - 1
-  attackTypeResistance:
-  - 1
-  - 1
+  m_attackAttributesResistance:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  m_attackTypesResistance:
+  - 0
+  - 0
   m_param:
     m_rotatingSpeed: 50
     m_walkingSpeed: 10
@@ -290,6 +274,9 @@ MonoBehaviour:
     m_slopeLayer:
       serializedVersion: 2
       m_Bits: 512
+    m_targetLayer:
+      serializedVersion: 2
+      m_Bits: 2048
 --- !u!1 &1855578733182521850
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +286,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1862055851738222562}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Side_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +306,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1858003275018995658}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 3.5763333, y: -90, z: 0}
 --- !u!1 &1855844347152942606
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,7 +316,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1857997930248207692}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: EyeCTRL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,7 +339,7 @@ Transform:
   - {fileID: 1858018933128943672}
   m_Father: {fileID: 1857950986504142714}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -2.5843183e-15, y: -180, z: 57.64126}
 --- !u!1 &1855931112525157882
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,7 +350,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1858031441808650308}
   - component: {fileID: 4093040656155166505}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -455,7 +442,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1858048578329761720}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Side_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -475,7 +462,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1858003275018995658}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 3.5763333, y: -90, z: 0}
 --- !u!1 &1856160558293127600
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,7 +472,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1857950986504142714}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,7 +494,7 @@ Transform:
   - {fileID: 1857997930248207692}
   m_Father: {fileID: 1858003275018995658}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -3.775456e-15, y: 2.3582908e-14, z: -17.379486}
 --- !u!1 &1856175708771326526
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,7 +504,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1857994431508784210}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -538,7 +525,7 @@ Transform:
   - {fileID: 1858003275018995658}
   m_Father: {fileID: 4119133796492158931}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: -67.60852}
 --- !u!1 &1856424711980971510
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,7 +535,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1858266952330138876}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BottomEyeCover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -568,7 +555,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1857997930248207692}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 78.83991, y: 90, z: 0}
 --- !u!1 &1856535836279394848
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,7 +565,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1858018933128943672}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: UpperEyeCover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -598,7 +585,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1857997930248207692}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 79.61961, y: 70.58305, z: 0.52474976}
 --- !u!1 &1856606349451651788
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,7 +595,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1858218434097419710}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Crown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -628,7 +615,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1857950986504142714}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 21.783968, y: -90, z: 0}
 --- !u!1 &1856751757609653692
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,7 +625,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1861953344940408244}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: EyeBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -658,7 +645,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1857997930248207692}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 79.03938, y: 90, z: 0}
 --- !u!1 &1856785097474784586
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,7 +655,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1858003275018995658}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Spine01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -691,7 +678,7 @@ Transform:
   - {fileID: 1858048578329761720}
   m_Father: {fileID: 1857994431508784210}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -7.5509955e-15, y: 1.6786586e-15, z: -25.824856}
 --- !u!1 &4116993876329366125
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,7 +689,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4119133796492158931}
   - component: {fileID: 4068515861400252417}
-  m_Layer: 0
+  - component: {fileID: 5710407801551600504}
+  m_Layer: 12
   m_Name: PowerSlime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -744,6 +732,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!136 &5710407801551600504
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4116993876329366125}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  m_Radius: 0.5
+  m_Height: 1.5
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.3, z: 0.5}
 --- !u!1 &4939222930954978097
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,7 +759,7 @@ GameObject:
   - component: {fileID: 4939222930954978099}
   - component: {fileID: 4939222930954978098}
   - component: {fileID: 4939222930954978110}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -827,7 +829,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &4939222930954978098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -869,7 +871,7 @@ GameObject:
   - component: {fileID: 4939222931832423126}
   - component: {fileID: 4939222931832423125}
   - component: {fileID: 5658990924930244952}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
