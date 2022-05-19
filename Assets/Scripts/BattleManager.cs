@@ -54,6 +54,8 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     [SerializeField]
     float m_enemyDistance = 3.0f;
 
+    const int INTERVAL_FACTOR = 3;
+
     enum BattleResults
     {
         Win,
@@ -64,13 +66,13 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
     void CreateEnemy(int num)
     {
-        var harf = num / 2f;
+        var half = num / 2f;
         var distanceFromCenter = (num - 1) / 2f * m_enemyInterval;
         var ep = PartyManager.Instance.EnemyParty;
 
         for (int i = 0; i < num; i++)
         {
-            if (i < harf)
+            if (i < half)
             {
                 m_instantiateEnemy = Instantiate(ep[m_enemyID - 1],
                     new Vector3((m_contactPosition + m_charaTransform.forward * m_enemyDistance).x - distanceFromCenter + m_enemyInterval * i,
@@ -138,7 +140,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
             m_characterList.Add(cpm);
         }
 
-        m_player = m_characterList[0];
+        m_player = GameManager.Instance.Player;
 
         randam = Random.Range(1, m_enemyParty + 1);
         Debug.Log($"出現数{randam}体");
@@ -241,7 +243,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         var damage = 0;
         CriticalCheck check = CriticalCheck.normal;
 
-        if (((1 << attacker.layer) & LayerMask.NameToLayer("Character")) != 0)//(attacker.CompareTag("Player"))//レイヤーでの判定に変更予定
+        if (((1 << attacker.layer) & LayerMask.NameToLayer("Character")) != 0)
         {
             var characterParameter = attacker.GetComponent<Character>();
             var enemyParameter = defender.GetComponent<Enemy>();
@@ -264,7 +266,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
             */
             StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, enemyParameter.Name.Value, check));
         }
-        else if (((1 << attacker.layer) & LayerMask.NameToLayer("Enemy")) != 0)//(attacker.CompareTag("Enemy"))//レイヤーでの判定に変更予定
+        else if (((1 << attacker.layer) & LayerMask.NameToLayer("Enemy")) != 0)
         {
             var enemyParameter = attacker.GetComponent<Enemy>();
             var characterParameter = defender.GetComponent<Character>();
@@ -404,7 +406,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         var enemy = enemyObject.GetComponentInParent<Enemy>();
         m_enemyParty = enemy.EnemyPartyNumber;
         m_enemyID = enemy.ID.Value;
-        m_enemyInterval = enemyObject.GetComponentInParent<CapsuleCollider>().radius * 3; //オブジェクト同士を半径の分離す為
+        m_enemyInterval = enemyObject.GetComponentInParent<CapsuleCollider>().radius * INTERVAL_FACTOR; //オブジェクト同士を半径の分離す為
         m_isBattle = true;
         Destroy(enemyObject.transform.parent.gameObject);
         BattleStart();
@@ -443,14 +445,23 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         m_distsnce = 0f;
     }
 
-    public Enemy m_saveobj { get; private set; }
+    Enemy m_enemy;
+    public Enemy SetEnemy => m_enemy;
     public void SelectEnemy(int id)
     {
-        m_saveobj = m_enemyList[id];
+        m_enemy = m_enemyList[id];
         m_player.BCSM.CanSelect.Value = false;
     }
 
-    public SkillData m_skill { get; private set; }
+    Character m_character;
+    public Character SetCharacter => m_character;
+    public void SelectCharacter(int id)
+    {
+        m_character = m_characterList[id];
+    }
+
+    SkillData m_skill;
+    public SkillData SetSkill => m_skill;
     public void SelectSkill(int id, SkillData.SkillType skillType)
     {
         if (skillType == SkillData.SkillType.physicalAttack)
