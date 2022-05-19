@@ -6,6 +6,8 @@ public class PlayerManager : Character
 {
     //BattleCharacterStateMachine m_bcsm;
     //MovementCharacterStateMachine m_mcsm;
+    [SerializeField]
+    bool test = false;
 
     protected override void SetUp()
     {
@@ -30,7 +32,7 @@ public class PlayerManager : Character
         m_bcsm.IsStop.DistinctUntilChanged().Subscribe(s => StopMove(s));
 
         m_mcsm.SetUp(m_animator, m_rigidbody, m_capsuleCollider, m_myTransform, m_param);
-        m_bcsm.SetUp(m_animator, m_hsl, m_param);
+        m_bcsm.SetUp(m_animator, m_param);
     }
 
     protected override void OnUpdate()
@@ -38,7 +40,13 @@ public class PlayerManager : Character
         base.OnUpdate();
         m_mcsm.OnUpdate();
         m_bcsm.OnUpdate();
-
+        if (test)
+        {
+            Debug.Log(MaxHpText);
+            MaxHpText = -1000;
+            Debug.Log(MaxHpText);
+            test = false;
+        }
         ApplyGetAxis();
     }
 

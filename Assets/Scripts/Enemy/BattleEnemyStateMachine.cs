@@ -150,12 +150,12 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
         SetParam(enemy);
     }
 
-    public void SetUP(Animator animator, HasSkillList hasSkill, MoveParameters param)
+    public void SetUP(Animator animator, MoveParameters param)
     {
         m_animator = animator;
         m_childNode.GetNode();
         SetState();
-        SetSkill(hasSkill);
+        //SetSkill(hasSkill);
         SetParam(param);
     }
 
@@ -187,26 +187,26 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
         m_moveSpeed = (param.WalkingSpeed + param.RunningSpeed) / 2f;
     }
 
-    void SetSkill(HasSkillList hasSkill)
-    {
-        for (int i = 0; i < hasSkill.NormalSkill.Count; i++)
-        {
-            m_normalSkill.Add(hasSkill.NormalSkill[i]);
-        }
-        GetSkill(hasSkill);
-    }
+    //void SetSkill(HasSkillList hasSkill)
+    //{
+    //    for (int i = 0; i < hasSkill.NormalSkill.Count; i++)
+    //    {
+    //        m_normalSkill.Add(hasSkill.NormalSkill[i]);
+    //    }
+    //    GetSkill(hasSkill);
+    //}
 
-    void GetSkill(HasSkillList hasSkill)
-    {
-        for (int i = 0; i < hasSkill.SkillDatas.Count; i++)
-        {
-            m_skillDatas.Add(hasSkill.SkillDatas[i]);
-        }
-        for (int i = 0; i < hasSkill.MagicDatas.Count; i++)
-        {
-            m_magicDatas.Add(hasSkill.MagicDatas[i]);
-        }
-    }
+    //void GetSkill(HasSkillList hasSkill)
+    //{
+    //    for (int i = 0; i < hasSkill.SkillDatas.Count; i++)
+    //    {
+    //        m_skillDatas.Add(hasSkill.SkillDatas[i]);
+    //    }
+    //    for (int i = 0; i < hasSkill.MagicDatas.Count; i++)
+    //    {
+    //        m_magicDatas.Add(hasSkill.MagicDatas[i]);
+    //    }
+    //}
 
     bool FinishedAnimation(int layer = 0)
     {

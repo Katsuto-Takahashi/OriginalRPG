@@ -20,7 +20,7 @@ public class SlimeManager : Enemy
         Intelligence.DistinctUntilChanged().Subscribe(_ => m_besm.Parameter(this));
 
         m_mesm.SetUP(m_animator, m_rigidbody, m_capsuleCollider, m_sphereCollider, m_myTransform, m_param);
-        m_besm.SetUP(m_animator, m_hsl, m_param);
+        m_besm.SetUP(m_animator, m_param);
 
         m_besm.Move.DistinctUntilChanged().Subscribe(_ => Move());
         m_besm.Stop.DistinctUntilChanged().Subscribe(s => Stop(s));

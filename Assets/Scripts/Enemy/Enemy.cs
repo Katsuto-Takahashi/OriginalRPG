@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider), typeof(HasSkillList))]
+[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
 [RequireComponent(typeof(MovementEnemyStateMachine), typeof(BattleEnemyStateMachine))]
 public class Enemy : EnemyParameter, ITakableDamage
 {
@@ -18,7 +18,7 @@ public class Enemy : EnemyParameter, ITakableDamage
     protected Rigidbody m_rigidbody;
     protected CapsuleCollider m_capsuleCollider;
     protected SphereCollider m_sphereCollider;
-    protected HasSkillList m_hsl;
+    //protected HasSkillList m_hsl;
     protected MovementEnemyStateMachine m_mesm;
     protected BattleEnemyStateMachine m_besm;
 
@@ -29,7 +29,7 @@ public class Enemy : EnemyParameter, ITakableDamage
     {
         m_myTransform = transform;
 
-        m_hsl = GetComponent<HasSkillList>();
+        //m_hsl = GetComponent<HasSkillList>();
         m_animator = GetComponentInChildren<Animator>();
         m_rigidbody = GetComponent<Rigidbody>();
         m_capsuleCollider = GetComponent<CapsuleCollider>();

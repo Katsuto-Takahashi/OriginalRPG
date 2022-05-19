@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UniRx;
 
-[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider), typeof(HasSkillList))]
+[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
 [RequireComponent(typeof(MovementCharacterStateMachine), typeof(BattleCharacterStateMachine))]
 public class Character : CharacterParameter, ITakableDamage
 {
@@ -18,7 +18,7 @@ public class Character : CharacterParameter, ITakableDamage
     protected Animator m_animator;
     protected Rigidbody m_rigidbody;
     protected CapsuleCollider m_capsuleCollider;
-    protected HasSkillList m_hsl;
+    //protected HasSkillList m_hsl;
     protected MovementCharacterStateMachine m_mcsm;
     protected BattleCharacterStateMachine m_bcsm;
 
@@ -36,7 +36,7 @@ public class Character : CharacterParameter, ITakableDamage
     {
         m_myTransform = transform;
 
-        m_hsl = GetComponent<HasSkillList>();
+        //m_hsl = GetComponent<HasSkillList>();
         m_animator = GetComponentInChildren<Animator>();
         m_rigidbody = GetComponent<Rigidbody>();
         m_capsuleCollider = GetComponent<CapsuleCollider>();
@@ -153,17 +153,17 @@ public class Character : CharacterParameter, ITakableDamage
         SkillPoint.Value += baseParameter;
     }
 
-    public void GetSkill(SkillData skillData)
-    {
-        if (skillData.Type == SkillData.SkillType.physicalAttack)
-        {
-            m_hsl.SkillDatas.Add(skillData);
-        }
-        else if (skillData.Type == SkillData.SkillType.magicAttack)
-        {
-            m_hsl.MagicDatas.Add(skillData);
-        }
-    }
+    //public void GetSkill(SkillData skillData)
+    //{
+    //    if (skillData.Type == SkillData.SkillType.physicalAttack)
+    //    {
+    //        m_hsl.SkillDatas.Add(skillData);
+    //    }
+    //    else if (skillData.Type == SkillData.SkillType.magicAttack)
+    //    {
+    //        m_hsl.MagicDatas.Add(skillData);
+    //    }
+    //}
 
     void OnTriggerEnter(Collider other)
     {
