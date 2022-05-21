@@ -74,7 +74,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         {
             if (i < half)
             {
-                m_instantiateEnemy = Instantiate(ep[m_enemyID - 1],
+                m_instantiateEnemy = Instantiate(ep[m_enemyID - 1].gameObject,
                     new Vector3((m_contactPosition + m_charaTransform.forward * m_enemyDistance).x - distanceFromCenter + m_enemyInterval * i,
                     m_contactPosition.y,
                     (m_contactPosition + m_charaTransform.forward * m_enemyDistance).z - distanceFromCenter + m_enemyInterval * i),
@@ -82,7 +82,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
             }
             else
             {
-                m_instantiateEnemy = Instantiate(ep[m_enemyID - 1],
+                m_instantiateEnemy = Instantiate(ep[m_enemyID - 1].gameObject,
                     new Vector3((m_contactPosition + m_charaTransform.forward * m_enemyDistance).x - distanceFromCenter + m_enemyInterval * i,
                     m_contactPosition.y,
                     (m_contactPosition + m_charaTransform.forward * m_enemyDistance).z + distanceFromCenter - m_enemyInterval * i),

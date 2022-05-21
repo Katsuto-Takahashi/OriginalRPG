@@ -13,8 +13,8 @@ public class UIManager : SingletonMonoBehaviour<UIManager>
 
     void Start()
     {
-        GameObject player = PartyManager.Instance.CharacterParty[0];
-        player.GetComponent<Character>().BCSM.CanSelect.DistinctUntilChanged().Subscribe(s => DisplayBattleCommandPanel(s)).AddTo(player);
+        Character player = GameManager.Instance.Player;
+        player.BCSM.CanSelect.DistinctUntilChanged().Subscribe(s => DisplayBattleCommandPanel(s)).AddTo(player.gameObject);
     }
 
     /// <summary>ƒƒjƒ…[UI‚Ì•\¦‚ğØ‚è‘Ö‚¦‚é</summary>

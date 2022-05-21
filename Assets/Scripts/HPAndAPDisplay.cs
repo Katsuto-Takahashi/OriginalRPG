@@ -33,7 +33,7 @@ public class HPAndAPDisplay : MonoBehaviour
             m_ui = Instantiate(m_gameObject);
             m_ui.transform.SetParent(transform, false);
             m_gameObjects.Add(m_ui);
-            m_cm.Add(m_partyManager.CharacterParty[i].GetComponent<Character>());
+            m_cm.Add(m_partyManager.CharacterParty[i]);
         }
     }
 

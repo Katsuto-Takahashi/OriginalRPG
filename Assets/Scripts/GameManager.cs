@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
@@ -10,15 +11,18 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     [SerializeField]
     SkillList skillsData = null;
 
+    Character m_player;
+    public Character Player => m_player;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        m_player = PartyManager.Instance.CharacterParty[0];
+    }
+
     void Start()
     {
-        for (int n = 0; n < skillsData.MagicSkills.Count; n++)
-        {
-            for (int i = 0; i < skillsData.MagicSkills[n].Efect.Count; i++)
-            {
-                skillsData.MagicSkills[n].Efect[i].Efect(skillsData.MagicSkills[n].SkillParameter);
-            }
-        }
+        
     }
 
     void Update()

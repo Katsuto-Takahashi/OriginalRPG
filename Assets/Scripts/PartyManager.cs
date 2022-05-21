@@ -5,14 +5,14 @@ using UniRx;
 public class PartyManager : SingletonMonoBehaviour<PartyManager>
 {
     [SerializeField, Tooltip("Player側")] 
-    List<GameObject> m_characterParty = new List<GameObject>();
+    List<Character> m_characterParty = new List<Character>();
 
     [SerializeField, Tooltip("敵側")] 
-    List<GameObject> m_enemyParty = new List<GameObject>();
+    List<Enemy> m_enemyParty = new List<Enemy>();
 
-    public List<GameObject> CharacterParty  => m_characterParty;
+    public List<Character> CharacterParty  => m_characterParty;
 
-    public List<GameObject> EnemyParty => m_enemyParty;
+    public List<Enemy> EnemyParty => m_enemyParty;
 
 
     ReactiveCollection<GameObject> cp = new ReactiveCollection<GameObject>();
