@@ -4,6 +4,12 @@ using UnityEngine;
 [System.Serializable]
 public class JsonData
 {
+    public ParamData[] datas;
+}
+
+[System.Serializable]
+public class ParamData
+{
     public string name;
     public int hp;
     public int maxhp;
