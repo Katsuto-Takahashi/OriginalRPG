@@ -8133,6 +8133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_characterParty:
   - {fileID: 1946191166}
+  - {fileID: 1941238364}
   m_enemyParty:
   - {fileID: 1735872505903888010, guid: 90cecf89bb8e0904c8c24f055d3de680, type: 3}
   - {fileID: 2874678274130940798, guid: c292c357094e5d441a3e4d73172aa05b, type: 3}
@@ -11366,7 +11367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1941238365
 MonoBehaviour:
   m_ObjectHideFlags: 0
