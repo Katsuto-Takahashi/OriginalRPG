@@ -5,35 +5,37 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-public class DataManager : MonoBehaviour
+public class DataManager : SingletonMonoBehaviour<DataManager>
 {
-    string m_data;
+    /// <summary>セーブファイルのパス</summary>
+    string m_dataPath;
 
-    void Awake()
+    protected override void Awake()
     {
-        m_data = Application.persistentDataPath + "/JsonTest.json";
+        m_dataPath = Application.persistentDataPath + "/JsonTest.json";
     }
 
-    void Start()
+    /// <summary>データを読み込みます</summary>
+    public void DataRead()
     {
-        JsonData data = new JsonData();
-
-        //SaveJsonTest(data);
-
-        //Debug.Log(JsonUtility.ToJson(LoadJsonTest(m_data)));
-
-        ReadTest(m_data);
-        SaveTest(data);
-        Debug.Log(JsonUtility.ToJson(LoadJsonTest(m_data)));
+        ReadFile(m_dataPath);
     }
 
-    /// <summary>データの保存</summary>
-    /// <param name="data"></param>
-    /// <param name="num"></param>
-    void SaveDataTest(JsonData data, int num)
+    /// <summary>データを保存します</summary>
+    public void DataSave()
+    {
+        SaveFile();
+    }
+
+    /// <summary>キャラクターデータの保存</summary>
+    /// <param name="num">キャラクター数</param>
+    CharactersData SaveCharactersData(int num)
     {
         var chara = PartyManager.Instance.CharacterParty;
-        data.datas = new ParamData[num];
+        CharactersData data = new CharactersData
+        {
+            datas = new ParamData[num]
+        };
         for (int i = 0; i < num; i++)
         {
             data.datas[i] = new ParamData
@@ -57,19 +59,18 @@ public class DataManager : MonoBehaviour
                 skillindex = new int[] { 0, 1, 2, 5, 7, 8, 11 }
             };
         }
+        Debug.Log("保存完了");
+        return data;
     }
 
-    /// <summary>データの読み取り</summary>
-    /// <param name="data"></param>
-    /// <param name="num"></param>
-    void ReadDataTest(JsonData data, int num)
+    /// <summary>キャラクターデータの読み取り</summary>
+    /// <param name="data">キャラクターデータ</param>
+    /// <param name="num">キャラクター数</param>
+    void ReadCharactersData(CharactersData data, int num)
     {
         var chara = PartyManager.Instance.CharacterParty;
-        data.datas = new ParamData[num];
         for (int i = 0; i < num; i++)
         {
-            data.datas[i] = new ParamData();
-
             chara[i].Name.Value = data.datas[i].name;
             chara[i].HP.Value = data.datas[i].hp;
             chara[i].MaxHP.Value = data.datas[i].maxhp;
@@ -88,38 +89,25 @@ public class DataManager : MonoBehaviour
             chara[i].NextExp.Value = data.datas[i].nextexp;
             //data.datas[i].skillindex = new int[] { 0, 1, 2, 5, 7, 8, 11 };
         }
+        Debug.Log("読み込み完了");
     }
 
-    void SaveJsonTest(JsonData jsondata)
-    {
-        string jsonstr = JsonUtility.ToJson(jsondata);//受け取ったJsonDataをJSONに変換
-        StreamWriter writer = new StreamWriter(m_data, false);//指定したデータの保存先を開く(false 上書き,true 追記)
-        writer.WriteLine(jsonstr);//JSONデータを書き込み
-        writer.Flush();//バッファをクリアする
-        writer.Close();//ファイルをクローズする
-    }
-
-    JsonData LoadJsonTest(string path)
-    {
-        StreamReader reader = new StreamReader(path); //受け取ったパスのファイルを読み込む
-        string json = reader.ReadToEnd();//ファイルの中身をすべて読み込む
-        reader.Close();//ファイルを閉じる
-
-        return JsonUtility.FromJson<JsonData>(json);//読み込んだJSONファイルをJsonData型に変換して返す
-    }
-
-    void ReadTest(string path)
+    /// <summary>ファイルのデータを読み込む</summary>
+    /// <param name="path">ファイルのパス</param>
+    void ReadFile(string path)
     {
         if (File.Exists(path))
         {
+            Debug.Log("保存されているデータを読み込むよ");
             FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+
             try
             {
                 byte[] read = File.ReadAllBytes(path);
                 byte[] decryption = AesDecryption(read);
                 string decryptString = Encoding.UTF8.GetString(decryption);
-                JsonData jsonData = JsonUtility.FromJson<JsonData>(decryptString);
-                ReadDataTest(jsonData, 1);
+                CharactersData jsonData = JsonUtility.FromJson<CharactersData>(decryptString);
+                ReadCharactersData(jsonData, 2);
             }
             finally
             {
@@ -132,13 +120,16 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    void SaveTest(JsonData jsondata)
+    /// <summary>ファイルにデータを書き込む</summary>
+    void SaveFile()
     {
-        SaveDataTest(jsondata, 1);
+        Debug.Log("データを保存するよ");
+        CharactersData jsondata = SaveCharactersData(2);
         string jsonString = JsonUtility.ToJson(jsondata);
         byte[] bytes = Encoding.UTF8.GetBytes(jsonString);
         byte[] arrEncrypted = AesEncryption(bytes);
-        FileStream file = new FileStream(m_data, FileMode.Create, FileAccess.Write);
+        FileStream file = new FileStream(m_dataPath, FileMode.Create, FileAccess.Write);
+
         try
         {
             file.Write(arrEncrypted, 0, arrEncrypted.Length);
