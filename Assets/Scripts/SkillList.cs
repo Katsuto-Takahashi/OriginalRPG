@@ -13,9 +13,9 @@ public class SkillList : ScriptableObject
     List<Skill> m_magicSkills = new List<Skill>();
 
     /// <summary>物理攻撃スキルList</summary>
-    public List<Skill> PhysicalSkills { get => m_physicalSkills; set => m_physicalSkills = value; }
+    public List<Skill> PhysicalSkills => m_physicalSkills;
     /// <summary>魔法攻撃スキルList</summary>
-    public List<Skill> MagicSkills { get => m_magicSkills; set => m_magicSkills = value; }
+    public List<Skill> MagicSkills => m_magicSkills;
 }
 
 //スキル情報

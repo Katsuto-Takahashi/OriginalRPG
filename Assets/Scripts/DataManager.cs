@@ -56,7 +56,7 @@ public class DataManager : SingletonMonoBehaviour<DataManager>
                 nowexp = chara[i].NowExp.Value,
                 totalexp = chara[i].TotalExp.Value,
                 nextexp = chara[i].NextExp.Value,
-                skillindex = new int[] { 0, 1, 2, 5, 7, 8, 11 }
+                skillindex = chara[i].HasSkillIndex.ToArray()
             };
         }
         Debug.Log("•Û‘¶Š®—¹");
@@ -87,7 +87,11 @@ public class DataManager : SingletonMonoBehaviour<DataManager>
             chara[i].NowExp.Value = data.datas[i].nowexp;
             chara[i].TotalExp.Value = data.datas[i].totalexp;
             chara[i].NextExp.Value = data.datas[i].nextexp;
-            //data.datas[i].skillindex = new int[] { 0, 1, 2, 5, 7, 8, 11 };
+            chara[i].HasSkillIndex.Clear();
+            for (int n = 0; n < data.datas[i].skillindex.Length; n++)
+            {
+                chara[i].HasSkillIndex.Add(data.datas[i].skillindex[n]);
+            }
         }
         Debug.Log("“Ç‚Ýž‚ÝŠ®—¹");
     }

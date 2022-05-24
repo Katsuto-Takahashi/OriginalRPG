@@ -8,83 +8,102 @@ public class CharacterParameter : MonoBehaviour
     [SerializeField]
     StringReactiveProperty m_name = new StringReactiveProperty();
     /// <summary>キャラクターの名前</summary>
-    public IReadOnlyReactiveProperty<string> Name => m_name;
+    public StringReactiveProperty Name => m_name;
 
     [SerializeField]
-    IntReactiveProperty m_hp = new IntReactiveProperty();
+    IntReactiveProperty m_hp = new IntReactiveProperty(1);
     /// <summary>キャラクターの現在HP</summary>
-    public IReactiveProperty<int> HP => m_hp;
+    public IntReactiveProperty HP => m_hp;
 
     [SerializeField]
-    IntReactiveProperty m_maxHp = new IntReactiveProperty();
+    IntReactiveProperty m_maxHp = new IntReactiveProperty(1);
     /// <summary>キャラクターの最大HP</summary>
-    public IReactiveProperty<int> MaxHP => m_maxHp;
+    public IntReactiveProperty MaxHP => m_maxHp;
+
+    #region
+    public int MaxHpText
+    {
+        get { return m_maxHp.Value; }
+
+        protected set
+        {
+            if (value < 1)
+            {
+                m_maxHp.Value = 1;
+            }
+            else
+            {
+                m_maxHp.Value = value;
+            }
+        }
+    }
+    #endregion
 
     [SerializeField]
-    IntReactiveProperty m_ap = new IntReactiveProperty();
+    IntReactiveProperty m_ap = new IntReactiveProperty(1);
     /// <summary>キャラクターの現在AP</summary>
-    public IReactiveProperty<int> AP => m_ap;
+    public IntReactiveProperty AP => m_ap;
 
     [SerializeField]
-    IntReactiveProperty m_maxAp = new IntReactiveProperty();
+    IntReactiveProperty m_maxAp = new IntReactiveProperty(1);
     /// <summary>キャラクターの最大AP</summary>
-    public IReactiveProperty<int> MaxAP => m_maxAp;
+    public IntReactiveProperty MaxAP => m_maxAp;
 
     [SerializeField]
-    IntReactiveProperty m_strength = new IntReactiveProperty();
+    IntReactiveProperty m_strength = new IntReactiveProperty(1);
     /// <summary>キャラクターの攻撃力</summary>
-    public IReactiveProperty<int> Strength => m_strength;
+    public IntReactiveProperty Strength => m_strength;
 
     [SerializeField]
-    IntReactiveProperty m_defense = new IntReactiveProperty();
+    IntReactiveProperty m_defense = new IntReactiveProperty(1);
     /// <summary>キャラクターの防御力</summary>
-    public IReactiveProperty<int> Defense => m_defense;
+    public IntReactiveProperty Defense => m_defense;
 
     [SerializeField]
-    IntReactiveProperty m_magicPower = new IntReactiveProperty();
+    IntReactiveProperty m_magicPower = new IntReactiveProperty(0);
     /// <summary>キャラクターの魔法攻撃力</summary>
-    public IReactiveProperty<int> MagicPower => m_magicPower;
+    public IntReactiveProperty MagicPower => m_magicPower;
 
     [SerializeField]
-    IntReactiveProperty m_magicResist = new IntReactiveProperty();
+    IntReactiveProperty m_magicResist = new IntReactiveProperty(1);
     /// <summary>キャラクターの魔法抵抗力</summary>
-    public IReactiveProperty<int> MagicResist => m_magicResist;
+    public IntReactiveProperty MagicResist => m_magicResist;
 
     [SerializeField]
-    IntReactiveProperty m_luck = new IntReactiveProperty();
+    IntReactiveProperty m_luck = new IntReactiveProperty(1);
     /// <summary>キャラクターの運</summary>
-    public IReactiveProperty<int> Luck => m_luck;
+    public IntReactiveProperty Luck => m_luck;
 
     [SerializeField]
-    IntReactiveProperty m_speed = new IntReactiveProperty();
+    IntReactiveProperty m_speed = new IntReactiveProperty(1);
     /// <summary>キャラクターの速さ</summary>
-    public IReactiveProperty<int> Speed => m_speed;
+    public IntReactiveProperty Speed => m_speed;
 
     [SerializeField]
-    IntReactiveProperty m_level = new IntReactiveProperty();
+    IntReactiveProperty m_level = new IntReactiveProperty(1);
     /// <summary>キャラクターのレベル</summary>
-    public IReactiveProperty<int> Level => m_level;
+    public IntReactiveProperty Level => m_level;
 
     [SerializeField]
-    IntReactiveProperty m_skillPoint = new IntReactiveProperty();
+    IntReactiveProperty m_skillPoint = new IntReactiveProperty(0);
     /// <summary>キャラクターのスキルポイント</summary>
-    public IReactiveProperty<int> SkillPoint => m_skillPoint;
+    public IntReactiveProperty SkillPoint => m_skillPoint;
 
-    IntReactiveProperty m_nowExp = new IntReactiveProperty();
+    IntReactiveProperty m_nowExp = new IntReactiveProperty(0);
     /// <summary>キャラクターの現在の経験値</summary>
-    public IReactiveProperty<int> NowExp => m_nowExp;
+    public IntReactiveProperty NowExp => m_nowExp;
 
-    IntReactiveProperty m_totalExp = new IntReactiveProperty();
+    IntReactiveProperty m_totalExp = new IntReactiveProperty(0);
     /// <summary>キャラクターの総経験値</summary>
-    public IReactiveProperty<int> TotalExp => m_totalExp;
+    public IntReactiveProperty TotalExp => m_totalExp;
 
     IntReactiveProperty m_nextExp = new IntReactiveProperty(10);
     /// <summary>次のレベルまでの経験値</summary>
-    public IReactiveProperty<int> NextExp => m_nextExp;
+    public IntReactiveProperty NextExp => m_nextExp;
 
     BoolReactiveProperty m_availableSpecialSkill = new BoolReactiveProperty(false);
     /// <summary>特別な技が使用可能かどうか</summary>
-    public IReactiveProperty<bool> SpecialSkill => m_availableSpecialSkill;
+    public BoolReactiveProperty SpecialSkill => m_availableSpecialSkill;
 
     /// <summary>レベル補正</summary>
     [SerializeField]
@@ -95,8 +114,13 @@ public class CharacterParameter : MonoBehaviour
     protected float m_charaCorrection = 0.07f;
 
     [SerializeField]
-    [Range(1,5)]
+    [Range(1, 5)]
     int m_maxActionCount = 3;
     /// <summary>蓄積可能な行動回数</summary>
     public int MaxActionCount => m_maxActionCount;
+
+    [SerializeField]
+    List<int> m_hasSkillIndex = new List<int>();
+    /// <summary>持っているスキルのインデックス</summary>
+    public List<int> HasSkillIndex => m_hasSkillIndex;
 }
