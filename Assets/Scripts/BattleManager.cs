@@ -9,9 +9,6 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     DamageCalculator m_damageCalculator = null;
 
     [SerializeField]
-    PartyManager m_partyManager = null;
-
-    [SerializeField]
     BattleEnemyList m_battleEnemyList = null;
 
     [SerializeField]
@@ -68,7 +65,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     {
         var half = num / 2f;
         var distanceFromCenter = (num - 1) / 2f * m_enemyInterval;
-        var ep = PartyManager.Instance.EnemyParty;
+        var ep = CharactersManager.Instance.Enemies;
 
         for (int i = 0; i < num; i++)
         {
@@ -132,12 +129,11 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         characterDeadCount = 0;
         enemyDeadCount = 0;
         m_battleResults = BattleResults.Escape;
-        var cp = PartyManager.Instance.CharacterParty;
+        var cp = GameManager.Instance.Party;
 
         for (int i = 0; i < cp.Count; i++)
         {
-            var cpm = cp[i].GetComponent<Character>();
-            m_characterList.Add(cpm);
+            m_characterList.Add(cp[i]);
         }
 
         m_player = GameManager.Instance.Player;
