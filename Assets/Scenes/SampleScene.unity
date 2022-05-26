@@ -7213,7 +7213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a17d5c9ce789848b0b5236c4ab4773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_partyManager: {fileID: 1509466354}
   m_isDisplay: 1
   m_gameObject: {fileID: 7348191702215238829, guid: 6aefcf45996f82746b46cf136947f346,
     type: 3}
@@ -8112,6 +8111,7 @@ GameObject:
   - component: {fileID: 1509466362}
   - component: {fileID: 1509466363}
   - component: {fileID: 1509466357}
+  - component: {fileID: 1509466364}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Manager
@@ -8131,13 +8131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70389aa4a9637b540a3a2c7db3649729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_characterParty:
-  - {fileID: 1946191166}
-  - {fileID: 1941238364}
-  m_enemyParty:
-  - {fileID: 1735872505903888010, guid: 90cecf89bb8e0904c8c24f055d3de680, type: 3}
-  - {fileID: 2874678274130940798, guid: c292c357094e5d441a3e4d73172aa05b, type: 3}
-  - {fileID: 1774625739149480, guid: 3e8234c7efcb87041a29f4da858193e0, type: 3}
+  m_characters:
+  - {fileID: 1946191175}
+  m_enemies:
+  - {fileID: 1104479159572024198, guid: 90cecf89bb8e0904c8c24f055d3de680, type: 3}
 --- !u!4 &1509466355
 Transform:
   m_ObjectHideFlags: 0
@@ -8190,7 +8187,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_damageCalculator: {fileID: 1509466356}
-  m_partyManager: {fileID: 1509466354}
   m_battleEnemyList: {fileID: 1598404453}
   m_battleInformationUIObject: {fileID: 149291164}
   m_battleFeildPrefab: {fileID: 1209401978525203268, guid: 32307c74b822f1d4daf2eac8e138af95,
@@ -8263,6 +8259,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillsData: {fileID: 11400000, guid: c369592a01c08c44eb641d30fb5eeca8, type: 2}
+--- !u!114 &1509466364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509466353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c9193036b5e254a990d3fc4798f06c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1514665841
 GameObject:
   m_ObjectHideFlags: 0
@@ -11381,7 +11389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_name:
-    value: character
+    value: c
   m_hp:
     value: 1
   m_maxHp:
@@ -11409,6 +11417,7 @@ MonoBehaviour:
   m_levelCorrection: 4.8
   m_charaCorrection: 0.07
   m_maxActionCount: 3
+  m_hasSkillIndex: 
   m_param:
     m_rotatingSpeed: 50
     m_walkingSpeed: 10
@@ -11628,6 +11637,7 @@ MonoBehaviour:
   m_levelCorrection: 4.8
   m_charaCorrection: 0.07
   m_maxActionCount: 3
+  m_hasSkillIndex: 0000000002000000
   m_param:
     m_rotatingSpeed: 50
     m_walkingSpeed: 10
