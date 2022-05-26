@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-public class HPAndAPDisplay : MonoBehaviour
+public class HPAndAPDisplay : SingletonMonoBehaviour<HPAndAPDisplay>, IManagable
 {
-    [SerializeField] 
-    PartyManager m_partyManager = null;
-
     [SerializeField] 
     bool m_isDisplay = false;
 
@@ -24,31 +21,15 @@ public class HPAndAPDisplay : MonoBehaviour
 
     List<Character> m_cm = new List<Character>();
 
-    void Awake()
-    {
-        m_memberNumber = m_partyManager.CharacterParty.Count;
-        m_beforeMemberNumber = m_memberNumber;
-        for (int i = 0; i < m_beforeMemberNumber; i++)
-        {
-            m_ui = Instantiate(m_gameObject);
-            m_ui.transform.SetParent(transform, false);
-            m_gameObjects.Add(m_ui);
-            m_cm.Add(m_partyManager.CharacterParty[i]);
-        }
-    }
-
     void Start()
     {
-        
         Create();
-        Observable.EveryUpdate().Subscribe(_ => OnUpdate())
-            .AddTo(this);
-        
+        Observable.EveryUpdate().Subscribe(_ => OnUpdate()).AddTo(this);
     }
 
     void OnUpdate()
     {
-        m_memberNumber = m_partyManager.CharacterParty.Count;
+        m_memberNumber = GameManager.Instance.Party.Count;
         if (m_beforeMemberNumber != m_memberNumber)
         {
             Debug.Log("人数変化");
@@ -69,7 +50,7 @@ public class HPAndAPDisplay : MonoBehaviour
                     m_ui = Instantiate(m_gameObject);
                     m_ui.transform.SetParent(transform, false);
                     m_gameObjects.Add(m_ui);
-                    m_cm.Add(m_partyManager.CharacterParty[i].GetComponent<Character>());
+                    m_cm.Add(GameManager.Instance.Party[i].GetComponent<Character>());
                 }
             }
 
@@ -118,6 +99,19 @@ public class HPAndAPDisplay : MonoBehaviour
             m_cm[i].MaxHP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
             m_cm[i].AP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
             m_cm[i].MaxAP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
+        }
+    }
+
+    public void Initialize()
+    {
+        m_memberNumber = GameManager.Instance.Party.Count;
+        m_beforeMemberNumber = m_memberNumber;
+        for (int i = 0; i < m_beforeMemberNumber; i++)
+        {
+            m_ui = Instantiate(m_gameObject);
+            m_ui.transform.SetParent(transform, false);
+            m_gameObjects.Add(m_ui);
+            m_cm.Add(GameManager.Instance.Party[i]);
         }
     }
 }

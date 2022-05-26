@@ -5,15 +5,10 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-public class DataManager : SingletonMonoBehaviour<DataManager>
+public class DataManager : SingletonMonoBehaviour<DataManager>, IManagable
 {
     /// <summary>セーブファイルのパス</summary>
     string m_dataPath;
-
-    protected override void Awake()
-    {
-        m_dataPath = Application.persistentDataPath + "/JsonTest.json";
-    }
 
     /// <summary>データを読み込みます</summary>
     public void DataRead()
@@ -31,7 +26,7 @@ public class DataManager : SingletonMonoBehaviour<DataManager>
     /// <param name="num">キャラクター数</param>
     CharactersData SaveCharactersData(int num)
     {
-        var chara = PartyManager.Instance.CharacterParty;
+        var chara = CharactersManager.Instance.Characters;
         CharactersData data = new CharactersData
         {
             datas = new ParamData[num]
@@ -68,7 +63,7 @@ public class DataManager : SingletonMonoBehaviour<DataManager>
     /// <param name="num">キャラクター数</param>
     void ReadCharactersData(CharactersData data, int num)
     {
-        var chara = PartyManager.Instance.CharacterParty;
+        var chara = CharactersManager.Instance.Characters;
         for (int i = 0; i < num; i++)
         {
             chara[i].Name.Value = data.datas[i].name;
@@ -88,10 +83,7 @@ public class DataManager : SingletonMonoBehaviour<DataManager>
             chara[i].TotalExp.Value = data.datas[i].totalexp;
             chara[i].NextExp.Value = data.datas[i].nextexp;
             chara[i].HasSkillIndex.Clear();
-            for (int n = 0; n < data.datas[i].skillindex.Length; n++)
-            {
-                chara[i].HasSkillIndex.Add(data.datas[i].skillindex[n]);
-            }
+            chara[i].HasSkillIndex.AddRange(data.datas[i].skillindex);
         }
         Debug.Log("読み込み完了");
     }
@@ -111,7 +103,7 @@ public class DataManager : SingletonMonoBehaviour<DataManager>
                 byte[] decryption = AesDecryption(read);
                 string decryptString = Encoding.UTF8.GetString(decryption);
                 CharactersData jsonData = JsonUtility.FromJson<CharactersData>(decryptString);
-                ReadCharactersData(jsonData, 2);
+                ReadCharactersData(jsonData, 1);
             }
             finally
             {
@@ -128,7 +120,7 @@ public class DataManager : SingletonMonoBehaviour<DataManager>
     void SaveFile()
     {
         Debug.Log("データを保存するよ");
-        CharactersData jsondata = SaveCharactersData(2);
+        CharactersData jsondata = SaveCharactersData(1);
         string jsonString = JsonUtility.ToJson(jsondata);
         byte[] bytes = Encoding.UTF8.GetBytes(jsonString);
         byte[] arrEncrypted = AesEncryption(bytes);
@@ -185,5 +177,10 @@ public class DataManager : SingletonMonoBehaviour<DataManager>
         var aes = GetAesManaged();
         var decrypt = aes.CreateDecryptor().TransformFinalBlock(bytes, 0, bytes.Length);
         return decrypt;
+    }
+
+    public void Initialize()
+    {
+        m_dataPath = Application.persistentDataPath + "/JsonTest.json";
     }
 }
