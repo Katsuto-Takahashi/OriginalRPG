@@ -2,18 +2,19 @@
 using UnityEngine;
 using UniRx;
 
-public class PartyManager : SingletonMonoBehaviour<PartyManager>
+public class CharactersManager : SingletonMonoBehaviour<CharactersManager>
 {
     [SerializeField, Tooltip("Player側")] 
-    List<Character> m_characterParty = new List<Character>();
+    List<Character> m_characters = new List<Character>();
 
     [SerializeField, Tooltip("敵側")] 
-    List<Enemy> m_enemyParty = new List<Enemy>();
+    List<Enemy> m_enemies = new List<Enemy>();
 
-    public List<Character> CharacterParty  => m_characterParty;
+    /// <summary>全キャラクターList</summary>
+    public List<Character> Characters  => m_characters;
 
-    public List<Enemy> EnemyParty => m_enemyParty;
-
+    /// <summary>全敵のList</summary>
+    public List<Enemy> Enemies => m_enemies;
 
     ReactiveCollection<GameObject> cp = new ReactiveCollection<GameObject>();
     public ReactiveCollection<GameObject> CharacterP => cp;
