@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UniRx;
 
 public class UIController : MonoBehaviour
 {
@@ -44,6 +45,7 @@ public class UIController : MonoBehaviour
     void Start()
     {
         StartSet();
+        Observable.EveryUpdate().Subscribe(_ => OnUpdate()).AddTo(this);
     }
 
     protected virtual void StartSet()
@@ -51,10 +53,10 @@ public class UIController : MonoBehaviour
         m_gg = GetComponent<GridLayoutGroup>();
     }
 
-    void Update()
-    {
-        OnUpdate();
-    }
+    //void Update()
+    //{
+    //    OnUpdate();
+    //}
 
     protected virtual void OnUpdate()
     {
@@ -63,7 +65,7 @@ public class UIController : MonoBehaviour
         CommandMove(v, h);
         if (InputController.Instance.Decide())
         {
-            OnUI();
+            CommandSelectedAction();
         }
         //else if (Input.GetButtonDown("×button"))
         //{
@@ -399,6 +401,7 @@ public class UIController : MonoBehaviour
         SelectedCommandColorChange();
     }
 
+    /// <summary>初期化</summary>
     protected virtual void GoToZero()
     {
         NonCommandColorChange();
@@ -407,18 +410,7 @@ public class UIController : MonoBehaviour
         m_horiCount = 0;
     }
 
-    void OnUI()
-    {
-        if (m_changeCommandList[m_selectedCommandNumber].m_commandPanelList[(int)ChangeCommand.Next] != null)
-        {
-            CommandPanelChanged();
-        }
-        else
-        {
-            CommandSelectedAction();
-        }
-    }
-
+    /// <summary>次のUIを表示</summary>
     void CommandPanelChanged()
     {
         if (m_special)
@@ -433,6 +425,7 @@ public class UIController : MonoBehaviour
         }
     }
 
+    /// <summary>ひとつ前のUIを表示</summary>
     void OnUIPanelReturnChanged()
     {
         if (m_changeCommandList[m_selectedCommandNumber].m_commandPanelList[(int)ChangeCommand.Before] != null)
@@ -450,13 +443,22 @@ public class UIController : MonoBehaviour
         }
     }
 
-    protected virtual void CommandSelectedAction() { }
+    /// <summary>選択されたUIの内容を実行</summary>
+    protected virtual void CommandSelectedAction()
+    {
+        if (m_changeCommandList[m_selectedCommandNumber].m_commandPanelList[(int)ChangeCommand.Next] != null)
+        {
+            CommandPanelChanged();
+        }
+    }
 
+    /// <summary>選択されているUIの色に変える</summary>
     void SelectedCommandColorChange()
     {
         m_commandList[m_selectedCommandNumber].color = new Color(1, 1, 1, m_ColorAlpha / 255);
     }
 
+    /// <summary>選択されていないUIの色に変える</summary>
     void NonCommandColorChange()
     {
         m_commandList[m_selectedCommandNumber].color = new Color(1, 1, 1, 0);
