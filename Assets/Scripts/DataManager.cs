@@ -10,6 +10,9 @@ public class DataManager : SingletonMonoBehaviour<DataManager>, IManagable
     /// <summary>セーブファイルのパス</summary>
     string m_dataPath;
 
+    /// <summary>現在のパーティーの人数</summary>
+    int m_currentPartySize;
+
     /// <summary>データを読み込みます</summary>
     public void DataRead()
     {
@@ -60,11 +63,11 @@ public class DataManager : SingletonMonoBehaviour<DataManager>, IManagable
 
     /// <summary>キャラクターデータの読み取り</summary>
     /// <param name="data">キャラクターデータ</param>
-    /// <param name="num">キャラクター数</param>
-    void ReadCharactersData(CharactersData data, int num)
+    void ReadCharactersData(CharactersData data)
     {
+        m_currentPartySize = data.datas.Length;
         var chara = CharactersManager.Instance.Characters;
-        for (int i = 0; i < num; i++)
+        for (int i = 0; i < m_currentPartySize; i++)
         {
             chara[i].Name.Value = data.datas[i].name;
             chara[i].HP.Value = data.datas[i].hp;
@@ -103,7 +106,7 @@ public class DataManager : SingletonMonoBehaviour<DataManager>, IManagable
                 byte[] decryption = AesDecryption(read);
                 string decryptString = Encoding.UTF8.GetString(decryption);
                 CharactersData jsonData = JsonUtility.FromJson<CharactersData>(decryptString);
-                ReadCharactersData(jsonData, 1);
+                ReadCharactersData(jsonData);
             }
             finally
             {
@@ -112,7 +115,7 @@ public class DataManager : SingletonMonoBehaviour<DataManager>, IManagable
         }
         else
         {
-            Debug.Log("新しく作るよ");
+            Debug.Log("保存されているデータが無いよ");
         }
     }
 
@@ -120,7 +123,7 @@ public class DataManager : SingletonMonoBehaviour<DataManager>, IManagable
     void SaveFile()
     {
         Debug.Log("データを保存するよ");
-        CharactersData jsondata = SaveCharactersData(1);
+        CharactersData jsondata = SaveCharactersData(m_currentPartySize);
         string jsonString = JsonUtility.ToJson(jsondata);
         byte[] bytes = Encoding.UTF8.GetBytes(jsonString);
         byte[] arrEncrypted = AesEncryption(bytes);
@@ -182,5 +185,6 @@ public class DataManager : SingletonMonoBehaviour<DataManager>, IManagable
     public void Initialize()
     {
         m_dataPath = Application.persistentDataPath + "/JsonTest.json";
+        m_currentPartySize = GameManager.Instance.Party.Count;
     }
 }
