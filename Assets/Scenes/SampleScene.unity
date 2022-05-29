@@ -11637,7 +11637,7 @@ MonoBehaviour:
   m_levelCorrection: 4.8
   m_charaCorrection: 0.07
   m_maxActionCount: 3
-  m_hasSkillIndex: 0000000002000000
+  m_hasSkillIndex: 0000000001000000
   m_param:
     m_rotatingSpeed: 50
     m_walkingSpeed: 10
