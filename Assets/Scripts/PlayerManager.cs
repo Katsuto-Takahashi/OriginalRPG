@@ -6,8 +6,6 @@ public class PlayerManager : Character
 {
     //BattleCharacterStateMachine m_bcsm;
     //MovementCharacterStateMachine m_mcsm;
-    [SerializeField]
-    bool test = false;
 
     protected override void SetUp()
     {
@@ -40,13 +38,6 @@ public class PlayerManager : Character
         base.OnUpdate();
         m_mcsm.OnUpdate();
         m_bcsm.OnUpdate();
-        if (test)
-        {
-            Debug.Log(MaxHpText);
-            MaxHpText = -1000;
-            Debug.Log(MaxHpText);
-            test = false;
-        }
         ApplyGetAxis();
     }
 

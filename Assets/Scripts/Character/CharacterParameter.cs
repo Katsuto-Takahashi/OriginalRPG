@@ -20,25 +20,6 @@ public class CharacterParameter : MonoBehaviour
     /// <summary>キャラクターの最大HP</summary>
     public IntReactiveProperty MaxHP => m_maxHp;
 
-    #region
-    public int MaxHpText
-    {
-        get { return m_maxHp.Value; }
-
-        protected set
-        {
-            if (value < 1)
-            {
-                m_maxHp.Value = 1;
-            }
-            else
-            {
-                m_maxHp.Value = value;
-            }
-        }
-    }
-    #endregion
-
     [SerializeField]
     IntReactiveProperty m_ap = new IntReactiveProperty(1);
     /// <summary>キャラクターの現在AP</summary>
