@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UniRx;
 
 public class CharactersManager : SingletonMonoBehaviour<CharactersManager>
 {
@@ -15,10 +14,4 @@ public class CharactersManager : SingletonMonoBehaviour<CharactersManager>
 
     /// <summary>全敵のList</summary>
     public List<Enemy> Enemies => m_enemies;
-
-    ReactiveCollection<GameObject> cp = new ReactiveCollection<GameObject>();
-    public ReactiveCollection<GameObject> CharacterP => cp;
-
-    ReactiveCollection<GameObject> ep = new ReactiveCollection<GameObject>();
-    public ReactiveCollection<GameObject> EnemyP => ep;
 }
