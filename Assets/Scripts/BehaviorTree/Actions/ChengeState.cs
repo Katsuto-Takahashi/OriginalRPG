@@ -6,7 +6,9 @@ using BehaviorTree;
 public class ChengeState : BTAction
 {
     [SerializeField]
-    MovementEnemyStateMachine m_mesm;
+    //MovementEnemyStateMachine m_mesm;
+
+    Enemy m_enemy;
 
     enum ActEvent : byte
     {
@@ -27,7 +29,8 @@ public class ChengeState : BTAction
 
     protected override NodeState Act()
     {
-        m_mesm.StateChenge((int)m_state);
+        m_enemy.MESM.StateChenge((int)m_state);
+        //m_mesm.StateChenge((int)m_state);
         return NodeState.Success;
     }
 
