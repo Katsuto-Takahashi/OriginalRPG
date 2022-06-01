@@ -22,14 +22,15 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, IManagable
     {
         base.Awake();
         Initialize();
-        DataManager.Instance.Initialize();
+        //DataManager.Instance.Initialize();
         HPAndAPDisplay.Instance.Initialize();
     }
 
     void Start()
     {
-        DataManager.Instance.DataRead();
-        DataManager.Instance.DataSave();
+        m_player.BCSM.CanSelect.DistinctUntilChanged().Subscribe(s => UIManager.Instance.DisplayBattleCommandPanel(s)).AddTo(m_player.gameObject);
+        //DataManager.Instance.DataRead();
+        //DataManager.Instance.DataSave();
         Observable.EveryUpdate().Subscribe(_ => OnUpdate()).AddTo(this);
     }
 
