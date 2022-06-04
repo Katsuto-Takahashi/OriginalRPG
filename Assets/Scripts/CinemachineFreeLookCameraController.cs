@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class CameraController : MonoBehaviour
+public class CinemachineFreeLookCameraController : MonoBehaviour
 {
     /// <summary>視点をリセットする際のpositionの目安</summary>
     [SerializeField] Transform m_resetLookPosition = null;
