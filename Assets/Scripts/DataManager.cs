@@ -54,7 +54,8 @@ public class DataManager : SingletonMonoBehaviour<DataManager>, IManagable
                 nowexp = chara[i].NowExp.Value,
                 totalexp = chara[i].TotalExp.Value,
                 nextexp = chara[i].NextExp.Value,
-                skillindex = chara[i].HasSkillIndex.ToArray()
+                //skillindex = chara[i].HasSkillIndex.ToArray()
+                skillindex = chara[i].HasSkillIndex,
             };
         }
         Debug.Log("ï€ë∂äÆóπ");
@@ -85,8 +86,10 @@ public class DataManager : SingletonMonoBehaviour<DataManager>, IManagable
             chara[i].NowExp.Value = data.datas[i].nowexp;
             chara[i].TotalExp.Value = data.datas[i].totalexp;
             chara[i].NextExp.Value = data.datas[i].nextexp;
-            chara[i].HasSkillIndex.Clear();
-            chara[i].HasSkillIndex.AddRange(data.datas[i].skillindex);
+            //chara[i].HasSkillIndex.Clear();
+            //chara[i].HasSkillIndex.AddRange(data.datas[i].skillindex);
+            chara[i].HasSkillIndex = data.datas[i].skillindex;
+
         }
         Debug.Log("ì«Ç›çûÇ›äÆóπ");
     }

@@ -101,7 +101,7 @@ public class CharacterParameter : MonoBehaviour
     public int MaxActionCount => m_maxActionCount;
 
     [SerializeField]
-    List<int> m_hasSkillIndex = new List<int>();
+    SkillIndex m_hasSkillIndex;
     /// <summary>持っているスキルのインデックス</summary>
-    public List<int> HasSkillIndex => m_hasSkillIndex;
+    public SkillIndex HasSkillIndex { get => m_hasSkillIndex; set => m_hasSkillIndex = value; }
 }
