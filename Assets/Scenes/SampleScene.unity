@@ -5216,7 +5216,11 @@ MonoBehaviour:
   m_enableDollyZoom: 1
   m_enableWallDetection: 1
   m_enableFixedPoint: 0
-  m_moveSpeed: 0.5
+  m_inputType: 1
+  m_padCameraVerticalMoveSpeed: 1
+  m_padCameraHorizontalMoveSpeed: 1
+  m_mouseCameraVerticalMoveSpeed: 0.5
+  m_mouseCameraHorizontalMoveSpeed: 0.5
   m_freeLookRotation: {x: 0, y: 0, z: 0}
   m_height: 1.5
   m_distance: 8
@@ -5232,6 +5236,8 @@ MonoBehaviour:
   m_wallDetectionMask:
     serializedVersion: 2
     m_Bits: 1792
+  m_minAngle: -60
+  m_maxAngle: 60
 --- !u!1 &989476301
 GameObject:
   m_ObjectHideFlags: 0
@@ -11469,7 +11475,9 @@ MonoBehaviour:
   m_levelCorrection: 4.8
   m_charaCorrection: 0.07
   m_maxActionCount: 3
-  m_hasSkillIndex: 
+  m_hasSkillIndex:
+    physicals: 
+    magicals: 
   m_param:
     m_rotatingSpeed: 50
     m_walkingSpeed: 10
@@ -11688,7 +11696,9 @@ MonoBehaviour:
   m_levelCorrection: 4.8
   m_charaCorrection: 0.07
   m_maxActionCount: 3
-  m_hasSkillIndex: 0000000001000000
+  m_hasSkillIndex:
+    physicals: 
+    magicals: 
   m_param:
     m_rotatingSpeed: 50
     m_walkingSpeed: 10
