@@ -33,9 +33,29 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     bool m_enableFixedPoint = false;
 
-    /// <summary>cameraの移動速度</summary>
+    enum InputType
+    {
+        Pad,
+        Mouse
+    }
     [SerializeField]
-    float m_moveSpeed = 1.0f;
+    InputType m_inputType = InputType.Pad;
+
+    /// <summary>パッドでのcameraの縦方向移動速度</summary>
+    [SerializeField]
+    float m_padCameraVerticalMoveSpeed = 1.0f;
+
+    /// <summary>パッドでのcameraの横方向移動速度</summary>
+    [SerializeField]
+    float m_padCameraHorizontalMoveSpeed = 1.0f;
+
+    /// <summary>マウスでのcameraの縦方向移動速度</summary>
+    [SerializeField]
+    float m_mouseCameraVerticalMoveSpeed = 1.0f;
+
+    /// <summary>マウスでのcameraの横方向移動速度</summary>
+    [SerializeField]
+    float m_mouseCameraHorizontalMoveSpeed = 1.0f;
 
     /// <summary>targetの周りを見渡す際の回転</summary>
     [SerializeField]
@@ -72,7 +92,7 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     float m_noise = 0.0f;
 
-    /// <summary>手ブレの大きさ(z方向のみ)</summary>
+    /// <summary>z方向の手ブレの大きさ</summary>
     [SerializeField]
     float m_noiseZ = 0.0f;
 
@@ -91,6 +111,14 @@ public class CameraController : MonoBehaviour
     /// <summary>壁と認識するLayerMask</summary>
     [SerializeField]
     LayerMask m_wallDetectionMask = default;
+
+    /// <summary>最小の角度</summary>
+    [SerializeField]
+    float m_minAngle = -80.0f;
+
+    /// <summary>最大の角度</summary>
+    [SerializeField]
+    float m_maxAngle = 80.0f;
 
     /// <summary>カメラ</summary>
     Camera m_cam;
@@ -112,6 +140,10 @@ public class CameraController : MonoBehaviour
     Quaternion m_initialRotation;
     /// <summary>ターゲットとカメラの高さの差</summary>
     float m_heightdifference;
+    /// <summary>cameraの縦方向移動速度</summary>
+    float m_verticalMoveSpeed;
+    /// <summary>cameraの横方向移動速度</summary>
+    float m_horizontalMoveSpeed;
 
     void Start()
     {
@@ -217,11 +249,25 @@ public class CameraController : MonoBehaviour
     {
         if (m_enableInput)
         {
+            switch (m_inputType)
+            {
+                case InputType.Pad:
+                    m_verticalMoveSpeed = m_padCameraVerticalMoveSpeed;
+                    m_horizontalMoveSpeed = m_padCameraHorizontalMoveSpeed;
+                    break;
+                case InputType.Mouse:
+                    m_verticalMoveSpeed = m_mouseCameraVerticalMoveSpeed;
+                    m_horizontalMoveSpeed = m_mouseCameraHorizontalMoveSpeed;
+                    break;
+                default:
+                    break;
+            }
+
             Vector2 inputValue = InputController.Instance.CameraMove();
             inputValue.Normalize();
-            m_rotation.x -= inputValue.y * m_moveSpeed;
-            m_rotation.x = Mathf.Clamp(m_rotation.x, -89.9f, 89.9f);
-            m_rotation.y -= inputValue.x * m_moveSpeed;
+            m_rotation.x -= inputValue.y * m_horizontalMoveSpeed;
+            m_rotation.x = Mathf.Clamp(m_rotation.x, m_minAngle, m_maxAngle);
+            m_rotation.y -= inputValue.x * m_verticalMoveSpeed;
 
             m_rotation.y = m_rotation.y > 180 ? m_rotation.y - 360 : m_rotation.y;
             m_rotation.y = m_rotation.y < -180 ? m_rotation.y + 360 : m_rotation.y;
