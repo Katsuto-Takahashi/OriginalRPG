@@ -26,5 +26,18 @@ public class ParamData
     public int nowexp;
     public int totalexp;
     public int nextexp;
-    public int[] skillindex;
+    public SkillIndex skillindex;
+}
+
+[System.Serializable]
+public class SkillIndex
+{
+    [SerializeField]
+    private int[] physicals;
+
+    [SerializeField]
+    private int[] magicals;
+
+    public int[] Physicals => physicals;
+    public int[] Magicals => magicals;
 }
