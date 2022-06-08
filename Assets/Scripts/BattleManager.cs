@@ -446,6 +446,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     public void SelectEnemy(int id)
     {
         m_enemy = m_enemyList[id];
+        m_enemy.gameObject.layer = LayerMask.NameToLayer("Target");
         m_player.BCSM.CanSelect.Value = false;
     }
 
@@ -456,17 +457,17 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         m_character = m_characterList[id];
     }
 
-    SkillData m_skill;
-    public SkillData SetSkill => m_skill;
-    public void SelectSkill(int id, SkillData.SkillType skillType)
+    Skill m_skill;
+    public Skill SetSkill => m_skill;
+    public void SelectSkill(int id, SkillData.SkillType skillType, SkillIndex skillIndex)
     {
         if (skillType == SkillData.SkillType.physicalAttack)
         {
-            m_skill = m_skillList.PhysicalSkills[id].SkillParameter;
+            m_skill = m_skillList.PhysicalSkills[skillIndex.Physicals[id]];
         }
         else
         {
-            m_skill = m_skillList.MagicSkills[id].SkillParameter;
+            m_skill = m_skillList.MagicSkills[skillIndex.Magicals[id]];
         }
     }
 }

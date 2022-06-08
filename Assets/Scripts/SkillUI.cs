@@ -10,7 +10,8 @@ public class SkillUI : UIController
 
     protected override void CommandSelectedAction()
     {
-        BattleManager.Instance.SelectSkill(m_selectedCommandNumber, m_skillType);
+        var skillIndex = GameManager.Instance.Player.HasSkillIndex;
+        BattleManager.Instance.SelectSkill(m_selectedCommandNumber, m_skillType, skillIndex);
         base.CommandSelectedAction();
     }
 }

@@ -134,4 +134,9 @@ public class EnemyParameter : MonoBehaviour
 
     /// <summary>攻撃されるタイプの配列</summary>
     public float[] AttackTypesResistance => m_attackTypesResistance;
+
+    [SerializeField]
+    SkillIndex m_hasSkillIndex;
+    /// <summary>持っているスキルのインデックス</summary>
+    public SkillIndex HasSkillIndex { get => m_hasSkillIndex; set => m_hasSkillIndex = value; }
 }
