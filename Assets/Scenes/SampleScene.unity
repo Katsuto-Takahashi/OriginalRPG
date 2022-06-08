@@ -9855,6 +9855,7 @@ GameObject:
   - component: {fileID: 1649080053}
   - component: {fileID: 1649080052}
   - component: {fileID: 1649080051}
+  - component: {fileID: 1649080055}
   m_Layer: 5
   m_Name: AtackPanel
   m_TagString: Untagged
@@ -9892,7 +9893,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1649080049}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f50b0593fed2f74fa92d5b4c1fa5ea0, type: 3}
   m_Name: 
@@ -9987,6 +9988,47 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1649080049}
   m_CullTransparentMesh: 0
+--- !u!114 &1649080055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649080049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f3794eae24445742b5da93411896df8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_commandList:
+  - {fileID: 703477480}
+  - {fileID: 581632651}
+  - {fileID: 1514665844}
+  - {fileID: 1734308776}
+  m_ColorAlpha: 120
+  m_changeCommandList:
+  - m_commandPanelList:
+    - {fileID: 810348678}
+    - {fileID: 1598404451}
+    - {fileID: 0}
+    - {fileID: 0}
+  - m_commandPanelList:
+    - {fileID: 810348678}
+    - {fileID: 511799458}
+    - {fileID: 0}
+    - {fileID: 0}
+  - m_commandPanelList:
+    - {fileID: 810348678}
+    - {fileID: 2087744773}
+    - {fileID: 0}
+    - {fileID: 0}
+  - m_commandPanelList:
+    - {fileID: 810348678}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  m_special: 0
+  m_skillType: 0
 --- !u!1 &1666101729
 GameObject:
   m_ObjectHideFlags: 0
@@ -11697,7 +11739,7 @@ MonoBehaviour:
   m_charaCorrection: 0.07
   m_maxActionCount: 3
   m_hasSkillIndex:
-    physicals: 
+    physicals: 00000000
     magicals: 
   m_param:
     m_rotatingSpeed: 50
