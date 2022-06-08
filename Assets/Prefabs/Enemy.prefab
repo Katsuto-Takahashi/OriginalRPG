@@ -261,6 +261,9 @@ MonoBehaviour:
   m_attackTypesResistance:
   - 0
   - 0
+  m_hasSkillIndex:
+    physicals: 
+    magicals: 
   m_param:
     m_rotatingSpeed: 50
     m_walkingSpeed: 10
