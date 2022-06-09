@@ -61,6 +61,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Move);
                 }
+                //Debug.Log($"移動方向{owner.m_moveDirection}");
             }
 
             protected override void OnExit(State nextState)
@@ -74,19 +75,24 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
         public class Move : State
         {
+            float m_x;
+            float m_z;
             Enemy enemy;
-            SkillData skill;
+            //Skill skill;
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("Move");
                 owner.m_isStop.Value = true;
                 owner.PlayAnimation("Run");
-                enemy = BattleManager.Instance.m_saveobj;
-                skill = BattleManager.Instance.m_skill;
+                enemy = BattleManager.Instance.SetEnemy;
+                owner.m_selectSkill = BattleManager.Instance.SetSkill;
             }
 
             protected override void OnUpdate()
             {
+                m_x = enemy.transform.position.x - owner.transform.position.x;
+                m_z = enemy.transform.position.z - owner.transform.position.z;
+                owner.m_distance = (enemy.transform.position.x - owner.transform.position.x) * (enemy.transform.position.x - owner.transform.position.x) + (enemy.transform.position.z - owner.transform.position.z) * (enemy.transform.position.z - owner.transform.position.z);
                 if (owner.m_isDead)
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
@@ -99,30 +105,36 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.NoBattle);
                 }
-                else if (true)
+                //else if (true)//行動キャンセル
+                //{
+                //    StateMachine.Dispatch((int)ActEvent.Wait);
+                //}
+                if (owner.m_distance > owner.m_selectSkill.SkillParameter.SkillRange * owner.m_selectSkill.SkillParameter.SkillRange)
                 {
-                    StateMachine.Dispatch((int)ActEvent.Wait);
-                }
-                if (owner.m_distance > skill.SkillRange)
-                {
-                    //Vector3 target = owner.m_targetPosition;
-                    //target.y = 0f;
+                    Vector3 target = enemy.transform.position;
+                    target.y = owner.transform.position.y;
                     //owner.transform.position = new Vector3(owner.transform.position.x, 0f, owner.transform.position.z);
-                    //owner.transform.LookAt(target);
-                    //owner.transform.position = Vector3.MoveTowards(owner.transform.position, owner.m_targetPosition, owner.m_moveSpeed * Time.deltaTime);
+                    owner.transform.LookAt(target);
+                    owner.m_moveDirection.x = m_x;
+                    owner.m_moveDirection.y = m_z;
+                    owner.m_moveDirection.Normalize();
+                    //Debug.Log($"移動方向{owner.m_moveDirection}");
                 }
                 else
                 {
-                    //Vector3 target = owner.m_targetPosition;
-                    //target.y = 0f;
+                    Vector3 target = owner.m_targetPosition;
+                    target.y = owner.transform.position.y;
                     //owner.transform.position = new Vector3(owner.transform.position.x, 0f, owner.transform.position.z);
-                    //owner.transform.LookAt(target);
+                    owner.transform.LookAt(target);
                     StateMachine.Dispatch((int)ActEvent.BattleAction);
                 }
             }
 
             protected override void OnExit(State nextState)
             {
+                owner.m_moveDirection.x = 0.0f;
+                owner.m_moveDirection.y = 0.0f;
+                Debug.Log($"0にした後の移動方向{owner.m_moveDirection}");
                 if (nextState is Wait)
                 {
                     owner.m_isStop.Value = false;
@@ -135,6 +147,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("BattleAction");
+                owner.PlayAnimation("Attack");
             }
 
             protected override void OnUpdate()

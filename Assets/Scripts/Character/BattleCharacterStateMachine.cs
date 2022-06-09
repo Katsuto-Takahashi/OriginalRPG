@@ -85,14 +85,13 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     float m_actionTimer;
     #endregion
 
-    /// <summary>通常攻撃</summary>
-    List<SkillData> m_normalSkill = new List<SkillData>();
-    /// <summary>スキル</summary>
-    List<SkillData> m_skillDatas = new List<SkillData>();
-    /// <summary>魔法</summary>
-    List<SkillData> m_magicDatas = new List<SkillData>();
+    /// <summary>移動の向き</summary>
+    Vector2 m_moveDirection;
+    /// <summary>移動の方向</summary>
+    public Vector2 MoveDirection => m_moveDirection;
+
     /// <summary>選択した攻撃</summary>
-    SkillData m_selectSkill;
+    Skill m_selectSkill;
 
     void SetState()
     {
@@ -154,27 +153,6 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     {
         m_moveSpeed = (param.WalkingSpeed + param.RunningSpeed) / 2f;
     }
-
-    //void SetSkill(HasSkillList hasSkill)
-    //{
-    //    for (int i = 0; i < hasSkill.NormalSkill.Count; i++)
-    //    {
-    //        m_normalSkill.Add(hasSkill.NormalSkill[i]);
-    //    }
-    //    GetSkill(hasSkill);
-    //}
-
-    //void GetSkill(HasSkillList hasSkill)
-    //{
-    //    for (int i = 0; i < hasSkill.SkillDatas.Count; i++)
-    //    {
-    //        m_skillDatas.Add(hasSkill.SkillDatas[i]);
-    //    }
-    //    for (int i = 0; i < hasSkill.MagicDatas.Count; i++)
-    //    {
-    //        m_magicDatas.Add(hasSkill.MagicDatas[i]);
-    //    }
-    //}
 
     void Timer(State state)
     {
