@@ -9,16 +9,21 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
-                owner.PlayAnimation("Idle");
-                owner.m_currentVelocity = Vector3.zero;
+                Debug.Log($"{prevState}からIdle");
+                if (owner.m_canOperation)
+                {
+                    owner.PlayAnimation("Idle");
+                    owner.m_currentVelocity = Vector3.zero;
+                }
             }
             protected override void OnUpdate()
             {
-                if (!owner.m_canOperation)
-                {
-                    StateMachine.Dispatch((int)ActEvent.Stop);
-                }
-                else if (owner.IsGround() || owner.IsSlope())
+                //if (!owner.m_canOperation)
+                //{
+                //    StateMachine.Dispatch((int)ActEvent.Stop);
+                //}
+                //else 
+                if (owner.IsGround() || owner.IsSlope())
                 {
                     if (owner.m_inputDirection.sqrMagnitude > 0.1f)
                     {
@@ -47,15 +52,17 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
+                Debug.Log("Walk");
                 owner.PlayAnimation("Walk");
             }
             protected override void OnUpdate()
             {
-                if (!owner.m_canOperation)
-                {
-                    StateMachine.Dispatch((int)ActEvent.Stop);
-                }
-                else if (owner.IsGround() || owner.IsSlope())
+                //if (!owner.m_canOperation)
+                //{
+                //    StateMachine.Dispatch((int)ActEvent.Stop);
+                //}
+                //else 
+                if (owner.IsGround() || owner.IsSlope())
                 {
                     if (InputController.Instance.Jump())
                     {
@@ -74,7 +81,14 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
                     }
                     else
                     {
-                        StateMachine.Dispatch((int)ActEvent.Idle);
+                        if (!owner.m_canOperation)
+                        {
+                            StateMachine.Dispatch((int)ActEvent.Stop);
+                        }
+                        else
+                        {
+                            StateMachine.Dispatch((int)ActEvent.Idle);
+                        }
                     }
                 }
                 else
@@ -234,17 +248,26 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         {
             protected override void OnEnter(State prevState)
             {
-                owner.PlayAnimation("Idle");
+                //owner.PlayAnimation("Idle");
+                Debug.Log($"stop");
             }
             protected override void OnUpdate()
             {
+                Debug.Log($"停止中");
                 if (owner.m_canOperation)
                 {
+                    Debug.Log($"もう動けるよ");
                     StateMachine.Dispatch((int)ActEvent.Idle);
                 }
+                //if (owner.m_inputDirection.sqrMagnitude > 0.1f)
+                //{
+                //    Debug.Log($"移動");
+                //    StateMachine.Dispatch((int)ActEvent.Walk);
+                //}
             }
             protected override void OnExit(State nextState)
             {
+                Debug.Log($"stopを抜ける");
             }
         }
 

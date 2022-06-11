@@ -25,7 +25,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.NoBattle);
                 }
-                if (owner.m_actionCount > 0)
+                if (!owner.m_canSelect.Value && owner.m_actionCount > 0)
                 {
                     StateMachine.Dispatch((int)ActEvent.Standby);
                 }
@@ -61,7 +61,6 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     StateMachine.Dispatch((int)ActEvent.Move);
                 }
-                //Debug.Log($"移動方向{owner.m_moveDirection}");
             }
 
             protected override void OnExit(State nextState)
@@ -134,7 +133,6 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             {
                 owner.m_moveDirection.x = 0.0f;
                 owner.m_moveDirection.y = 0.0f;
-                Debug.Log($"0にした後の移動方向{owner.m_moveDirection}");
                 if (nextState is Wait)
                 {
                     owner.m_isStop.Value = false;
@@ -148,6 +146,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             {
                 Debug.Log("BattleAction");
                 owner.PlayAnimation("Attack");
+                //BattleManager.Instance.CharacterAct(owner.gameObject, owner)
             }
 
             protected override void OnUpdate()
