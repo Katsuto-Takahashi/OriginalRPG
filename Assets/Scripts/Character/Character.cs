@@ -18,13 +18,15 @@ public class Character : CharacterParameter, ITakableDamage
     protected Animator m_animator;
     protected Rigidbody m_rigidbody;
     protected CapsuleCollider m_capsuleCollider;
-    //protected HasSkillList m_hsl;
+    protected AttackChecker m_attackChecker;
     protected MovementCharacterStateMachine m_mcsm;
     protected BattleCharacterStateMachine m_bcsm;
 
-    public BattleCharacterStateMachine BCSM => m_bcsm;
+    public AttackChecker AC => m_attackChecker;
 
     public MovementCharacterStateMachine MCSM => m_mcsm;
+
+    public BattleCharacterStateMachine BCSM => m_bcsm;
 
     bool m_isContact = false;
     public bool IsContact { get => m_isContact; set => m_isContact = value; }
@@ -36,7 +38,7 @@ public class Character : CharacterParameter, ITakableDamage
     {
         m_myTransform = transform;
 
-        //m_hsl = GetComponent<HasSkillList>();
+        m_attackChecker = GetComponentInChildren<AttackChecker>();
         m_animator = GetComponentInChildren<Animator>();
         m_rigidbody = GetComponent<Rigidbody>();
         m_capsuleCollider = GetComponent<CapsuleCollider>();
@@ -53,7 +55,10 @@ public class Character : CharacterParameter, ITakableDamage
             .AddTo(this);
     }
 
-    protected virtual void SetUp() { }
+    protected virtual void SetUp()
+    {
+        m_attackChecker.SetAnim();
+    }
 
     protected virtual void OnUpdate()
     {

@@ -25,12 +25,12 @@ public class Skill
     [SerializeField]
     SkillData m_skillParameter = new SkillData();
     [SerializeReference, SubclassSelector]
-    List<ISkillEfectable> m_efect = new List<ISkillEfectable>();
+    List<ISkillEffectable> m_effects = new List<ISkillEffectable>();
 
     /// <summary>スキルデータ</summary>
     public SkillData SkillParameter => m_skillParameter;
     /// <summary>効果のList</summary>
-    public List<ISkillEfectable> Efect => m_efect;
+    public List<ISkillEffectable> Effects => m_effects;
 }
 
 [System.Serializable]
@@ -126,47 +126,78 @@ public class SkillData
     private SkillTarget m_skillTarget;
     /// <summary>スキルの対象</summary>
     public SkillTarget Target => m_skillTarget;
+
+    [SerializeField]
+    AnimationClip m_skillAnimationClip;
+    /// <summary>スキルのanimationclip</summary>
+    public AnimationClip SkillAnimationClip => m_skillAnimationClip;
 }
-public interface ISkillEfectable
+public interface ISkillEffectable
 {
-    void Efect(SkillData skill);
+    void Effect(GameObject attacker, GameObject defender, Skill skill);
 }
 
 //それぞれのスキルの効果
 [System.Serializable]
-public class Attack : ISkillEfectable
+public class Attack : ISkillEffectable
 {
-    public void Efect(SkillData skill)
+    public void Effect(GameObject attacker, GameObject defender, Skill skill)
     {
-        Debug.Log($"{skill.SkillName}は{ skill.SkillInformation }");
+        Debug.Log($"{skill.SkillParameter.SkillName}は{ skill.SkillParameter.SkillInformation }");
+        //int d = BattleManager.Instance.Damage(attacker, defender, skill.SkillParameter);
+        attacker.GetComponentInChildren<AttackChecker>().SetAttackParam(attacker, skill, defender.layer);
     }
 }
 
-public class Bind : ISkillEfectable
+public class Bind : ISkillEffectable
 {
     [SerializeField]
     float time = 0.0f;
 
-    public void Efect(SkillData skill)
+    public void Effect(GameObject attacker, GameObject defender, Skill skill)
     {
-        Debug.Log($"{skill.SkillName}は{time}秒間拘束");
+        Debug.Log($"{skill.SkillParameter.SkillName}は{time}秒間拘束");
+
+        BattleManager.Instance.StartCoroutine(BindCharacter(time));
+    }
+
+    public IEnumerator BindCharacter(float bindTime, Character character = null, Enemy enemy = null)
+    {
+        Debug.Log("止めます");
+        if (character != null) character.BCSM.IsBind = true;
+        else if (enemy != null) enemy.BESM.IsBind = true;
+
+        yield return new WaitForSeconds(bindTime);
+
+        if (character != null) character.BCSM.IsBind = false;
+        else if (enemy != null) enemy.BESM.IsBind = false;
     }
 }
 
-public class ContinuationDamage : ISkillEfectable
+public class ContinuationDamage : ISkillEffectable
 {
+    [SerializeField]
+    float timer = 0.0f;
     [SerializeField]
     float time = 0.0f;
     [SerializeField]
     int damage = 0;
 
-    public void Efect(SkillData skill)
+    public void Effect(GameObject attacker, GameObject defender, Skill skill)
     {
-        Debug.Log($"{skill.SkillName}は{time}秒間{damage}ダメージ");
+        Debug.Log($"{skill.SkillParameter.SkillName}は{timer}秒間に{time}秒間隔で{damage}ダメージ");
+    }
+
+    public IEnumerator Continuation()
+    {
+        while (timer < 0.0f)
+        {
+            yield return null;
+        }
     }
 }
 
-public class Heal : ISkillEfectable
+public class Heal : ISkillEffectable
 {
     [SerializeField]
     int value = 0;
@@ -178,15 +209,15 @@ public class Heal : ISkillEfectable
     [SerializeField]
     HealPoint healPoint = HealPoint.HP;
 
-    public void Efect(SkillData skill)
+    public void Effect(GameObject attacker, GameObject defender, Skill skill)
     {
         if (healPoint == HealPoint.HP)
         {
-            Debug.Log($"{skill.SkillName}は{ skill.SkillInformation }");
+            Debug.Log($"{skill.SkillParameter.SkillName}は{ skill.SkillParameter.SkillInformation }");
         }
         else
         {
-            Debug.Log($"{skill.SkillName}は{ skill.SkillInformation }");
+            Debug.Log($"{skill.SkillParameter.SkillName}は{ skill.SkillParameter.SkillInformation }");
         }
     }
 }
