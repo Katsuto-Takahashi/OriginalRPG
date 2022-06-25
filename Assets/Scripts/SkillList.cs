@@ -31,6 +31,13 @@ public class Skill
     public SkillData SkillParameter => m_skillParameter;
     /// <summary>効果のList</summary>
     public List<ISkillEffectable> Effects => m_effects;
+    /// <summary>効果発動</summary>
+    //public PlayEffect PlayEffect;
+    public void PlayEffect(GameObject user, GameObject target, Skill skill)
+    {
+        Debug.Log($"{skill.SkillParameter.SkillName}は{skill.SkillParameter.SkillInformation}");
+        user.GetComponentInChildren<SkillEffectController>().SetSkill(skill, user, target);
+    }
 }
 
 [System.Serializable]
@@ -70,11 +77,18 @@ public class SkillData
     public int RequiredAP => m_requiredAP;
 
     [SerializeField]
-    [Tooltip("スキルの範囲")]
+    [Tooltip("スキルの射程")]
     [Range(1.0f, 15.0f)]
     float m_skillRange = 1.0f;
-    /// <summary>スキルの範囲</summary>
+    /// <summary>スキルの射程</summary>
     public float SkillRange => m_skillRange;
+    
+    [SerializeField]
+    [Tooltip("効果の範囲")]
+    [Range(1.0f, 15.0f)]
+    float m_effectRange = 1.0f;
+    /// <summary>効果の範囲</summary>
+    public float EffectRange => m_effectRange;
 
     [SerializeField]
     [Tooltip("次の使用可能までの時間")]
@@ -131,21 +145,22 @@ public class SkillData
     AnimationClip m_skillAnimationClip;
     /// <summary>スキルのanimationclip</summary>
     public AnimationClip SkillAnimationClip => m_skillAnimationClip;
+
+    [SerializeField]
+    ParticleSystem m_skillParticle;
+    /// <summary>スキルのParticleSystem</summary>
+    public ParticleSystem SkillParticle => m_skillParticle;
 }
 public interface ISkillEffectable
 {
-    void Effect(GameObject attacker, GameObject defender, Skill skill);
+    void Effect(GameObject user, GameObject target, Skill skill);
 }
 
-//それぞれのスキルの効果
-[System.Serializable]
 public class Attack : ISkillEffectable
 {
-    public void Effect(GameObject attacker, GameObject defender, Skill skill)
+    public void Effect(GameObject user, GameObject target, Skill skill)
     {
-        Debug.Log($"{skill.SkillParameter.SkillName}は{ skill.SkillParameter.SkillInformation }");
-        //int d = BattleManager.Instance.Damage(attacker, defender, skill.SkillParameter);
-        attacker.GetComponentInChildren<AttackChecker>().SetAttackParam(attacker, skill, defender.layer);
+        Debug.Log($"{skill.SkillParameter.SkillName}は{skill.SkillParameter.SkillInformation}");
     }
 }
 
@@ -154,7 +169,7 @@ public class Bind : ISkillEffectable
     [SerializeField]
     float time = 0.0f;
 
-    public void Effect(GameObject attacker, GameObject defender, Skill skill)
+    public void Effect(GameObject user, GameObject target, Skill skill)
     {
         Debug.Log($"{skill.SkillParameter.SkillName}は{time}秒間拘束");
 
@@ -177,21 +192,31 @@ public class Bind : ISkillEffectable
 public class ContinuationDamage : ISkillEffectable
 {
     [SerializeField]
-    float timer = 0.0f;
+    float maxTime = 0.0f;
     [SerializeField]
-    float time = 0.0f;
+    float delayTime = 0.0f;
     [SerializeField]
     int damage = 0;
 
-    public void Effect(GameObject attacker, GameObject defender, Skill skill)
+    public void Effect(GameObject user, GameObject target, Skill skill)
     {
-        Debug.Log($"{skill.SkillParameter.SkillName}は{timer}秒間に{time}秒間隔で{damage}ダメージ");
+        Debug.Log($"{skill.SkillParameter.SkillName}は{maxTime}秒間に{delayTime}秒間隔で{damage}ダメージ");
+        BattleManager.Instance.EffectCoroutine(Continuation());
     }
 
     public IEnumerator Continuation()
     {
-        while (timer < 0.0f)
+        float count = maxTime;
+        float delay = delayTime;
+        while (count >= 0.0f)
         {
+            count -= Time.deltaTime;
+            delay -= Time.deltaTime;
+            if (delay <= 0.0f)
+            {
+                //処理
+                delay += delayTime;
+            }
             yield return null;
         }
     }
@@ -209,7 +234,7 @@ public class Heal : ISkillEffectable
     [SerializeField]
     HealPoint healPoint = HealPoint.HP;
 
-    public void Effect(GameObject attacker, GameObject defender, Skill skill)
+    public void Effect(GameObject user, GameObject target, Skill skill)
     {
         if (healPoint == HealPoint.HP)
         {
