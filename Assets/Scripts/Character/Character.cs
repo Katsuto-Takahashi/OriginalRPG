@@ -18,11 +18,13 @@ public class Character : CharacterParameter, ITakableDamage
     protected Animator m_animator;
     protected Rigidbody m_rigidbody;
     protected CapsuleCollider m_capsuleCollider;
-    protected AttackChecker m_attackChecker;
+    protected SkillEffectController m_skillEffectController;
     protected MovementCharacterStateMachine m_mcsm;
     protected BattleCharacterStateMachine m_bcsm;
 
-    public AttackChecker AC => m_attackChecker;
+    SphereCollider m_sphereCollider;
+
+    public SkillEffectController SEC => m_skillEffectController;
 
     public MovementCharacterStateMachine MCSM => m_mcsm;
 
@@ -38,9 +40,10 @@ public class Character : CharacterParameter, ITakableDamage
     {
         m_myTransform = transform;
 
-        m_attackChecker = GetComponentInChildren<AttackChecker>();
+        m_skillEffectController = GetComponentInChildren<SkillEffectController>();
         m_animator = GetComponentInChildren<Animator>();
         m_rigidbody = GetComponent<Rigidbody>();
+        m_sphereCollider = GetComponentInChildren<SphereCollider>();
         m_capsuleCollider = GetComponent<CapsuleCollider>();
         m_mcsm = GetComponent<MovementCharacterStateMachine>();
         m_bcsm = GetComponent<BattleCharacterStateMachine>();
@@ -57,7 +60,7 @@ public class Character : CharacterParameter, ITakableDamage
 
     protected virtual void SetUp()
     {
-        m_attackChecker.SetAnim();
+        m_skillEffectController.SetUp(m_sphereCollider);
     }
 
     protected virtual void OnUpdate()
