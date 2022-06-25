@@ -224,6 +224,24 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         }
     }
 
+    public void PlaySkillEffect(GameObject attacker, GameObject defender, Skill skill)
+    {
+        skill.PlayEffect(attacker, defender, skill);
+    }
+
+    public void PlayAdditionalSkillEffect(GameObject attacker, GameObject defender, Skill skill)
+    {
+        for (int i = 0; i < skill.Effects.Count; i++)
+        {
+            skill.Effects[i].Effect(attacker, defender, skill);
+        }
+    }
+
+    public void EffectCoroutine(IEnumerator enumerator)
+    {
+        StartCoroutine(enumerator);
+    }
+
     /// <summary>ダメージを計算して返す</summary>
     /// <param name="attacker">攻撃側の能力</param>
     /// <param name="defender">防御側の能力</param>
@@ -250,16 +268,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
             }
 
             damage = m_damageCalculator.Damage(characterParameter, enemyParameter, skillData, Attacker.character, check);
-            /*
-            if (skillData.attackType == SkillData.AttackType.physicalAttack)
-            {
-                damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.Strength.Value, enemyParameter.Defense.Value, check);
-            }
-            else if (skillData.attackType == SkillData.AttackType.magicAttack)
-            {
-                damage = m_damageCalculator.EnemyDamage(skillData, enemyParameter, characterParameter.MagicPower.Value, enemyParameter.MagicResist.Value, check);
-            }
-            */
+
             StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, enemyParameter.Name.Value, check));
         }
         else if (((1 << attacker.layer) & LayerMask.NameToLayer("Enemy")) != 0)
@@ -273,16 +282,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
             }
 
             damage = m_damageCalculator.Damage(characterParameter, enemyParameter, skillData, Attacker.enemy, check);
-            /*
-            if (skillData.attackType == SkillData.AttackType.physicalAttack)
-            {
-                damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.Strength.Value, characterParameter.Defense.Value, check);
-            }
-            else if (skillData.attackType == SkillData.AttackType.magicAttack)
-            {
-                damage = m_damageCalculator.PlayerDamage(skillData, enemyParameter.MagicPower.Value, characterParameter.MagicResist.Value, check);
-            }
-            */
+
             StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, characterParameter.Name.Value, check));
         }
 
