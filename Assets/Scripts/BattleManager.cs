@@ -224,16 +224,16 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         }
     }
 
-    public void PlaySkillEffect(GameObject attacker, GameObject defender, Skill skill)
+    public void PlaySkillEffect(GameObject user, GameObject target, Skill skill)
     {
-        skill.PlayEffect(attacker, defender, skill);
+        skill.PlayEffect(user, target, skill);
     }
 
-    public void PlayAdditionalSkillEffect(GameObject attacker, GameObject defender, Skill skill)
+    public void PlayAdditionalSkillEffect(GameObject user, GameObject target, Skill skill)
     {
         for (int i = 0; i < skill.Effects.Count; i++)
         {
-            skill.Effects[i].Effect(attacker, defender, skill);
+            skill.Effects[i].Effect(user, target, skill);
         }
     }
 

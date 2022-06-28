@@ -85,7 +85,7 @@ public class SkillData
     
     [SerializeField]
     [Tooltip("Œø‰Ê‚Ì”ÍˆÍ")]
-    [Range(1.0f, 15.0f)]
+    [Range(0.5f, 15.0f)]
     float m_effectRange = 1.0f;
     /// <summary>Œø‰Ê‚Ì”ÍˆÍ</summary>
     public float EffectRange => m_effectRange;
@@ -161,6 +161,7 @@ public class Attack : ISkillEffectable
     public void Effect(GameObject user, GameObject target, Skill skill)
     {
         Debug.Log($"{skill.SkillParameter.SkillName}‚Í{skill.SkillParameter.SkillInformation}");
+        target.GetComponent<ITakableDamage>().TakeDamage(BattleManager.Instance.Damage(user, target, skill.SkillParameter));
     }
 }
 
@@ -201,11 +202,12 @@ public class ContinuationDamage : ISkillEffectable
     public void Effect(GameObject user, GameObject target, Skill skill)
     {
         Debug.Log($"{skill.SkillParameter.SkillName}‚Í{maxTime}•bŠÔ‚É{delayTime}•bŠÔŠu‚Å{damage}ƒ_ƒ[ƒW");
-        BattleManager.Instance.EffectCoroutine(Continuation());
+        BattleManager.Instance.EffectCoroutine(Continuation(user, target, skill.SkillParameter));
     }
 
-    public IEnumerator Continuation()
+    public IEnumerator Continuation(GameObject user, GameObject target, SkillData skilldata)
     {
+        var damage = target.GetComponent<ITakableDamage>();
         float count = maxTime;
         float delay = delayTime;
         while (count >= 0.0f)
@@ -214,7 +216,7 @@ public class ContinuationDamage : ISkillEffectable
             delay -= Time.deltaTime;
             if (delay <= 0.0f)
             {
-                //ˆ—
+                damage.TakeDamage(BattleManager.Instance.Damage(user, target, skilldata));
                 delay += delayTime;
             }
             yield return null;
