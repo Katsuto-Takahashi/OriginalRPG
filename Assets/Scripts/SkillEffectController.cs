@@ -5,14 +5,22 @@ using UnityEngine;
 public class SkillEffectController : MonoBehaviour
 {
     GameObject _user;
-    SphereCollider _sphereCollider;
     GameObject _targetObject;
     Skill _skillData;
     Vector3 _initializePosition;
 
+    [SerializeField]
+    [EnumIndex(typeof(EffectType))]
+    List<HitController> _hitControllers = new List<HitController>();
+    List<GameObject> _hitObjects = new List<GameObject>();
+
     public void SetUp()
     {
-        _sphereCollider = GetComponentInChildren<SphereCollider>();
+        for (int i = 0; i < _hitControllers.Count; i++)
+        {
+            _hitControllers[i].SetUp(this);
+            _hitObjects.Add(_hitControllers[i].gameObject);
+        }
         _initializePosition = transform.position;
         ChangeColliderEnable(false);
     }
@@ -25,22 +33,22 @@ public class SkillEffectController : MonoBehaviour
 
         switch (_skillData.SkillParameter.Target)
         {
-            case SkillData.SkillTarget.all:
+            case SkillTarget.All:
                 AllEffect(user.transform.position);
                 break;
-            case SkillData.SkillTarget.oneEnemy:
+            case SkillTarget.OneEnemy:
                 OneEffect(user.transform.position, target.transform.position);
                 break;
-            case SkillData.SkillTarget.enemyOnly:
+            case SkillTarget.EnemyOnly:
                 OnlyEffect(target.transform.position);
                 break;
-            case SkillData.SkillTarget.oneAlly:
+            case SkillTarget.OneAlly:
                 OneEffect(user.transform.position, target.transform.position);
                 break;
-            case SkillData.SkillTarget.allyOnly:
+            case SkillTarget.AllyOnly:
                 OnlyEffect(target.transform.position);
                 break;
-            case SkillData.SkillTarget.myself:
+            case SkillTarget.Myself:
                 OneEffect(user.transform.position, target.transform.position);
                 break;
             default:
@@ -50,22 +58,22 @@ public class SkillEffectController : MonoBehaviour
 
     void AllEffect(Vector3 myPosition)
     {
-        ChangeColliderEnable(true);
-        _sphereCollider.radius = _skillData.SkillParameter.EffectRange;
+        //ChangeColliderEnable(true);
+        //_sphereCollider.radius = _skillData.SkillParameter.EffectRange;
         StartCoroutine(PlayEffect(myPosition));
     }
 
     void OneEffect(Vector3 myPosition, Vector3 targetPosition)
     {
         ChangeColliderEnable(true);
-        _sphereCollider.radius = _skillData.SkillParameter.EffectRange;
+        //_sphereCollider.radius = _skillData.SkillParameter.EffectRange;
         StartCoroutine(PlayEffect(myPosition, targetPosition));
     }
 
     void OnlyEffect(Vector3 targetPosition)
     {
         ChangeColliderEnable(true);
-        _sphereCollider.radius = _skillData.SkillParameter.EffectRange;
+        //_sphereCollider.radius = _skillData.SkillParameter.EffectRange;
         Vector3 startPosition = new Vector3(targetPosition.x, targetPosition.y + 10f, targetPosition.z);
         StartCoroutine(PlayEffect(startPosition, targetPosition));
     }
@@ -83,63 +91,105 @@ public class SkillEffectController : MonoBehaviour
 
     IEnumerator PlayEffect(Vector3 startPosition, Vector3 targetPosition)
     {
-        while (Vector3.Distance(_sphereCollider.transform.position, _targetObject.transform.position) > 0.01f)
+        //while (Vector3.Distance(_sphereCollider.transform.position, _targetObject.transform.position) > 0.01f)
         {
             startPosition = Vector3.MoveTowards(startPosition, targetPosition, 10.0f * Time.deltaTime);
-            _sphereCollider.transform.position = startPosition;
+            //_sphereCollider.transform.position = startPosition;
             yield return null;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void HitEffect(Collider other)
     {
-        switch (_skillData.SkillParameter.Target)
+        if (_skillData != null)
         {
-            case SkillData.SkillTarget.all:
-                ChangeColliderEnable(false);
-                break;
-            case SkillData.SkillTarget.oneEnemy:
-                if (other.gameObject == _targetObject)
-                {
-                    BattleManager.Instance.PlayAdditionalSkillEffect(_user, _targetObject, _skillData);
-                }
-                ChangeColliderEnable(false);
-                break;
-            case SkillData.SkillTarget.enemyOnly:
-                if (other.gameObject.CompareTag(_targetObject.tag))
-                {
-                    BattleManager.Instance.PlayAdditionalSkillEffect(_user, _targetObject, _skillData);
-                }
-                ChangeColliderEnable(false);
-                break;
-            case SkillData.SkillTarget.oneAlly:
-                if (other.gameObject == _targetObject)
-                {
-                    BattleManager.Instance.PlayAdditionalSkillEffect(_user, _targetObject, _skillData);
-                }
-                ChangeColliderEnable(false);
-                break;
-            case SkillData.SkillTarget.allyOnly:
-                if (other.gameObject.CompareTag(_targetObject.tag))
-                {
-                    BattleManager.Instance.PlayAdditionalSkillEffect(_user, _targetObject, _skillData);
-                }
-                break;
-            case SkillData.SkillTarget.myself:
-                if (other.gameObject == _targetObject)
-                {
-                    BattleManager.Instance.PlayAdditionalSkillEffect(_user, _targetObject, _skillData);
-                }
-                ChangeColliderEnable(false);
-                break;
-            default:
-                break;
+            switch (_skillData.SkillParameter.Target)
+            {
+                case SkillTarget.All:
+                    ChangeColliderEnable(false);
+                    break;
+                case SkillTarget.OneEnemy:
+                    if (other.gameObject == _targetObject)
+                    {
+                        BattleManager.Instance.PlayAdditionalSkillEffect(_user, _targetObject, _skillData);
+                        ChangeColliderEnable(false);
+                    }
+                    break;
+                case SkillTarget.EnemyOnly:
+                    if (other.gameObject.CompareTag(_targetObject.tag))
+                    {
+                        BattleManager.Instance.PlayAdditionalSkillEffect(_user, _targetObject, _skillData);
+                        ChangeColliderEnable(false);
+                    }
+                    break;
+                case SkillTarget.OneAlly:
+                    if (other.gameObject == _targetObject)
+                    {
+                        BattleManager.Instance.PlayAdditionalSkillEffect(_user, _targetObject, _skillData);
+                        ChangeColliderEnable(false);
+                    }
+                    break;
+                case SkillTarget.AllyOnly:
+                    if (other.gameObject.CompareTag(_targetObject.tag))
+                    {
+                        BattleManager.Instance.PlayAdditionalSkillEffect(_user, _targetObject, _skillData);
+                        ChangeColliderEnable(false);
+                    }
+                    break;
+                case SkillTarget.Myself:
+                    if (other.gameObject == _targetObject)
+                    {
+                        BattleManager.Instance.PlayAdditionalSkillEffect(_user, _targetObject, _skillData);
+                        ChangeColliderEnable(false);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
     void ChangeColliderEnable(bool flag)
     {
-        if (!flag) _sphereCollider.transform.position = _initializePosition;
-        _sphereCollider.gameObject.SetActive(flag);
+        if (flag == false)
+        {
+            //_sphereCollider.transform.position = _initializePosition;
+            
+        }
+        //_sphereCollider.gameObject.SetActive(flag);
     }
+
+    void EffectObjectSetActive(bool flag, EffectType effectType, Skill skill = null)
+    {
+        if (flag)
+        {
+            _hitObjects[(int)effectType].SetActive(flag);
+        }
+        else
+        {
+            if (skill != null)
+            {
+                StartCoroutine(Change(effectType, skill));
+            }
+            else
+            {
+                _hitObjects[(int)effectType].SetActive(flag);
+            }
+        }
+    }
+
+    IEnumerator Change(EffectType effectType, Skill skill)
+    {
+        Instantiate(skill.SkillParameter.SkillFinishEffect, _hitObjects[(int)effectType].transform.position, Quaternion.identity, gameObject.transform);
+        yield return null;
+        
+    }
+}
+
+public enum EffectType
+{
+    Sphere,
+    Cylinder,
+    Capsule,
+    Box
 }
