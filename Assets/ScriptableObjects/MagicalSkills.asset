@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8c6059d0bb0bb24eb2c1fad3bb6cc1f, type: 3}
+  m_Name: MagicalSkills
+  m_EditorClassIdentifier: 
+  m_skills:
+  - m_skillParameter:
+      m_skillName: 
+      m_skillInformation: "\u3054\u304F\u666E\u901A\u306E\u653B\u6483"
+      m_skillPower: 0
+      m_skillMagnification: 0
+      m_requiredAP: 0
+      m_skillRange: 0
+      m_effectRange: 0
+      m_coolTime: 0
+      m_skillAttributes: 0
+      m_skillType: 1
+      m_skillTarget: 1
+      m_skillEffect: {fileID: 0}
+      m_skillFinishEffect: {fileID: 0}
+    m_effects:
+    - id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: Attack, ns: , asm: Assembly-CSharp}
