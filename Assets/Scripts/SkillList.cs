@@ -8,14 +8,10 @@ using UniRx;
 public class SkillList : ScriptableObject
 {
     [SerializeField]
-    List<Skill> m_physicalSkills = new List<Skill>();
-    [SerializeField]
-    List<Skill> m_magicSkills = new List<Skill>();
+    List<Skill> m_skills = new List<Skill>();
 
-    /// <summary>物理攻撃スキルList</summary>
-    public List<Skill> PhysicalSkills => m_physicalSkills;
-    /// <summary>魔法攻撃スキルList</summary>
-    public List<Skill> MagicSkills => m_magicSkills;
+    /// <summary>スキルList</summary>
+    public List<Skill> Skills => m_skills;
 }
 
 //スキル情報
@@ -32,12 +28,39 @@ public class Skill
     /// <summary>効果のList</summary>
     public List<ISkillEffectable> Effects => m_effects;
     /// <summary>効果発動</summary>
-    //public PlayEffect PlayEffect;
     public void PlayEffect(GameObject user, GameObject target, Skill skill)
     {
-        Debug.Log($"{skill.SkillParameter.SkillName}は{skill.SkillParameter.SkillInformation}");
         user.GetComponentInChildren<SkillEffectController>().SetSkill(skill, user, target);
     }
+}
+
+public enum SkillAttributes
+{
+    Non,
+    Fire,
+    Water,
+    Thunder,
+    Ground,
+    Wind,
+    Plant,
+    Dark,
+    Light
+}
+
+public enum SkillType
+{
+    Physical,
+    Magical
+}
+
+public enum SkillTarget
+{
+    All,
+    OneEnemy,
+    EnemyOnly,
+    OneAlly,
+    AllyOnly,
+    Myself
 }
 
 [System.Serializable]
@@ -97,44 +120,18 @@ public class SkillData
     /// <summary>次の使用可能までの時間</summary>
     public float CoolTime => m_coolTime;
 
-    public enum SkillAttributes
-    {
-        non,
-        fire,
-        water,
-        thunder,
-        ground,
-        wind,
-        plant,
-        dark,
-        light
-    }
     [Tooltip("スキルの属性")]
     [SerializeField]
     private SkillAttributes m_skillAttributes;
     /// <summary>スキルの属性</summary>
     public SkillAttributes Attributes => m_skillAttributes;
 
-    public enum SkillType
-    {
-        physicalAttack,
-        magicAttack
-    }
     [Tooltip("スキルのタイプ")]
     [SerializeField]
     private SkillType m_skillType;
     /// <summary>スキルのタイプ</summary>
     public SkillType Type => m_skillType;
 
-    public enum SkillTarget
-    {
-        all,
-        oneEnemy,
-        enemyOnly,
-        oneAlly,
-        allyOnly,
-        myself
-    }
     [Tooltip("スキルの対象")]
     [SerializeField]
     private SkillTarget m_skillTarget;
@@ -142,14 +139,14 @@ public class SkillData
     public SkillTarget Target => m_skillTarget;
 
     [SerializeField]
-    AnimationClip m_skillAnimationClip;
+    GameObject m_skillEffect;
     /// <summary>スキルのanimationclip</summary>
-    public AnimationClip SkillAnimationClip => m_skillAnimationClip;
+    public GameObject SkillEffect => m_skillEffect;
 
     [SerializeField]
-    ParticleSystem m_skillParticle;
+    GameObject m_skillFinishEffect;
     /// <summary>スキルのParticleSystem</summary>
-    public ParticleSystem SkillParticle => m_skillParticle;
+    public GameObject SkillFinishEffect => m_skillFinishEffect;
 }
 public interface ISkillEffectable
 {
@@ -228,7 +225,7 @@ public class Heal : ISkillEffectable
 {
     [SerializeField]
     int value = 0;
-    public enum HealPoint
+    enum HealPoint
     {
         HP,
         AP
