@@ -25,15 +25,20 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     /// <summary>戦闘中かのフラグ</summary>
     public bool IsBattle { get => m_isBattle; set => m_isBattle = value; }
 
+    /// <summary>行動中かどうか</summary>
+    BoolReactiveProperty m_playAction = new BoolReactiveProperty(false);
+    /// <summary>行動中かのフラグ</summary>
+    public BoolReactiveProperty PlayAction => m_playAction;
+
     /// <summary>死亡しているかどうか</summary>
     bool m_isDead = false;
     /// <summary>死亡しているかのフラグ</summary>
     public bool IsDead { get => m_isDead; set => m_isDead = value; }
 
     /// <summary>入力による動きを止めるかどうか</summary>
-    BoolReactiveProperty m_isStop = new BoolReactiveProperty(false);
+    BoolReactiveProperty m_canInput = new BoolReactiveProperty(false);
     /// <summary>入力による動きを止めるかのフラグ</summary>
-    public BoolReactiveProperty IsStop => m_isStop;
+    public BoolReactiveProperty CanInput => m_canInput;
 
     /// <summary>バインドされているかどうか</summary>
     bool m_isBind = false;
@@ -89,8 +94,12 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     Vector2 m_moveDirection;
     /// <summary>移動の方向</summary>
     public Vector2 MoveDirection => m_moveDirection;
+    /// <summary>目標のrotation</summary>
+    Quaternion m_targetRotation;
+    /// <summary>目標のrotation</summary>
+    public Quaternion TargetRotation => m_targetRotation;
 
-    /// <summary>選択した攻撃</summary>
+    /// <summary>選択したスキル</summary>
     Skill m_selectSkill;
 
     void SetState()

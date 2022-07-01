@@ -81,8 +81,8 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("Move");
-                owner.m_isStop.Value = true;
-                owner.PlayAnimation("Run");
+                owner.m_canInput.Value = false;
+                //owner.PlayAnimation("Run");
                 enemy = BattleManager.Instance.SetEnemy;
                 owner.m_selectSkill = BattleManager.Instance.SetSkill;
             }
@@ -112,30 +112,31 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 {
                     Vector3 target = enemy.transform.position;
                     target.y = owner.transform.position.y;
-                    //owner.transform.position = new Vector3(owner.transform.position.x, 0f, owner.transform.position.z);
                     owner.transform.LookAt(target);
                     owner.m_moveDirection.x = m_x;
                     owner.m_moveDirection.y = m_z;
                     owner.m_moveDirection.Normalize();
-                    //Debug.Log($"移動方向{owner.m_moveDirection}");
                 }
                 else
                 {
+                    owner.m_moveDirection.x = 0.0f;
+                    owner.m_moveDirection.y = 0.0f;
                     Vector3 target = owner.m_targetPosition;
                     target.y = owner.transform.position.y;
-                    //owner.transform.position = new Vector3(owner.transform.position.x, 0f, owner.transform.position.z);
-                    owner.transform.LookAt(target);
+                    owner.m_targetRotation = Quaternion.LookRotation(target);
                     StateMachine.Dispatch((int)ActEvent.BattleAction);
                 }
             }
 
             protected override void OnExit(State nextState)
             {
-                owner.m_moveDirection.x = 0.0f;
-                owner.m_moveDirection.y = 0.0f;
                 if (nextState is Wait)
                 {
-                    owner.m_isStop.Value = false;
+                    owner.m_canInput.Value = true;
+                }
+                if (nextState is BattleAction)
+                {
+                    owner.m_playAction.Value = true;
                 }
             }
         }
@@ -145,13 +146,12 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("BattleAction");
-                owner.PlayAnimation("Attack");
-                //BattleManager.Instance.CharacterAct(owner.gameObject, owner)
+                BattleManager.Instance.PlaySkillEffect(owner.gameObject, owner.Targets[0], owner.m_selectSkill);
             }
 
             protected override void OnUpdate()
             {
-                if (owner.FinishedAnimation())
+                if (!owner.m_playAction.Value)
                 {
                     StateMachine.Dispatch((int)ActEvent.ActionEnd);
                 }
@@ -167,7 +167,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("ActionEnd");
-                owner.m_isStop.Value = false;
+                owner.m_canInput.Value = true;
             }
 
             protected override void OnUpdate()
@@ -201,7 +201,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             {
                 Debug.Log("Bind");
                 owner.m_actionCount = 0;
-                owner.m_isStop.Value = true;
+                owner.m_canInput.Value = false;
                 owner.PlayAnimation("");
             }
 
@@ -233,7 +233,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
 
             protected override void OnExit(State nextState)
             {
-                owner.m_isStop.Value = false;
+                owner.m_canInput.Value = true;
             }
         }
 
@@ -242,7 +242,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("NoBattle");
-                owner.m_isStop.Value = false;
+                owner.m_canInput.Value = true;
                 owner.m_isBattle = false;
                 owner.m_currentTimer = 0f;
                 owner.m_actionCount = 1;
@@ -271,7 +271,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             {
                 Debug.Log("Dead");
                 owner.m_actionCount = 0;
-                owner.m_isStop.Value = true;
+                owner.m_canInput.Value = false;
                 owner.PlayAnimation("");
             }
 
@@ -295,7 +295,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 owner.PlayAnimation("");
                 if (owner.FinishedAnimation())
                 {
-                    owner.m_isStop.Value = false;
+                    owner.m_canInput.Value = true;
                 }
             }
         }
