@@ -21433,7 +21433,7 @@ MonoBehaviour:
   m_name:
     value: Player
   m_hp:
-    value: 1
+    value: 5
   m_maxHp:
     value: 5
   m_ap:
