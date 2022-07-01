@@ -81,14 +81,14 @@ public class SkillData
     [SerializeField]
     [Tooltip("スキルの威力")]
     [Range(0, 1000)]
-    int m_skillPower = 0;
+    int m_skillPower = 100;
     /// <summary>スキルの威力</summary>
     public int SkillPower => m_skillPower;
 
     [SerializeField]
     [Tooltip("スキル倍率")]
     [Range(0.0f, 2.0f)]
-    float m_skillMagnification = 0.0f;
+    float m_skillMagnification = 1.0f;
     /// <summary>スキル倍率</summary>
     public float SkillMagnification => m_skillMagnification;
 
