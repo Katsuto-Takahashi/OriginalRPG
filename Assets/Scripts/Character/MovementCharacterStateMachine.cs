@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UniRx;
 using State = StateMachine<MovementCharacterStateMachine>.State;
 
 public partial class MovementCharacterStateMachine : MonoBehaviour
@@ -12,7 +13,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         Jump,
         Fall,
         Land,
-        Stop,
+        BattleAction,
         Dead
     }
 
@@ -54,6 +55,11 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     /// <summary>操作可能かのフラグ</summary>
     public bool CanOperation { get => m_canOperation; set => m_canOperation = value; }
 
+    /// <summary>行動中かどうか</summary>
+    BoolReactiveProperty m_playAction = new BoolReactiveProperty(false);
+    /// <summary>行動中かのフラグ</summary>
+    public BoolReactiveProperty PlayAction => m_playAction;
+
     void SetState()
     {
         m_stateMachine = new StateMachine<MovementCharacterStateMachine>(this);
@@ -64,7 +70,7 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
         m_stateMachine.AddAnyTransition<MovementCharacterState.Jump>((int)ActEvent.Jump);
         m_stateMachine.AddAnyTransition<MovementCharacterState.Fall>((int)ActEvent.Fall);
         m_stateMachine.AddAnyTransition<MovementCharacterState.Land>((int)ActEvent.Land);
-        m_stateMachine.AddAnyTransition<MovementCharacterState.Stop>((int)ActEvent.Stop);
+        m_stateMachine.AddAnyTransition<MovementCharacterState.BattleAction>((int)ActEvent.BattleAction);
         m_stateMachine.AddAnyTransition<MovementCharacterState.Dead>((int)ActEvent.Dead);
 
         m_stateMachine.Start<MovementCharacterState.Idle>();
@@ -120,6 +126,11 @@ public partial class MovementCharacterStateMachine : MonoBehaviour
     void ApplyRotation()
     {
         m_myTransform.rotation = Quaternion.Slerp(transform.rotation, m_targetRotation, Time.deltaTime * m_rotatingSpeed);
+    }
+
+    public void InBattleRotation(Quaternion targetRotation)
+    {
+        m_targetRotation = targetRotation;
     }
 
     public void UserInput(Vector2 move)
