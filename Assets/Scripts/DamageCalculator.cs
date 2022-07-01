@@ -33,7 +33,7 @@ public class DamageCalculator : MonoBehaviour
     {
         var power = skillData.SkillPower / 100f;
         float damege;
-        if (critical == CriticalCheck.critical)
+        if (critical == CriticalCheck.Critical)
         {
             damege = attacker * GetRandom(criticalDamegeRandam);
         }
@@ -117,9 +117,9 @@ public class DamageCalculator : MonoBehaviour
     public int Damage(Character character, Enemy enemy, SkillData skillData, Attacker attacker, CriticalCheck critical)
     {
         int damage;
-        if (attacker == Attacker.character)
+        if (attacker == Attacker.Character)
         {
-            if (skillData.Type == SkillData.SkillType.physicalAttack)
+            if (skillData.Type == SkillType.Physical)
             {
                 damage = DecideEnemyDamage(CalculateDamage(skillData, character.Strength.Value, enemy.Defense.Value, critical), skillData, enemy);
             }
@@ -130,7 +130,7 @@ public class DamageCalculator : MonoBehaviour
         }
         else
         {
-            if (skillData.Type == SkillData.SkillType.physicalAttack)
+            if (skillData.Type == SkillType.Physical)
             {
                 damage = DecidePlayerDamage(CalculateDamage(skillData, enemy.Strength.Value, character.Defense.Value, critical));
             }
@@ -145,12 +145,12 @@ public class DamageCalculator : MonoBehaviour
 
 public enum CriticalCheck
 {
-    normal,
-    critical
+    Normal,
+    Critical
 }
 
 public enum Attacker
 {
-    character,
-    enemy
+    Character,
+    Enemy
 }

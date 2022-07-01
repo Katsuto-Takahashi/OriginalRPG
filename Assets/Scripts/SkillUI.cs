@@ -6,7 +6,7 @@ using UniRx;
 public class SkillUI : UIController
 {
     [SerializeField]
-    SkillData.SkillType m_skillType;
+    SkillType m_skillType;
 
     protected override void CommandSelectedAction()
     {
