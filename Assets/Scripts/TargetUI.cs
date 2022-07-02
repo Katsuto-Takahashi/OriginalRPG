@@ -21,12 +21,10 @@ public class TargetUI : UIController
     }
     protected override void CommandSelectedAction()
     {
-        //var player = GameObject.FindGameObjectWithTag("Player").GetComponent<BCharacterStateMachine>();
-        //player.m_targetNumber = m_selectedCommandNumber;
-        //player.m_action = true;
-        BattleManager.Instance.SelectEnemy(m_selectedCommandNumber);
-
-        GoToZero();
-        gameObject.SetActive(false);
+        var playerID = GameManager.Instance.Player.BCSM.BattleID.Value;
+        var battle = BattleManager.Instance;
+        //BattleManager.Instance.SelectEnemy(m_selectedCommandNumber);
+        battle.SelectTarget(m_selectedCommandNumber + battle.CharacterCount, playerID);
+        base.CommandSelectedAction();
     }
 }
