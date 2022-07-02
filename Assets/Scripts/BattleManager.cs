@@ -16,9 +16,11 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
     [SerializeField]
     GameObject m_battleFeildPrefab = null;
+    List<GameObject> m_battleFeildList = new List<GameObject>();
 
     [SerializeField]
-    SkillList m_skillList;
+    [EnumIndex(typeof(SkillType))]
+    List<SkillList> m_skillsList = null;
 
     BattleInformationUI m_battleInformationUI;
     GameObject m_instantiateEnemy;
@@ -28,6 +30,16 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     List<Character> m_characterList = new List<Character>();
 
     Character m_player;
+
+    /// <summary>バトル中の全てのcharacterを保持するList</summary>
+    List<GameObject> m_battleCharacters = new List<GameObject>();
+    /// <summary>選択されたスキルを保持するList</summary>
+    List<Skill> m_selectSkillList = new List<Skill>();
+    public List<Skill> SelectSkillList => m_selectSkillList;
+
+    /// <summary>選択されたスキルを保持するList</summary>
+    List<GameObject> m_selectTargetList = new List<GameObject>();
+    public List<GameObject> SelectTargetList => m_selectTargetList;
 
     bool m_isCreated = false;
     bool m_isChangeState = false;
@@ -99,7 +111,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
             }
 
             m_enemyList.Add(enemy);
-            m_battleEnemyList.AddEnemyList(m_enemyObjects[i]);
+            m_battleEnemyList.AddEnemyList(enemy);
             m_firstDrop.Add(enemy.FirstDropItem);
             m_secondDrop.Add(enemy.SecondDropItem);
             m_getExperiencePoint += enemy.ExperiencePoint;
@@ -147,6 +159,22 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         StartCoroutine(ChengeActiveUI());
         m_battleInformationUI = m_battleInformationUIObject.GetComponent<BattleInformationUI>();
         StartCoroutine(m_battleInformationUI.BattleStartUI(m_enemyList[0].Name.Value, randam));
+
+        for (int i = 0; i < m_characterList.Count + m_enemyList.Count; i++)//m_battleCharactersの順にbattleIDを設定する
+        {
+            if (i < m_characterList.Count)
+            {
+                m_characterList[i].BCSM.BattleID.Value = i;
+                m_battleCharacters.Add(m_characterList[i].gameObject);
+            }
+            else if (i - m_characterList.Count < m_enemyList.Count)
+            {
+                m_enemyList[i - m_characterList.Count].BESM.BattleID.Value = i;
+                m_battleCharacters.Add(m_enemyList[i - m_characterList.Count].gameObject);
+            }
+            m_selectSkillList.Add(default);
+            m_selectTargetList.Add(default);
+        }
 
         for (int i = 0; i < m_enemyObjects.Count; i++)
         {
@@ -202,13 +230,13 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
             }
         }
 
-        for (int n = 0; n < m_characterList.Count; n++)
-        {
-            for (int i = 0; i < m_enemyObjects.Count; i++)
-            {
-                m_characterList[n].BCSM.Targets.Add(m_enemyObjects[i]);
-            }
-        }
+        //for (int n = 0; n < m_characterList.Count; n++)
+        //{
+        //    for (int i = 0; i < m_enemyObjects.Count; i++)
+        //    {
+        //        m_characterList[n].BCSM.Targets.Add(m_enemyObjects[i]);
+        //    }
+        //}
     }
 
     void StateChange()
@@ -255,7 +283,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     int DamageCalculate(GameObject attacker, GameObject defender, SkillData skillData)
     {
         var damage = 0;
-        CriticalCheck check = CriticalCheck.normal;
+        CriticalCheck check = CriticalCheck.Normal;
 
         if (((1 << attacker.layer) & LayerMask.NameToLayer("Character")) != 0)
         {
@@ -264,10 +292,10 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
             if (Random.Range(0, 200) < characterParameter.Luck.Value)
             {
-                check = CriticalCheck.critical;
+                check = CriticalCheck.Critical;
             }
 
-            damage = m_damageCalculator.Damage(characterParameter, enemyParameter, skillData, Attacker.character, check);
+            damage = m_damageCalculator.Damage(characterParameter, enemyParameter, skillData, Attacker.Character, check);
 
             StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, enemyParameter.Name.Value, check));
         }
@@ -278,10 +306,10 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
             if (Random.Range(0, 200) < enemyParameter.Luck.Value)
             {
-                check = CriticalCheck.critical;
+                check = CriticalCheck.Critical;
             }
 
-            damage = m_damageCalculator.Damage(characterParameter, enemyParameter, skillData, Attacker.enemy, check);
+            damage = m_damageCalculator.Damage(characterParameter, enemyParameter, skillData, Attacker.Enemy, check);
 
             StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, characterParameter.Name.Value, check));
         }
@@ -398,7 +426,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     {
         m_charaTransform = character.gameObject.transform;
         m_contactPosition = enemyObject.transform.position;
-        CreateField(m_contactPosition);
+        CreateField(m_contactPosition, enemyObject);
         var enemy = enemyObject.GetComponentInParent<Enemy>();
         m_enemyParty = enemy.EnemyPartyNumber;
         m_enemyID = enemy.ID.Value;
@@ -413,7 +441,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     {
         if (character.IsContact)
         {
-            var limit = m_battleFeildPrefab.transform.localScale.x;
+            var limit = m_instantiateBattleFeild.transform.localScale.x;
             while (m_isBattle)
             {
                 m_distsnce = (m_contactPosition.x - character.transform.position.x) * (m_contactPosition.x - character.transform.position.x) + (m_contactPosition.z - character.transform.position.z) * (m_contactPosition.z - character.transform.position.z);
@@ -429,9 +457,17 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         }
     }
 
-    void CreateField(Vector3 contactPos)
+    void CreateField(Vector3 contactPos, GameObject enemyObject)
     {
         m_instantiateBattleFeild = Instantiate(m_battleFeildPrefab, contactPos, Quaternion.identity);
+        //if (enemyObject.CompareTag("Boss"))
+        //{
+        //    m_instantiateBattleFeild = Instantiate(m_battleFeildList[0], contactPos, Quaternion.identity);
+        //}
+        //else
+        //{
+        //    m_instantiateBattleFeild = Instantiate(m_battleFeildList[1], contactPos, Quaternion.identity);
+        //}
     }
 
     void DeleteField()
@@ -441,33 +477,31 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         m_distsnce = 0f;
     }
 
-    Enemy m_enemy;
-    public Enemy SetEnemy => m_enemy;
-    public void SelectEnemy(int id)
+    public void SelectSkill(int skillID, SkillType skillType, SkillIndex skillIndex, int battleID)
     {
-        m_enemy = m_enemyList[id];
-        m_enemy.gameObject.layer = LayerMask.NameToLayer("Target");
-        m_player.BCSM.CanSelect.Value = false;
-    }
-
-    Character m_character;
-    public Character SetCharacter => m_character;
-    public void SelectCharacter(int id)
-    {
-        m_character = m_characterList[id];
-    }
-
-    Skill m_skill;
-    public Skill SetSkill => m_skill;
-    public void SelectSkill(int id, SkillData.SkillType skillType, SkillIndex skillIndex)
-    {
-        if (skillType == SkillData.SkillType.physicalAttack)
+        if (skillType == SkillType.Physical)
         {
-            m_skill = m_skillList.PhysicalSkills[skillIndex.Physicals[id]];
+            m_selectSkillList[battleID] = m_skillsList[(int)skillType].Skills[skillIndex.Physicals[skillID]];
         }
         else
         {
-            m_skill = m_skillList.MagicSkills[skillIndex.Magicals[id]];
+            m_selectSkillList[battleID] = m_skillsList[(int)skillType].Skills[skillIndex.Magicals[skillID]];
         }
     }
+
+    public void SelectTarget(int targetID, int battleID)
+    {
+        m_selectTargetList[battleID] = m_battleCharacters[targetID];
+        if (battleID < m_characterList.Count)
+        {
+            m_characterList[battleID].BCSM.CanSelect.Value = false;
+        }
+        //else if (battleID - m_characterList.Count < m_enemyList.Count)
+        //{
+        //    m_enemyList[battleID - m_characterList.Count].BESM.CanSelect.Value = false;
+        //}
+    }
+
+    public int CharacterCount => m_characterList.Count;
+    public int EnemyCount => m_enemyList.Count;
 }

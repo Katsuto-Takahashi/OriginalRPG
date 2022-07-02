@@ -76,22 +76,27 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
         {
             float m_x;
             float m_z;
-            Enemy enemy;
+            //Enemy enemy;
             //Skill skill;
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("Move");
                 owner.m_canInput.Value = false;
                 //owner.PlayAnimation("Run");
-                enemy = BattleManager.Instance.SetEnemy;
-                owner.m_selectSkill = BattleManager.Instance.SetSkill;
+                //enemy = BattleManager.Instance.SetEnemy;
+                owner.m_selectTarget = BattleManager.Instance.SelectTargetList[owner.m_battleID.Value];
+                //owner.m_selectSkill = BattleManager.Instance.SetSkill;
+                owner.m_selectSkill = BattleManager.Instance.SelectSkillList[owner.m_battleID.Value];
             }
 
             protected override void OnUpdate()
             {
-                m_x = enemy.transform.position.x - owner.transform.position.x;
-                m_z = enemy.transform.position.z - owner.transform.position.z;
-                owner.m_distance = (enemy.transform.position.x - owner.transform.position.x) * (enemy.transform.position.x - owner.transform.position.x) + (enemy.transform.position.z - owner.transform.position.z) * (enemy.transform.position.z - owner.transform.position.z);
+                //m_x = enemy.transform.position.x - owner.transform.position.x;
+                m_x = owner.m_selectTarget.transform.position.x - owner.transform.position.x;
+                //m_z = enemy.transform.position.z - owner.transform.position.z;
+                m_z = owner.m_selectTarget.transform.position.z - owner.transform.position.z;
+                //owner.m_distance = (enemy.transform.position.x - owner.transform.position.x) * (enemy.transform.position.x - owner.transform.position.x) + (enemy.transform.position.z - owner.transform.position.z) * (enemy.transform.position.z - owner.transform.position.z);
+                owner.m_distance = (owner.m_selectTarget.transform.position.x - owner.transform.position.x) * (owner.m_selectTarget.transform.position.x - owner.transform.position.x) + (owner.m_selectTarget.transform.position.z - owner.transform.position.z) * (owner.m_selectTarget.transform.position.z - owner.transform.position.z);
                 if (owner.m_isDead)
                 {
                     StateMachine.Dispatch((int)ActEvent.Dead);
@@ -110,7 +115,8 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 //}
                 if (owner.m_distance > owner.m_selectSkill.SkillParameter.SkillRange * owner.m_selectSkill.SkillParameter.SkillRange)
                 {
-                    Vector3 target = enemy.transform.position;
+                    //Vector3 target = enemy.transform.position;
+                    Vector3 target = owner.m_selectTarget.transform.position;
                     target.y = owner.transform.position.y;
                     owner.transform.LookAt(target);
                     owner.m_moveDirection.x = m_x;
@@ -146,7 +152,7 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
             protected override void OnEnter(State prevState)
             {
                 Debug.Log("BattleAction");
-                BattleManager.Instance.PlaySkillEffect(owner.gameObject, owner.Targets[0], owner.m_selectSkill);
+                BattleManager.Instance.PlaySkillEffect(owner.gameObject, owner.m_selectTarget, owner.m_selectSkill);
             }
 
             protected override void OnUpdate()

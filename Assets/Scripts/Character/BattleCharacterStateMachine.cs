@@ -102,6 +102,11 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
     /// <summary>選択したスキル</summary>
     Skill m_selectSkill;
 
+    GameObject m_selectTarget;
+
+    IntReactiveProperty m_battleID = new IntReactiveProperty();
+    public IntReactiveProperty BattleID => m_battleID;
+
     void SetState()
     {
         m_stateMachine = new StateMachine<BattleCharacterStateMachine>(this);
