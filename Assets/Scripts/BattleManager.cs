@@ -22,6 +22,8 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     [EnumIndex(typeof(SkillType))]
     List<SkillList> m_skillsList = null;
 
+    List<CharaterHasSkillsList>  m_allCharacterSkillTimersList = new List<CharaterHasSkillsList>();
+
     BattleInformationUI m_battleInformationUI;
     GameObject m_instantiateEnemy;
     GameObject m_instantiateBattleFeild;
@@ -174,6 +176,26 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
             }
             m_selectSkillList.Add(default);
             m_selectTargetList.Add(default);
+            m_allCharacterSkillTimersList.Add(new CharaterHasSkillsList());
+        }
+
+        for (int i = 0; i < m_battleCharacters.Count - 1; i++)
+        {
+            if (i < m_characterList.Count)
+            {
+                for (int n = 0; n < m_characterList[i].HasSkillIndex.Physicals.Length; n++)
+                {
+                    m_allCharacterSkillTimersList[i].NewList();
+                    m_allCharacterSkillTimersList[i].AllSkillTimersList[n].SkillCoolTimerSet(m_skillsList[(int)SkillType.Physical].Skills[m_characterList[i].HasSkillIndex.Physicals[n]]);
+                }
+            }
+            else if (i - m_characterList.Count < m_enemyList.Count)
+            {
+                for (int n = 0; n < m_enemyList[i - m_characterList.Count].HasSkillIndex.Physicals.Length; n++)
+                {
+                    m_allCharacterSkillTimersList[i].AllSkillTimersList[n].SkillCoolTimerSet(m_skillsList[(int)SkillType.Physical].Skills[m_enemyList[i - m_characterList.Count].HasSkillIndex.Physicals[n]]);
+                }
+            }
         }
 
         for (int i = 0; i < m_enemyObjects.Count; i++)
@@ -487,6 +509,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         {
             m_selectSkillList[battleID] = m_skillsList[(int)skillType].Skills[skillIndex.Magicals[skillID]];
         }
+        StartCoroutine(m_allCharacterSkillTimersList[battleID].AllSkillTimersList[skillIndex.Physicals[skillID]].Timer(m_skillsList[(int)skillType].Skills[skillIndex.Physicals[skillID]]));
     }
 
     public void SelectTarget(int targetID, int battleID)
@@ -504,4 +527,23 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
     public int CharacterCount => m_characterList.Count;
     public int EnemyCount => m_enemyList.Count;
+}
+
+public class CharaterHasSkillsList
+{
+    List<CoolTimeChecker> m_allSkillTimersList = new List<CoolTimeChecker>();
+
+    public List<CoolTimeChecker> AllSkillTimersList { get => m_allSkillTimersList; set => m_allSkillTimersList = value; }
+
+    public void NewList()
+    {
+        if (m_allSkillTimersList.Count > 0)
+        {
+            m_allSkillTimersList.Clear();
+        }
+        else
+        {
+            m_allSkillTimersList.Add(new CoolTimeChecker());
+        }
+    }
 }
