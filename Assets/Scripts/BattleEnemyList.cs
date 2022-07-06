@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class BattleEnemyList : MonoBehaviour
 {
     [SerializeField] List<GameObject> m_target = new List<GameObject>();
-    List<GameObject> m_battleEnemys = new List<GameObject>();
+    List<Enemy> m_battleEnemys = new List<Enemy>();
     
-    void Start()
-    {
-        CreateTarget();
-    }
+    //void Start()
+    //{
+    //    CreateTarget();
+    //}
 
     public void SetEnemy(List<Image> images)
     {
@@ -37,7 +37,7 @@ public class BattleEnemyList : MonoBehaviour
         for (int i = 0; i < m_battleEnemys.Count; i++)
         {
             var ui = m_target[i].GetComponent<CharacterParameterUI>();
-            var enemyName = m_battleEnemys[i].GetComponent<Enemy>().Name.Value;
+            var enemyName = m_battleEnemys[i].Name.Value;
             if (m_battleEnemys.Count > 1)
             {
                 ui.CreateName($"{enemyName}{i + 1}");
@@ -50,7 +50,7 @@ public class BattleEnemyList : MonoBehaviour
         }
     }
 
-    public void AddEnemyList(GameObject enemy)
+    public void AddEnemyList(Enemy enemy)
     {
         m_battleEnemys.Add(enemy);
     }
