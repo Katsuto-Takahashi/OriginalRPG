@@ -21461,7 +21461,7 @@ MonoBehaviour:
   m_maxActionCount: 3
   m_hasSkillIndex:
     physicals: 00000000
-    magicals: 00000000
+    magicals: 0000000001000000
   m_param:
     m_rotatingSpeed: 50
     m_walkingSpeed: 10
