@@ -8,9 +8,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, IManagable
     bool m_isDisplay = false;
     bool m_canDisplay = true;
 
-    [SerializeField]
-    SkillList skillsData = null;
-
     Character m_player;
     public Character Player => m_player;
 
