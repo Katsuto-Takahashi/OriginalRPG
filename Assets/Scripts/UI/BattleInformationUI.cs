@@ -12,7 +12,7 @@ public class BattleInformationUI : MonoBehaviour
     
     public IEnumerator BattleUIDisplay(int damage, string attackedCharacter, CriticalCheck critical)
     {
-        if (critical == CriticalCheck.critical)
+        if (critical == CriticalCheck.Critical)
         {
             m_criticalDamageText.gameObject.SetActive(true);
             yield return new WaitForSeconds(0.5f);

@@ -29,13 +29,6 @@ public class UIController : MonoBehaviour
     int m_horiCount = 0;
     [SerializeField, Tooltip("現在のコマンドパネルから変化するパネルList")]
     List<Command> m_changeCommandList = new List<Command>();
-    enum ChangeCommand
-    {
-        Before,
-        Next,
-        SpecialBefore,
-        SpecialNext
-    }
     public bool m_special = false;
     void OnEnable()
     {
@@ -45,7 +38,7 @@ public class UIController : MonoBehaviour
     void Start()
     {
         StartSet();
-        Observable.EveryUpdate().Subscribe(_ => OnUpdate()).AddTo(this);
+        //Observable.EveryUpdate().Subscribe(_ => OnUpdate()).AddTo(this);
     }
 
     protected virtual void StartSet()
@@ -53,10 +46,10 @@ public class UIController : MonoBehaviour
         m_gg = GetComponent<GridLayoutGroup>();
     }
 
-    //void Update()
-    //{
-    //    OnUpdate();
-    //}
+    void Update()
+    {
+        OnUpdate();
+    }
 
     protected virtual void OnUpdate()
     {
@@ -404,6 +397,7 @@ public class UIController : MonoBehaviour
     /// <summary>初期化</summary>
     protected virtual void GoToZero()
     {
+        Debug.Log("コマンド初期化");
         NonCommandColorChange();
         m_selectedCommandNumber = 0;
         SelectedCommandColorChange();
@@ -450,6 +444,10 @@ public class UIController : MonoBehaviour
         {
             CommandPanelChanged();
         }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     /// <summary>選択されているUIの色に変える</summary>
@@ -467,13 +465,14 @@ public class UIController : MonoBehaviour
 [Serializable]
 public class Command
 {
-    enum ChangeCommand
-    {
-        Before,
-        Next,
-        SpecialBefore,
-        SpecialNext
-    }
     [EnumIndex(typeof(ChangeCommand))]
     public GameObject[] m_commandPanelList = { };
+}
+
+public enum ChangeCommand
+{
+    Before,
+    Next,
+    SpecialBefore,
+    SpecialNext
 }
