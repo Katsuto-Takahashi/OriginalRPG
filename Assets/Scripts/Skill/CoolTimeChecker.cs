@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CoolTimeChecker
 {
+    float m_maxtime;
+
     float m_currentTimer = 0.0f;
     public float CurrentTimer => m_currentTimer;
 
@@ -26,11 +28,12 @@ public class CoolTimeChecker
 
     public void SkillCoolTimerSet(Skill skill)
     {
-        m_currentTimer = skill.SkillParameter.CoolTime;
+        m_maxtime = skill.SkillParameter.CoolTime;
     }
 
-    public IEnumerator Timer(Skill skill)
+    public IEnumerator Timer()
     {
+        m_currentTimer = m_maxtime;
         Debug.Log("CoolTimerŠJŽn");
         while (m_currentTimer > 0.0f)
         {
