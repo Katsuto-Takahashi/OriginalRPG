@@ -5,7 +5,7 @@ using UniRx;
 
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
 [RequireComponent(typeof(MovementEnemyStateMachine), typeof(BattleEnemyStateMachine))]
-public class Enemy : EnemyParameter, ITakableDamage
+public class Enemy : EnemyParameter, IDamageable
 {
     /// <summary>自分のTransform</summary>
     protected Transform m_myTransform;
@@ -55,14 +55,7 @@ public class Enemy : EnemyParameter, ITakableDamage
 
     public virtual void TakeDamage(int damage)
     {
-        if (HP.Value - damage < 1)
-        {
-            HP.Value = 0;
-        }
-        else
-        {
-            HP.Value -= damage;
-        }
+        HP.Value = HP.Value - damage < 1 ? 0 : HP.Value - damage;
     }
 
     public void ChengeKinematic(bool flag)
