@@ -5,8 +5,7 @@ using UniRx;
 
 public class BattleManager : SingletonMonoBehaviour<BattleManager>
 {
-    [SerializeField]
-    DamageCalculator m_damageCalculator = null;
+    DamageCalculator m_damageCalculator = new DamageCalculator();
 
     [SerializeField]
     BattleEnemyList m_battleEnemyList = null;
