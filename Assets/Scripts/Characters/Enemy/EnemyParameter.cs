@@ -104,31 +104,14 @@ public class EnemyParameter : MonoBehaviour
     /// <summary>蓄積可能な行動回数</summary>
     public int MaxActionCount => m_maxActionCount;
 
-    public enum AttackAttributeResistance
-    {
-        non,
-        fire,
-        water,
-        thunder,
-        ground,
-        wind,
-        plant,
-        dark,
-        light
-    }
-    [EnumIndex(typeof(AttackAttributeResistance))]
+    [EnumIndex(typeof(SkillAttributes))]
     [SerializeField]
     float[] m_attackAttributesResistance = new float[9];
 
     /// <summary>攻撃される技の属性の配列</summary>
     public float[] AttackAttributesResistance => m_attackAttributesResistance;
 
-    public enum AttackTypeResistance
-    {
-        physicalAttack,
-        magicAttack
-    }
-    [EnumIndex(typeof(AttackTypeResistance))]
+    [EnumIndex(typeof(SkillType))]
     [SerializeField]
     float[] m_attackTypesResistance = new float[2];
 

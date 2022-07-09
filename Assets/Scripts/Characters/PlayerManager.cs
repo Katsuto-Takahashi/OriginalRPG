@@ -9,6 +9,7 @@ public class PlayerManager : Character
 
     protected override void SetUp()
     {
+        base.SetUp();
         //m_mcsm = GetComponent<MovementCharacterStateMachine>();
         //m_bcsm = GetComponent<BattleCharacterStateMachine>();
 
@@ -27,8 +28,9 @@ public class PlayerManager : Character
         MagicResist.DistinctUntilChanged().Subscribe(_ => m_bcsm.SetParam(this));
         Speed.DistinctUntilChanged().Subscribe(_ => m_bcsm.SetParam(this));
 
-        m_bcsm.IsStop.DistinctUntilChanged().Subscribe(s => StopMove(s));
-
+        m_bcsm.CanInput.DistinctUntilChanged().Subscribe(s => StopMove(s));
+        m_bcsm.PlayAction.Where(x => x == true).Subscribe(_ => PlayAction());
+        m_mcsm.PlayAction.Where(x => x == false).Subscribe(_ => FinishAction());
         m_mcsm.SetUp(m_animator, m_rigidbody, m_capsuleCollider, m_myTransform, m_param);
         m_bcsm.SetUp(m_animator, m_param);
     }
@@ -48,12 +50,24 @@ public class PlayerManager : Character
 
     void ApplyGetAxis()
     {
-        m_mcsm.UserInput(InputController.Instance.Move());
+        if (m_mcsm.CanOperation)
+        {
+            //Debug.Log($"入力の移動方向{InputController.Instance.Move()}");
+            m_mcsm.UserInput(InputController.Instance.Move());
+        }
+        else
+        {
+            //Debug.Log($"入力のかわり移動方向{m_bcsm.MoveDirection}");
+            m_mcsm.UserInput(m_bcsm.MoveDirection);
+            m_mcsm.InBattleRotation(m_bcsm.TargetRotation);
+        }
     }
 
-    void StopMove(bool stop)
+    void StopMove(bool can)
     {
-        m_mcsm.CanOperation = !stop;
+        Debug.Log($"CanOperationフラグ{m_mcsm.CanOperation}");
+        m_mcsm.CanOperation = can;
+        Debug.Log($"CanOperationフラグ変更{m_mcsm.CanOperation}");
     }
 
     void CheckHP(int hp)
@@ -78,5 +92,15 @@ public class PlayerManager : Character
     void CheckAP(int ap)
     {
 
+    }
+
+    void PlayAction()
+    {
+        m_mcsm.PlayAction.Value = true;
+    }
+
+    void FinishAction()
+    {
+        m_bcsm.PlayAction.Value = false;
     }
 }

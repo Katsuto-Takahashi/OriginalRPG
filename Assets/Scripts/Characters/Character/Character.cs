@@ -36,6 +36,9 @@ public class Character : CharacterParameter, ITakableDamage
     BoolReactiveProperty m_levelUP = new BoolReactiveProperty(false);
     public BoolReactiveProperty LevelUP => m_levelUP;
 
+    //protected SkillController m_skillController;
+    List<SkillController> m_skillControllers = new List<SkillController>();
+
     void Awake()
     {
         m_myTransform = transform;
@@ -43,10 +46,15 @@ public class Character : CharacterParameter, ITakableDamage
         m_skillEffectController = GetComponentInChildren<SkillEffectController>();
         m_animator = GetComponentInChildren<Animator>();
         m_rigidbody = GetComponent<Rigidbody>();
-        m_sphereCollider = GetComponentInChildren<SphereCollider>();
+        //m_sphereCollider = GetComponentInChildren<SphereCollider>();
         m_capsuleCollider = GetComponent<CapsuleCollider>();
         m_mcsm = GetComponent<MovementCharacterStateMachine>();
         m_bcsm = GetComponent<BattleCharacterStateMachine>();
+        //m_skillController = new SkillController();
+        for (int i = 0; i < System.Enum.GetValues(typeof(SkillType)).Length; i++)
+        {
+            m_skillControllers.Add(new SkillController());
+        }
     }
 
     void Start()
@@ -60,7 +68,8 @@ public class Character : CharacterParameter, ITakableDamage
 
     protected virtual void SetUp()
     {
-        m_skillEffectController.SetUp(m_sphereCollider);
+        m_skillEffectController.SetUp();
+        SetSkill();
     }
 
     protected virtual void OnUpdate()
@@ -161,17 +170,48 @@ public class Character : CharacterParameter, ITakableDamage
         SkillPoint.Value += baseParameter;
     }
 
-    //public void GetSkill(SkillData skillData)
-    //{
-    //    if (skillData.Type == SkillData.SkillType.physicalAttack)
-    //    {
-    //        m_hsl.SkillDatas.Add(skillData);
-    //    }
-    //    else if (skillData.Type == SkillData.SkillType.magicAttack)
-    //    {
-    //        m_hsl.MagicDatas.Add(skillData);
-    //    }
-    //}
+    void SetSkill()
+    {
+        //for (int i = 0; i < HasSkillIndex.Physicals.Length; i++)
+        //{
+        //    m_skillController.SetSkill(BattleManager.Instance.SkillsList[(int)SkillType.Physical].Skills[HasSkillIndex.Physicals[i]], i);
+        //}
+
+        for (SkillType i = 0; (int)i < System.Enum.GetValues(typeof(SkillType)).Length; i++)
+        {
+            SetSkillTimer(i);
+        }
+
+        //var count = 0;
+        //foreach (var id in HasSkillIndex.Physicals)
+        //{
+        //    m_skillController.SetSkill(BattleManager.Instance.SkillsList[(int)SkillType.Physical].Skills[id], count);
+        //    count++;
+        //}
+    }
+
+    void SetSkillTimer(SkillType skillType)
+    {
+        int typeNum = 0;
+        int[] skillIndex = new int[] {};
+        switch (skillType)
+        {
+            case SkillType.Physical:
+                skillIndex = HasSkillIndex.Physicals;
+                typeNum = (int)SkillType.Physical;
+                break;
+            case SkillType.Magical:
+                skillIndex = HasSkillIndex.Magicals;
+                typeNum = (int)SkillType.Magical;
+                break;
+            default:
+                break;
+        }
+        for (int i = 0; i < skillIndex.Length; i++)
+        {
+            m_skillControllers[typeNum].SetSkill(BattleManager.Instance.SkillsList[typeNum].Skills[skillIndex[i]], i);
+        }
+    }
 
     void OnTriggerEnter(Collider other)
     {

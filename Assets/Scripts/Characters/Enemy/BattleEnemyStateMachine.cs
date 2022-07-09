@@ -113,6 +113,9 @@ public partial class BattleEnemyStateMachine : MonoBehaviour
     /// <summary>魔法</summary>
     List<SkillData> m_magicDatas = new List<SkillData>();
 
+    IntReactiveProperty m_battleID = new IntReactiveProperty();
+    public IntReactiveProperty BattleID => m_battleID;
+
     void SetState()
     {
         m_stateMachine = new StateMachine<BattleEnemyStateMachine>(this);

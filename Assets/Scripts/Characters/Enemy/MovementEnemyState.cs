@@ -19,9 +19,12 @@ public partial class MovementEnemyStateMachine : MonoBehaviour
             }
             protected override void OnUpdate()
             {
-                var dir = owner.m_moveForward;
-                dir.y = 0f;
-                owner.m_targetRotation = Quaternion.LookRotation(dir);
+                if (owner.m_moveForward.sqrMagnitude > 0.1f)
+                {
+                    var dir = owner.m_moveForward;
+                    dir.y = 0f;
+                    owner.m_targetRotation = Quaternion.LookRotation(dir);
+                }
                 //if (owner.m_childNode.Result() == BehaviorTree.NodeState.Failure)
                 //{
                 //    StateMachine.Dispatch((int)ActEvent.Idle);
