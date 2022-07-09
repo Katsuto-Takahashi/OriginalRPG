@@ -6,7 +6,7 @@ using UniRx;
 
 [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
 [RequireComponent(typeof(MovementCharacterStateMachine), typeof(BattleCharacterStateMachine))]
-public class Character : CharacterParameter, ITakableDamage
+public class Character : CharacterParameter, IDamageable, IRecoverable
 {
     /// <summary>自分のTransform</summary>
     protected Transform m_myTransform;
@@ -96,13 +96,21 @@ public class Character : CharacterParameter, ITakableDamage
 
     public virtual void TakeDamage(int damage)
     {
-        if (HP.Value - damage < 1)
+        HP.Value = HP.Value - damage < 1 ? 0 : HP.Value - damage;
+    }
+
+    public virtual void Recover(int value, HealPoint healPoint)
+    {
+        switch (healPoint)
         {
-            HP.Value = 0;
-        }
-        else
-        {
-            HP.Value -= damage;
+            case HealPoint.HP:
+                HP.Value = HP.Value + value > MaxHP.Value ? MaxHP.Value : HP.Value + value;
+                break;
+            case HealPoint.AP:
+                AP.Value = AP.Value + value > MaxAP.Value ? MaxAP.Value : AP.Value + value;
+                break;
+            default:
+                break;
         }
     }
 
@@ -192,25 +200,32 @@ public class Character : CharacterParameter, ITakableDamage
 
     void SetSkillTimer(SkillType skillType)
     {
-        int typeNum = 0;
         int[] skillIndex = new int[] {};
         switch (skillType)
         {
             case SkillType.Physical:
                 skillIndex = HasSkillIndex.Physicals;
-                typeNum = (int)SkillType.Physical;
                 break;
             case SkillType.Magical:
                 skillIndex = HasSkillIndex.Magicals;
-                typeNum = (int)SkillType.Magical;
                 break;
             default:
                 break;
         }
         for (int i = 0; i < skillIndex.Length; i++)
         {
-            m_skillControllers[typeNum].SetSkill(BattleManager.Instance.SkillsList[typeNum].Skills[skillIndex[i]], i);
+            m_skillControllers[(int)skillType].SetSkill(BattleManager.Instance.GetSkill(skillType, skillIndex[i]), i);
         }
+    }
+
+    public bool CanUseSkill(SkillType skillType, int id)
+    {
+        return m_skillControllers[(int)skillType].CanUse(id);
+    }
+
+    public void UseSkill(SkillType skillType, int id)
+    {
+        StartCoroutine(m_skillControllers[(int)skillType].UseSkill(id));
     }
 
     void OnTriggerEnter(Collider other)

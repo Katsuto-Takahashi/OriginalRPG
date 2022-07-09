@@ -63,6 +63,12 @@ public enum SkillTarget
     Myself
 }
 
+public enum HealPoint
+{
+    HP,
+    AP
+}
+
 [System.Serializable]
 public class SkillData
 {
@@ -158,7 +164,7 @@ public class Attack : ISkillEffectable
     public void Effect(GameObject user, GameObject target, Skill skill)
     {
         Debug.Log($"{skill.SkillParameter.SkillName}‚Í{skill.SkillParameter.SkillInformation}");
-        target.GetComponent<ITakableDamage>().TakeDamage(BattleManager.Instance.Damage(user, target, skill.SkillParameter));
+        target.GetComponent<IDamageable>().TakeDamage(BattleManager.Instance.Damage(user, target, skill.SkillParameter));
     }
 }
 
@@ -204,7 +210,7 @@ public class ContinuationDamage : ISkillEffectable
 
     public IEnumerator Continuation(GameObject user, GameObject target, SkillData skilldata)
     {
-        var damage = target.GetComponent<ITakableDamage>();
+        var damage = target.GetComponent<IDamageable>();
         float count = maxTime;
         float delay = delayTime;
         while (count >= 0.0f)
@@ -224,24 +230,15 @@ public class ContinuationDamage : ISkillEffectable
 public class Heal : ISkillEffectable
 {
     [SerializeField]
-    int value = 0;
-    enum HealPoint
-    {
-        HP,
-        AP
-    }
+    [Range(10, 100)]
+    int standardValue = 10;
+    
     [SerializeField]
     HealPoint healPoint = HealPoint.HP;
 
     public void Effect(GameObject user, GameObject target, Skill skill)
     {
-        if (healPoint == HealPoint.HP)
-        {
-            Debug.Log($"{skill.SkillParameter.SkillName}‚Í{ skill.SkillParameter.SkillInformation }");
-        }
-        else
-        {
-            Debug.Log($"{skill.SkillParameter.SkillName}‚Í{ skill.SkillParameter.SkillInformation }");
-        }
+        target.GetComponent<IRecoverable>().Recover(BattleManager.Instance.Recovery(user, skill.SkillParameter, standardValue), healPoint);
+        Debug.Log($"{skill.SkillParameter.SkillName}‚Í{skill.SkillParameter.SkillInformation}");
     }
 }
