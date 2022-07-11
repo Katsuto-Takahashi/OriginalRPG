@@ -20,9 +20,9 @@ public class SkillController
         m_CoolTimeCheckerList[id].SkillCoolTimerSet(skill);
     }
 
-    public void UseSkill(int id)
+    public IEnumerator UseSkill(int id)
     {
-        m_CoolTimeCheckerList[id].Timer();
+        return m_CoolTimeCheckerList[id].Timer();
     }
 
     public bool CanUse(int id)
