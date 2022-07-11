@@ -84,9 +84,9 @@ public partial class BattleCharacterStateMachine : MonoBehaviour
                 owner.m_canInput.Value = false;
                 //owner.PlayAnimation("Run");
                 //enemy = BattleManager.Instance.SetEnemy;
-                owner.m_selectTarget = BattleManager.Instance.SelectTargetList[owner.m_battleID.Value];
+                owner.m_selectTarget = BattleManager.Instance.GetSelectTarget(owner.m_battleID.Value);
                 //owner.m_selectSkill = BattleManager.Instance.SetSkill;
-                owner.m_selectSkill = BattleManager.Instance.SelectSkillList[owner.m_battleID.Value];
+                owner.m_selectSkill = BattleManager.Instance.GetSelectSkill(owner.m_battleID.Value);
             }
 
             protected override void OnUpdate()
