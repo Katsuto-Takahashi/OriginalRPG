@@ -116,7 +116,7 @@ public class SkillEffectController : MonoBehaviour
                     }
                     break;
                 case SkillTarget.EnemyOnly:
-                    if (other.gameObject.CompareTag(_targetObject.tag))
+                    if (((1 << other.gameObject.layer) & _targetObject.layer) != 0)
                     {
                         BattleManager.Instance.PlayAdditionalSkillEffect(_user, _targetObject, _skillData);
                         ChangeColliderEnable(false);
@@ -130,7 +130,7 @@ public class SkillEffectController : MonoBehaviour
                     }
                     break;
                 case SkillTarget.AllyOnly:
-                    if (other.gameObject.CompareTag(_targetObject.tag))
+                    if (((1 << other.gameObject.layer) & _targetObject.layer) != 0)
                     {
                         BattleManager.Instance.PlayAdditionalSkillEffect(_user, _targetObject, _skillData);
                         ChangeColliderEnable(false);
