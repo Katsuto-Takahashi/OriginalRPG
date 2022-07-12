@@ -97,6 +97,7 @@ public class Character : CharacterParameter, IDamageable, IRecoverable
     public virtual void TakeDamage(int damage)
     {
         HP.Value = HP.Value - damage < 1 ? 0 : HP.Value - damage;
+        UIManager.Instance.Damage(damage, Name.Value);
     }
 
     public virtual void Recover(int value, HealPoint healPoint)
@@ -112,6 +113,7 @@ public class Character : CharacterParameter, IDamageable, IRecoverable
             default:
                 break;
         }
+        UIManager.Instance.Recovery(value, Name.Value, healPoint);
     }
 
     void LevelUp()
@@ -120,10 +122,12 @@ public class Character : CharacterParameter, IDamageable, IRecoverable
         Level.Value++;
         CalculateNextExp(Level.Value);
         ParameterUp(Level.Value);
+        UIManager.Instance.LevelUp(this);
     }
 
     public void GetExp(int getExp)
     {
+        UIManager.Instance.GetExp(getExp, Name.Value);
         CalculateExp(getExp);
     }
 

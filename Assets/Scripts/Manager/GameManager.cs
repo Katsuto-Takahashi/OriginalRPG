@@ -19,13 +19,14 @@ public class GameManager : SingletonMonoBehaviour<GameManager>, IManagable
     {
         base.Awake();
         Initialize();
+        UIManager.Instance.Initialize();
         //DataManager.Instance.Initialize();
         HPAndAPDisplay.Instance.Initialize();
     }
 
     void Start()
     {
-        m_player.BCSM.CanSelect.DistinctUntilChanged().Subscribe(s => UIManager.Instance.DisplayBattleCommandPanel(s)).AddTo(m_player.gameObject);
+        m_player.BCSM.CanSelect.DistinctUntilChanged().Subscribe(s => UIManager.Instance.DisplayFirstBattleCommandPanel(s)).AddTo(m_player.gameObject);
         //DataManager.Instance.DataRead();
         //DataManager.Instance.DataSave();
         Observable.EveryUpdate().Subscribe(_ => OnUpdate()).AddTo(this);

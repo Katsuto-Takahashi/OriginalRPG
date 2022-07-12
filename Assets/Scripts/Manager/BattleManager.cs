@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
+public enum BattleResults
+{
+    Win,
+    Lose,
+    Escape
+}
+
 public class BattleManager : SingletonMonoBehaviour<BattleManager>
 {
     DamageCalculator m_damageCalculator = new DamageCalculator();
@@ -12,8 +19,8 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     [SerializeField]
     BattleEnemyList m_battleEnemyList = null;
 
-    [SerializeField]
-    GameObject m_battleInformationUIObject = null;
+    //[SerializeField]
+    //GameObject m_battleInformationUIObject = null;
 
     [SerializeField]
     GameObject m_battleFeildPrefab = null;
@@ -23,7 +30,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     [EnumIndex(typeof(SkillType))]
     List<SkillList> m_skillsList = null;
 
-    BattleInformationUI m_battleInformationUI;
+    //BattleInformationUI m_battleInformationUI;
     GameObject m_instantiateEnemy;
     GameObject m_instantiateBattleFeild;
     List<GameObject> m_enemyObjects = new List<GameObject>();
@@ -62,12 +69,6 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
     const int INTERVAL_FACTOR = 3;
 
-    enum BattleResults
-    {
-        Win,
-        Lose,
-        Escape
-    }
     BattleResults m_battleResults = BattleResults.Escape;
 
     void CreateEnemy(int num)
@@ -152,9 +153,11 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
         //敵がボスの時はにげれないようにする
 
-        StartCoroutine(ChengeActiveUI());
-        m_battleInformationUI = m_battleInformationUIObject.GetComponent<BattleInformationUI>();
-        StartCoroutine(m_battleInformationUI.BattleStartUI(m_enemyList[0].Name.Value, randam));
+        //StartCoroutine(ChengeActiveUI());
+        UIManager.Instance.ChengeInformationActive();
+        //m_battleInformationUI = m_battleInformationUIObject.GetComponent<BattleInformationUI>();
+        //StartCoroutine(m_battleInformationUI.BattleStartUI(m_enemyList[0].Name.Value, randam));
+        UIManager.Instance.BattleStart(m_enemyList[0].Name.Value, randam);
 
         for (int i = 0; i < m_characterList.Count + m_enemyList.Count; i++)//m_battleCharactersの順にbattleIDを設定する
         {
@@ -278,38 +281,37 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
     int DamageCalculate(GameObject attacker, GameObject defender, SkillData skillData)
     {
-        var damage = 0;
-        CriticalCheck check = CriticalCheck.Normal;
+        int damage;
+        CriticalCheck check = default;
+        Character character = default;
+        Enemy enemy = default;
+        Attacker attackCharacter = default;
+        string defenderName = "";
 
         if (((1 << attacker.layer) & LayerMask.NameToLayer("Character")) != 0)
         {
-            var characterParameter = attacker.GetComponent<Character>();
-            var enemyParameter = defender.GetComponent<Enemy>();
-
-            if (Random.Range(0, 200) < characterParameter.Luck.Value)
-            {
-                check = CriticalCheck.Critical;
-            }
-
-            damage = m_damageCalculator.Damage(characterParameter, enemyParameter, skillData, Attacker.Character, check);
-
-            StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, enemyParameter.Name.Value, check));
+            character = attacker.GetComponent<Character>();
+            enemy = defender.GetComponent<Enemy>();
+            check = Random.Range(0, 200) < character.Luck.Value ? CriticalCheck.Critical : CriticalCheck.Normal;
+            attackCharacter = Attacker.Character;
+            defenderName = enemy.Name.Value;
         }
         else if (((1 << attacker.layer) & LayerMask.NameToLayer("Enemy")) != 0)
         {
-            var enemyParameter = attacker.GetComponent<Enemy>();
-            var characterParameter = defender.GetComponent<Character>();
-
-            if (Random.Range(0, 200) < enemyParameter.Luck.Value)
-            {
-                check = CriticalCheck.Critical;
-            }
-
-            damage = m_damageCalculator.Damage(characterParameter, enemyParameter, skillData, Attacker.Enemy, check);
-
-            StartCoroutine(m_battleInformationUI.BattleUIDisplay(damage, characterParameter.Name.Value, check));
+            enemy = attacker.GetComponent<Enemy>();
+            character = defender.GetComponent<Character>();
+            check = Random.Range(0, 200) < enemy.Luck.Value ? CriticalCheck.Critical : CriticalCheck.Normal;
+            attackCharacter = Attacker.Enemy;
+            defenderName = character.Name.Value;
         }
 
+        damage = m_damageCalculator.Damage(character, enemy, skillData, attackCharacter, check);
+        if (check == CriticalCheck.Critical)
+        {
+            //StartCoroutine(m_battleInformationUI.CriticalHit());
+            UIManager.Instance.CriticalHit();
+        }
+        //StartCoroutine(m_battleInformationUI.DamageUIDisplay(damage, defenderName));
         return damage;
     }
 
@@ -326,22 +328,21 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     int RecoveryCalculate(GameObject user, SkillData skillData, int standardValue)
     {
         var heal = 0;
+        var characterName = "";
 
         if (((1 << user.layer) & LayerMask.NameToLayer("Character")) != 0)
         {
             var characterParameter = user.GetComponent<Character>();
             heal = m_recoveryCalculator.Recovery(characterParameter, skillData, standardValue);
-
-            //StartCoroutine(m_battleInformationUI.BattleUIDisplay(heal, enemyParameter.Name.Value, check));
+            characterName = characterParameter.Name.Value;
         }
         else if (((1 << user.layer) & LayerMask.NameToLayer("Enemy")) != 0)
         {
             var enemyParameter = user.GetComponent<Enemy>();
             heal = m_recoveryCalculator.Recovery(enemyParameter, skillData, standardValue);
-
-            //StartCoroutine(m_battleInformationUI.BattleUIDisplay(heal, characterParameter.Name.Value, check));
+            characterName = enemyParameter.Name.Value;
         }
-
+        //StartCoroutine(m_battleInformationUI.RecoveryUIDisplay(heal, characterName));
         return heal;
     }
 
@@ -359,25 +360,25 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
             m_enemyList[i].BESM.IsBattle = false;
             m_enemyList[i].BESM.Targets.Clear();
         }
-
+        UIManager.Instance.CloseBattleCommandPanel();
         StartCoroutine(BattleData());
     }
 
-    IEnumerator ChengeActiveUI()
-    {
-        if (m_battleInformationUIObject.activeSelf)
-        {
-            yield return new WaitForSeconds(2f);
-            m_battleInformationUIObject.SetActive(false);
-        }
-        else
-        {
-            yield return null;
-            m_battleInformationUIObject.SetActive(true);
-        }
+    //IEnumerator ChengeActiveUI()
+    //{
+    //    if (m_battleInformationUIObject.activeSelf)
+    //    {
+    //        yield return new WaitForSeconds(2f);
+    //        m_battleInformationUIObject.SetActive(false);
+    //    }
+    //    else
+    //    {
+    //        yield return null;
+    //        m_battleInformationUIObject.SetActive(true);
+    //    }
 
-        yield return null;
-    }
+    //    yield return null;
+    //}
 
     void BattleStart()
     {
@@ -409,29 +410,32 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
     IEnumerator BattleData()
     {
-        if (m_battleResults == BattleResults.Win)
-        {
-            StartCoroutine(m_battleInformationUI.BattleFinishUI((int)BattleResults.Win));
-        }
-        else if (m_battleResults == BattleResults.Lose)
-        {
-            StartCoroutine(m_battleInformationUI.BattleFinishUI((int)BattleResults.Lose));
-        }
-        else if (m_battleResults == BattleResults.Escape)
-        {
-            StartCoroutine(m_battleInformationUI.BattleFinishUI((int)BattleResults.Escape));
-        }
+        //if (m_battleResults == BattleResults.Win)
+        //{
+        //    StartCoroutine(m_battleInformationUI.BattleFinishUI((int)BattleResults.Win));
+        //}
+        //else if (m_battleResults == BattleResults.Lose)
+        //{
+        //    StartCoroutine(m_battleInformationUI.BattleFinishUI((int)BattleResults.Lose));
+        //}
+        //else if (m_battleResults == BattleResults.Escape)
+        //{
+        //    StartCoroutine(m_battleInformationUI.BattleFinishUI((int)BattleResults.Escape));
+        //}
+        UIManager.Instance.BattleFinish(m_battleResults);
 
-        StartCoroutine(ChengeActiveUI());
+        //StartCoroutine(ChengeActiveUI());
+        UIManager.Instance.ChengeInformationActive();
         yield return null;
 
         if (m_battleResults == BattleResults.Win)
         {
             for (int i = 0; i < m_characterList.Count; i++)
             {
+                //UIManager.Instance.GetExp(m_getExperiencePoint, m_characterList[i].Name.Value);
                 m_characterList[i].GetExp(m_getExperiencePoint);
-                StartCoroutine(m_battleInformationUI.GetExpUI(m_getExperiencePoint, m_characterList[i].Name.Value, m_characterList[i].Level.Value, m_characterList[i].LevelUP.Value));
-                m_characterList[i].LevelUP.Value = false;
+                //StartCoroutine(m_battleInformationUI.GetExpUI(m_getExperiencePoint, m_characterList[i].Name.Value, m_characterList[i].Level.Value, m_characterList[i].LevelUP.Value));
+                //m_characterList[i].LevelUP.Value = false;
             }
         }
         else if (m_battleResults == BattleResults.Lose)
