@@ -9,11 +9,11 @@ public class HPAndAPDisplay : SingletonMonoBehaviour<HPAndAPDisplay>, IManagable
     bool m_isDisplay = false;
 
     [SerializeField] 
-    GameObject m_gameObject = null;
+    GameObject m_prefabObject = null;
 
     GameObject m_ui;
 
-    List<GameObject> m_gameObjects = new List<GameObject>();
+    List<CharacterParameterUI> m_gameObjects = new List<CharacterParameterUI>();
 
     int m_memberNumber = 1;
 
@@ -23,82 +23,69 @@ public class HPAndAPDisplay : SingletonMonoBehaviour<HPAndAPDisplay>, IManagable
 
     void Start()
     {
-        Create();
-        Observable.EveryUpdate().Subscribe(_ => OnUpdate()).AddTo(this);
+        GameManager.Instance.Party.ObserveCountChanged().Subscribe(num => CheckMember(num)).AddTo(this);
     }
 
-    void OnUpdate()
+    void CheckMember(int num)
     {
-        m_memberNumber = GameManager.Instance.Party.Count;
-        if (m_beforeMemberNumber != m_memberNumber)
-        {
-            Debug.Log("人数変化");
-            
-            if (m_beforeMemberNumber > m_memberNumber)
-            {
-                for (int i = m_beforeMemberNumber; i > m_memberNumber; i--)
-                {
-                    Destroy(transform.GetChild(i - 1).gameObject);
-                    m_gameObjects.Remove(m_gameObjects[i - 1]);
-                    m_cm.Remove(m_cm[i - 1]);
-                }
-            }
-            else if (m_beforeMemberNumber < m_memberNumber)
-            {
-                for (int i = 0; i < m_memberNumber - m_beforeMemberNumber; i++)
-                {
-                    m_ui = Instantiate(m_gameObject);
-                    m_ui.transform.SetParent(transform, false);
-                    m_gameObjects.Add(m_ui);
-                    m_cm.Add(GameManager.Instance.Party[i].GetComponent<Character>());
-                }
-            }
-
-            Create();
-            m_beforeMemberNumber = m_memberNumber;
-        }
-
-        if (m_isDisplay)
-        {
-            for (int i = 0; i < m_beforeMemberNumber; i++)
-            {
-                transform.GetChild(i).gameObject.SetActive(true);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < m_beforeMemberNumber; i++)
-            {
-                transform.GetChild(i).gameObject.SetActive(false);
-            }
-        }
+        Debug.Log("人数変化");
+        Debug.Log($"人数{num}");
+        m_memberNumber = num;
+        Change();
+        ReflectionParam();
+        m_beforeMemberNumber = m_memberNumber;
     }
 
-    void Chenge()
+    void ChangeText(int index)
     {
         Debug.Log("チェンジ");
 
-        for (int i = 0; i < m_cm.Count; i++)
-        {
-            var ui = m_gameObjects[i].GetComponent<CharacterParameterUI>();
-            ui.CreateName(m_cm[i].Name.Value);
-            ui.CreateParameter(
-                m_cm[i].HP.Value,
-                m_cm[i].MaxHP.Value,
-                m_cm[i].AP.Value,
-                m_cm[i].MaxAP.Value
-                );
-        }
+        var ui = m_gameObjects[index];
+        ui.CreateName(m_cm[index].Name.Value);
+        ui.CreateParameter(
+            m_cm[index].HP.Value,
+            m_cm[index].MaxHP.Value,
+            m_cm[index].AP.Value,
+            m_cm[index].MaxAP.Value
+            );
     }
 
-    void Create()
+    void ReflectionParam()
     {
         for (int i = 0; i < m_cm.Count; i++)
         {
-            m_cm[i].HP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
-            m_cm[i].MaxHP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
-            m_cm[i].AP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
-            m_cm[i].MaxAP.DistinctUntilChanged().Subscribe(_ => Chenge()).AddTo(m_gameObjects[i]);
+            m_cm[i].HP.DistinctUntilChanged().Subscribe(_ => ChangeText(i)).AddTo(m_gameObjects[i]);
+            m_cm[i].MaxHP.DistinctUntilChanged().Subscribe(_ => ChangeText(i)).AddTo(m_gameObjects[i]);
+            m_cm[i].AP.DistinctUntilChanged().Subscribe(_ => ChangeText(i)).AddTo(m_gameObjects[i]);
+            m_cm[i].MaxAP.DistinctUntilChanged().Subscribe(_ => ChangeText(i)).AddTo(m_gameObjects[i]);
+        }
+    }
+
+    void Create(int partyIndex)
+    {
+        m_ui = Instantiate(m_prefabObject);
+        m_ui.transform.SetParent(transform, false);
+        m_gameObjects.Add(m_ui.GetComponent<CharacterParameterUI>());
+        m_cm.Add(GameManager.Instance.Party[partyIndex]);
+    }
+
+    void Delete(int index)
+    {
+        Destroy(transform.GetChild(index - 1).gameObject);
+        m_gameObjects.Remove(m_gameObjects[index - 1]);
+        m_cm.Remove(m_cm[index - 1]);
+    }
+
+    void Change()
+    {
+        for (int i = m_beforeMemberNumber; i > 0; i--)
+        {
+            Delete(i);
+        }
+        
+        for (int i = 0; i < m_memberNumber; i++)
+        {
+            Create(i);
         }
     }
 
@@ -108,10 +95,8 @@ public class HPAndAPDisplay : SingletonMonoBehaviour<HPAndAPDisplay>, IManagable
         m_beforeMemberNumber = m_memberNumber;
         for (int i = 0; i < m_beforeMemberNumber; i++)
         {
-            m_ui = Instantiate(m_gameObject);
-            m_ui.transform.SetParent(transform, false);
-            m_gameObjects.Add(m_ui);
-            m_cm.Add(GameManager.Instance.Party[i]);
+            Create(i);
         }
+        ReflectionParam();
     }
 }
