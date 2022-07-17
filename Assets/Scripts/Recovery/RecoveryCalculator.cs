@@ -6,9 +6,8 @@ public class RecoveryCalculator
 {
     int CalculateRecovery(int luck, int param, int standardValue, SkillData skillData)
     {
-        var power = skillData.SkillPower / 100f;
         float heal = param * standardValue * (Random.Range(0, luck) + 1);
-        return (int)(power * heal * skillData.SkillMagnification);
+        return (int)(heal * skillData.SkillMagnification);
     }
 
     public int Recovery(Character character, SkillData skillData, int standardValue)
