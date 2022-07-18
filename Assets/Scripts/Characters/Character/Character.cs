@@ -102,18 +102,21 @@ public class Character : CharacterParameter, IDamageable, IRecoverable
 
     public virtual void Recover(int value, HealPoint healPoint)
     {
-        switch (healPoint)
+        if (value > 0)
         {
-            case HealPoint.HP:
-                HP.Value = HP.Value + value > MaxHP.Value ? MaxHP.Value : HP.Value + value;
-                break;
-            case HealPoint.AP:
-                AP.Value = AP.Value + value > MaxAP.Value ? MaxAP.Value : AP.Value + value;
-                break;
-            default:
-                break;
+            switch (healPoint)
+            {
+                case HealPoint.HP:
+                    HP.Value = HP.Value + value > MaxHP.Value ? MaxHP.Value : HP.Value + value;
+                    break;
+                case HealPoint.AP:
+                    AP.Value = AP.Value + value > MaxAP.Value ? MaxAP.Value : AP.Value + value;
+                    break;
+                default:
+                    break;
+            }
+            UIManager.Instance.Recovery(value, Name.Value, healPoint);
         }
-        UIManager.Instance.Recovery(value, Name.Value, healPoint);
     }
 
     void LevelUp()
