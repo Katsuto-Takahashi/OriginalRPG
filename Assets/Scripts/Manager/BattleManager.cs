@@ -19,18 +19,13 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
     [SerializeField]
     BattleEnemyList m_battleEnemyList = null;
 
-    //[SerializeField]
-    //GameObject m_battleInformationUIObject = null;
-
     [SerializeField]
-    GameObject m_battleFeildPrefab = null;
     List<GameObject> m_battleFeildList = new List<GameObject>();
 
     [SerializeField]
     [EnumIndex(typeof(SkillType))]
     List<SkillList> m_skillsList = null;
 
-    //BattleInformationUI m_battleInformationUI;
     GameObject m_instantiateEnemy;
     GameObject m_instantiateBattleFeild;
     List<GameObject> m_enemyObjects = new List<GameObject>();
@@ -79,21 +74,32 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
         for (int i = 0; i < num; i++)
         {
-            if (i < half)
+            if (i == 0)
             {
                 m_instantiateEnemy = Instantiate(ep[m_enemyID - 1].gameObject,
-                    new Vector3((m_contactPosition + m_charaTransform.forward * m_enemyDistance).x - distanceFromCenter + m_enemyInterval * i,
-                    m_contactPosition.y,
-                    (m_contactPosition + m_charaTransform.forward * m_enemyDistance).z - distanceFromCenter + m_enemyInterval * i),
-                    Quaternion.identity);
+                        new Vector3((m_contactPosition + m_charaTransform.forward * m_enemyDistance).x,
+                        m_contactPosition.y,
+                        (m_contactPosition + m_charaTransform.forward * m_enemyDistance).z),
+                        Quaternion.identity);
             }
             else
             {
-                m_instantiateEnemy = Instantiate(ep[m_enemyID - 1].gameObject,
-                    new Vector3((m_contactPosition + m_charaTransform.forward * m_enemyDistance).x - distanceFromCenter + m_enemyInterval * i,
-                    m_contactPosition.y,
-                    (m_contactPosition + m_charaTransform.forward * m_enemyDistance).z + distanceFromCenter - m_enemyInterval * i),
-                    Quaternion.identity);
+                if (i < half)
+                {
+                    m_instantiateEnemy = Instantiate(ep[m_enemyID - 1].gameObject,
+                        new Vector3((m_contactPosition + m_charaTransform.forward * m_enemyDistance).x - distanceFromCenter + m_enemyInterval * i,
+                        m_contactPosition.y,
+                        (m_contactPosition + m_charaTransform.forward * m_enemyDistance).z - distanceFromCenter + m_enemyInterval * i),
+                        Quaternion.identity);
+                }
+                else
+                {
+                    m_instantiateEnemy = Instantiate(ep[m_enemyID - 1].gameObject,
+                        new Vector3((m_contactPosition + m_charaTransform.forward * m_enemyDistance).x - distanceFromCenter + m_enemyInterval * i,
+                        m_contactPosition.y,
+                        (m_contactPosition + m_charaTransform.forward * m_enemyDistance).z + distanceFromCenter - m_enemyInterval * i),
+                        Quaternion.identity);
+                }
             }
 
             m_enemyObjects.Add(m_instantiateEnemy);
@@ -138,7 +144,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         characterDeadCount = 0;
         enemyDeadCount = 0;
         m_battleResults = BattleResults.Escape;
-        var cp = GameManager.Instance.Party;
+        var cp = PartyManager.Instance.Party;
 
         for (int i = 0; i < cp.Count; i++)
         {
@@ -153,10 +159,7 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
         //敵がボスの時はにげれないようにする
 
-        //StartCoroutine(ChengeActiveUI());
-        UIManager.Instance.ChengeInformationActive();
-        //m_battleInformationUI = m_battleInformationUIObject.GetComponent<BattleInformationUI>();
-        //StartCoroutine(m_battleInformationUI.BattleStartUI(m_enemyList[0].Name.Value, randam));
+        UIManager.Instance.ChangeInformationActive(0.0f);
         UIManager.Instance.BattleStart(m_enemyList[0].Name.Value, randam);
 
         for (int i = 0; i < m_characterList.Count + m_enemyList.Count; i++)//m_battleCharactersの順にbattleIDを設定する
@@ -308,7 +311,6 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
         damage = m_damageCalculator.Damage(character, enemy, skillData, attackCharacter, check);
         if (check == CriticalCheck.Critical)
         {
-            //StartCoroutine(m_battleInformationUI.CriticalHit());
             UIManager.Instance.CriticalHit();
         }
         //StartCoroutine(m_battleInformationUI.DamageUIDisplay(damage, defenderName));
@@ -360,25 +362,9 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
             m_enemyList[i].BESM.IsBattle = false;
             m_enemyList[i].BESM.Targets.Clear();
         }
-        UIManager.Instance.CloseBattleCommandPanel();
+        UIManager.Instance.CloseBattleCommandPanel(1.0f);
         StartCoroutine(BattleData());
     }
-
-    //IEnumerator ChengeActiveUI()
-    //{
-    //    if (m_battleInformationUIObject.activeSelf)
-    //    {
-    //        yield return new WaitForSeconds(2f);
-    //        m_battleInformationUIObject.SetActive(false);
-    //    }
-    //    else
-    //    {
-    //        yield return null;
-    //        m_battleInformationUIObject.SetActive(true);
-    //    }
-
-    //    yield return null;
-    //}
 
     void BattleStart()
     {
@@ -410,32 +396,16 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
     IEnumerator BattleData()
     {
-        //if (m_battleResults == BattleResults.Win)
-        //{
-        //    StartCoroutine(m_battleInformationUI.BattleFinishUI((int)BattleResults.Win));
-        //}
-        //else if (m_battleResults == BattleResults.Lose)
-        //{
-        //    StartCoroutine(m_battleInformationUI.BattleFinishUI((int)BattleResults.Lose));
-        //}
-        //else if (m_battleResults == BattleResults.Escape)
-        //{
-        //    StartCoroutine(m_battleInformationUI.BattleFinishUI((int)BattleResults.Escape));
-        //}
         UIManager.Instance.BattleFinish(m_battleResults);
 
-        //StartCoroutine(ChengeActiveUI());
-        UIManager.Instance.ChengeInformationActive();
+        UIManager.Instance.ChangeInformationActive(1.0f);
         yield return null;
 
         if (m_battleResults == BattleResults.Win)
         {
             for (int i = 0; i < m_characterList.Count; i++)
             {
-                //UIManager.Instance.GetExp(m_getExperiencePoint, m_characterList[i].Name.Value);
                 m_characterList[i].GetExp(m_getExperiencePoint);
-                //StartCoroutine(m_battleInformationUI.GetExpUI(m_getExperiencePoint, m_characterList[i].Name.Value, m_characterList[i].Level.Value, m_characterList[i].LevelUP.Value));
-                //m_characterList[i].LevelUP.Value = false;
             }
         }
         else if (m_battleResults == BattleResults.Lose)
@@ -491,15 +461,14 @@ public class BattleManager : SingletonMonoBehaviour<BattleManager>
 
     void CreateField(Vector3 contactPos, GameObject enemyObject)
     {
-        m_instantiateBattleFeild = Instantiate(m_battleFeildPrefab, contactPos, Quaternion.identity);
-        //if (enemyObject.CompareTag("Boss"))
-        //{
-        //    m_instantiateBattleFeild = Instantiate(m_battleFeildList[0], contactPos, Quaternion.identity);
-        //}
-        //else
-        //{
-        //    m_instantiateBattleFeild = Instantiate(m_battleFeildList[1], contactPos, Quaternion.identity);
-        //}
+        if (enemyObject.CompareTag("Boss"))
+        {
+            m_instantiateBattleFeild = Instantiate(m_battleFeildList[0], contactPos, Quaternion.identity);
+        }
+        else
+        {
+            m_instantiateBattleFeild = Instantiate(m_battleFeildList[1], contactPos, Quaternion.identity);
+        }
     }
 
     void DeleteField()
