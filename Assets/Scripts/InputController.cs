@@ -1,15 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UniRx;
+
+public enum InputType
+{
+    Pad,
+    Mouse
+}
 
 public class InputController : SingletonMonoBehaviour<InputController>
 {
     UserInput m_input;
+    Gamepad gamepad = null;
+
+    InputType m_inputType = InputType.Pad;
+    /// <summary>操作タイプ</summary>
+    public InputType InputControllerType => m_inputType;
 
     protected override void Awake()
     {
         base.Awake();
         m_input = new UserInput();
+    }
+
+    void Start()
+    {
+        Observable.EveryUpdate().Subscribe(_ => GamePadChecker()).AddTo(this);
+    }
+
+    void GamePadChecker()
+    {
+        gamepad = Gamepad.current;
+
+        if (gamepad != null)
+            m_inputType = InputType.Pad;
+        else
+            m_inputType = InputType.Mouse;
     }
 
     void OnEnable()
@@ -47,7 +75,7 @@ public class InputController : SingletonMonoBehaviour<InputController>
         return m_input.Camra.Move.ReadValue<Vector2>();
     }
 
-    public bool Reset()
+    public bool ResetCamera()
     {
         return m_input.Camra.Reset.WasPressedThisFrame();
     }
