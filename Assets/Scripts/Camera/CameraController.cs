@@ -33,14 +33,6 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     bool m_enableFixedPoint = false;
 
-    enum InputType
-    {
-        Pad,
-        Mouse
-    }
-    [SerializeField]
-    InputType m_inputType = InputType.Pad;
-
     /// <summary>パッドでのcameraの縦方向移動速度</summary>
     [SerializeField]
     float m_padCameraVerticalMoveSpeed = 1.0f;
@@ -249,7 +241,7 @@ public class CameraController : MonoBehaviour
     {
         if (m_enableInput)
         {
-            switch (m_inputType)
+            switch (InputController.Instance.InputControllerType)
             {
                 case InputType.Pad:
                     m_verticalMoveSpeed = m_padCameraVerticalMoveSpeed;
@@ -305,7 +297,7 @@ public class CameraController : MonoBehaviour
             //    freeLookRotation.x -= Input.GetAxis("Mouse Y") * inputSpeed * 0.2f;
             //    freeLookRotation.y += Input.GetAxis("Mouse X") * inputSpeed * 0.2f;
             //}
-            if (InputController.Instance.Reset())
+            if (InputController.Instance.ResetCamera())
             {
                 ResetCamera();
             }
@@ -330,7 +322,7 @@ public class CameraController : MonoBehaviour
     Vector3 GetResetPosition()
     {
         var playerPosition = m_target.position + Vector3.up * m_targetHeight;
-        var distance = Mathf.Pow(m_dollyDistance, 2) - Mathf.Pow(m_heightdifference + playerPosition.y, 2);
+        var distance = Mathf.Abs(Mathf.Pow(m_dollyDistance, 2) - Mathf.Pow(m_heightdifference + playerPosition.y, 2));
         var resetPosition = -m_target.transform.forward * Mathf.Sqrt(distance);
         resetPosition = new Vector3(playerPosition.x + resetPosition.x, playerPosition.y + m_heightdifference, playerPosition.z + resetPosition.z);
         return resetPosition;
